@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <script>
+
+      /* window.onload：当页面的所有静态资源加载完成才执行函数 */
+
+        window.onload = function(){
+            // console.log(document.getElementById('btn'));
+    
+            var btn = document.getElementById('btn');
+            var i = 0;
+            btn.onclick = function(){
+                alert(i);
+                //btn.onclick = null;
+                i = null;
+                console.dir(btn.onclick); //闭包，函数内没有var i，所以把window的i的值改了
+            }
+            btn2.onclick = function(){
+                console.dir(btn.onclick);
+            }
+            console.dir(btn.onclick)
+        }
+        console.log(123); //先于上边执行
+        
+    </script> -->
+</head>
+
+<body>
+    <button id="btn">1</button>
+    <button id="btn2">2</button>
+    <button>3</button>
+    <p>——————隔断——————</p>
+    <button id="bt">0</button>
+    <script>
+        const btns = document.querySelectorAll('button');
+         //3
+        for(var i=0;i<btns.length;i++){
+            console.log(i);
+            //btns[i].index = i; //没有闭包，需要循环给每一项增加属性，并赋值i
+            function fn(a){
+                btns[i].onclick = function(){ //循环第一次，i=0，形参a=i，闭包，此时a=0；第二次闭包a=1；第三次闭包a=2
+                    alert(a);
+                }
+            }
+            fn(i);
+
+            /* 另一种 */
+            // (function(a){ 
+            //     btns[a].onclick = function(){
+            //         alert(a);
+            //     }
+            // })(i);
+        }
+
+        /* 计数器 */
+        bt.onclick = (function(){
+        var i = 0;
+        return function(){
+            bt.innerHTML = ++i;
+        }
+    })();
+    </script>
+</body>
+</html>

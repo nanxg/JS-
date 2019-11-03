@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var b=20  //全局变量对象（window上）相当于window.b=20
+       // alert(a)  //报错(只能向上边域内查找，找不到下边的)
+    </script>
+    <script>
+        var a=10
+        console.log(b);  //20(可以向上查找变量)
+        console.log(window); //里边有a，有b；相当于window.a;window.b
+
+    </script>
+    <script>
+        console.log(a);  //10 
+
+        /* let a=30
+        console.log(window); //里边没有a */
+
+        // function fn(){ //在函数内开辟一个执行栈
+        //     //形参赋值
+        //     //变量提升  
+        //     //执行上下文
+        //     //销毁作用域
+        //     a = 30;   //window.a
+        // }
+        // fn();
+
+
+        function fn(){
+            var a = 50;
+            function f(){
+                console.log(a);//50
+            }
+            f();
+        }
+        fn()      
+        console.log(a); //10(在上一个script标签内)
+
+
+        var b = 10;
+        function fa(){
+            console.log(a);   //undefined
+            console.log(b);   //undefined
+            var a = 20;
+            b = 50;
+            console.log(a);  //20
+            //var b;
+        }
+        fa();
+        console.log(b);  //10 注掉函数内var b，此处为50
+
+
+        var a = 20;
+        function fb(a){  //var a = 20(先传实参，相当于在函数首行增加赋值)
+            console.log(a);  //20
+            var b = 30;
+            a = 40;
+            console.log(a);  //40
+        }
+        fb(a);
+        console.log(a); // 20
+        
+        
+        var a = function(){console.log(4567890)};
+        function fc(a){
+        /*
+           a = function(){console.log(4567890)}  形参赋值
+           预解析:
+            var a 
+            var b
+            function a(){
+                alert(5);
+            }
+            执行上下文:
+                a=function a(){
+                    alert(5);
+                }
+                b = 30
+                a = 40
+        */
+        alert(a);  //function a(){alert(5);}
+        var b = 30;
+        a = 40;
+        var a; //已解析过，不管他
+        alert(a); //40
+        function a(){
+            alert(5);
+        }
+    }
+    fc(a);
+    alert(a); //function(){console.log(4567890)};
+
+    /* 面试例子 */
+    +function(){
+        /*
+            形参赋值: ''（自执行）
+            预解析:
+                var m
+                function m(){}
+                function n(){}
+                var p
+            执行上下文:
+                m=function m(){}
+                m = 5   
+                n = 6
+                p = q = n   window.q = 6;（var p 没有var q）
+        */
+        console.log(m) //function m(){}
+        var m=5;
+        function m(){}
+        console.log(m) //5
+        function n(){}
+        n=6
+        console.log(n) //   6
+        var p=q=n   //等同于var p=n; q=n      
+    }()   
+    console.log(q) //     6   
+    console.log(p) //    报错
+
+
+    </script>
+</body>
+</html>

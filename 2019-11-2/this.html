@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //this
+        /*
+            事件触发是谁，this就是谁
+            全局打印this  window 
+            fn()  this是window
+            对象下的this 就是.前面的属性、对象
+        */
+        console.log(this); //window (全局打印this)
+
+        function fa() {
+            console.log(this); //window (函数调用)
+        }
+        console.log(window)
+
+
+        var obj = {
+            val: 2,
+            dbl: function () { //001
+                var val = 45;
+                console.log(this); //obj （obj.dbl ：对象下的this）
+                console.log(this.val); //undifined
+
+                this.val *= 2; //window.val=window.val*2 
+
+                console.log(val);
+                console.log(this.val);
+            }
+        }
+        var ff = obj.dbl(); //obj  45 4    
+        var fn = obj.dbl; //此时fn是obj.dbl的函数；对应001
+        fn(); //window  45  NaN
+
+
+        let obj2 = {
+            style: {
+                fb: function () { //002
+                    console.log(this);
+                }
+            }
+        }
+        obj2.style.fb(); //this是obj2下的style对象
+        let f = obj2.style.fb; //对应002
+        f(); //window
+
+
+        function fn() {
+            console.log(this); 
+        }
+        // document.onclick = function(){
+        //     console.log(this); //document  (点击事件的this)
+        //     fn(); //window (外边fn的this)
+        // };
+        document.onclick = (function () {
+            console.log(this); //window （自执行函数，并非点击事件的）
+            return fn; //（返回给点击事件），此时fn打印的this为document
+        })()
+    </script>
+</body>
+
+</html>

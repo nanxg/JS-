@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  1.函数嵌套函数
+            2.子函数引用父函数的参数或者变量
+            3.子函数被外界所引用
+            4.父级就形成了闭包环境，父级的参数或者变量就不会被浏览器垃圾回收机制回收
+            5.打印父级的函数返回值，那么会发现，scopes下有个closure,就是闭包 
+        */
+
+        function fn(){
+            var a=10;
+            function fa(){
+                a++
+                console.log(a);
+            }
+            function f2(){}
+            console.dir(f2);//也显示闭包，因为函数fn与fa
+            return fa
+        }
+        var c=fn() //fn就形成了闭包环境,fn中的参数或者变量就不会被浏览器垃圾回收机制回收       
+        console.dir(c); //函数返回值，scopes下有个closure,就是闭包
+        fn()(); //11
+        fn()(); //11
+        /* 但是 */
+        c(); //11
+        c(); //12
+
+
+        function fb(){
+            var a=10;
+            return function fc(){
+                a++
+                console.log(a);
+            }
+        }
+        var e=fb() 
+        console.dir(e)
+        
+
+
+        // for(var i=0;i<10;i++){
+        //     setTimeout(()=>{
+        //         console.log(i); //十次10 (循环一次就设置一次定时器，循环快，定时器慢；已循环完10次，定时器才开始执行；)   
+        //     },10)
+        // }   
+
+
+
+        // for(var i=0;i<10;i++){
+        //     function fn(a){
+        //         setTimeout(()=>{
+        //         console.log(a); //0~9          
+        //         },10)
+        //     }
+        //     fn(i)
+        // }  
+
+
+    </script>
+    
+</body>
+</html>
