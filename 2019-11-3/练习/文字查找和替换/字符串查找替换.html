@@ -306,6 +306,8 @@
         let lis=document.querySelectorAll('.top_func li')
         let ps=document.querySelectorAll('.top_func p')
         let aa=document.querySelectorAll('#bottom a')
+        let img2=document.querySelector('#btn1 img')
+
         let ppp=pp.innerText
 
         lis[2].onclick=function(){
@@ -321,7 +323,7 @@
             lis[1].style.backgroundColor=aa[0].style.backgroundColor='rgb(159, 231, 169)'
             text2.style.display= text3.style.display='block'
             text1.style.display='none'
-
+            img2.attributes.src.value='images/images/replace_11.png'; 
         }
         lis[1].onclick = function(){
             bottom.style.display='block'
@@ -329,9 +331,10 @@
             lis[0].style.backgroundColor=aa[1].style.backgroundColor='rgb(159, 231, 169)'
             text2.style.display=text3.style.display='none'
             text1.style.display='block'
+            img2.attributes.src.value='images/images/li_bg_12.png';
         }
         aa[2].onclick=function(){
-            bottom.style.display='none'
+            bottom.style.display='none';
             pp.innerText=ppp
         }
         btn1.onclick=function(){

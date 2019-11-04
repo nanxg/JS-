@@ -1,112 +1,113 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<style>
-			body,
-			ul,
-			li {
-				margin: 0;
-				padding: 0;
-				list-style: none;
-			}
-		</style>
-		<link rel="stylesheet" type="text/css" href="baidu.css" />
-	</head>
 
-	<body>
-		<div class="wrap">
-			<div class="baidu">
-				<ul id="list">
-					<li>
-						<div></div>
-						<span>泡沫</span>
-						<span>邓紫棋</span>
-					</li>
-					<li>
-						<div></div>
-						<span>说爱你</span>
-						<span>蔡依林</span>
-					</li>
-					<li>
-						<div></div>
-						<span>稻香</span>
-						<span>周杰伦</span>
-					</li>
-					<li>
-						<div></div>
-						<span>我的梦</span>
-						<span>张靓颖</span>
-					</li>
-					<li>
-						<div></div>
-						<span>怎么说我不爱你</span>
-						<span>萧敬腾</span>
-					</li>
-					<li>
-						<div>️</div>
-						<span>无处安放</span>
-						<span>白若溪</span>
-					</li>
-				</ul>
-				<div class="select">
-					<span class="selectAll" id="selectAll"></span><span>全选</span>
-					<div class="others">
-						<span><em></em>收藏</span>
-						<span><em></em>添加</span>
-						<span><em></em>删除</span>
-					</div>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		body,
+		ul,
+		li {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="baidu.css" />
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="baidu">
+			<ul id="list">
+				<li>
+					<div></div>
+					<span>泡沫</span>
+					<span>邓紫棋</span>
+				</li>
+				<li>
+					<div></div>
+					<span>说爱你</span>
+					<span>蔡依林</span>
+				</li>
+				<li>
+					<div></div>
+					<span>稻香</span>
+					<span>周杰伦</span>
+				</li>
+				<li>
+					<div></div>
+					<span>我的梦</span>
+					<span>张靓颖</span>
+				</li>
+				<li>
+					<div></div>
+					<span>怎么说我不爱你</span>
+					<span>萧敬腾</span>
+				</li>
+				<li>
+					<div>️</div>
+					<span>无处安放</span>
+					<span>白若溪</span>
+				</li>
+			</ul>
+			<div class="select">
+				<span class="selectAll" id="selectAll"></span><span>全选</span>
+				<div class="others">
+					<span><em></em>收藏</span>
+					<span><em></em>添加</span>
+					<span><em></em>删除</span>
 				</div>
 			</div>
 		</div>
-		<script>
-			//获取元素
-			let lis = document.querySelectorAll('#list li')
-			let sele=document.querySelectorAll('#list li div')
-			let allSe=document.getElementById('selectAll')	
-			let arySele=[];  //声明空数组，每一项值与li是否选中相对应，为了全选判断
-			lis.forEach((li,i)=>{	
-				arySele[i]=false  //初始加载每个li都没选中，所以都为false
-				i%2==0?li.classList.add('a'):li.classList.add('b'); //通过增加class名实现隔行变色
-				li.onmouseover=function(){ this.classList.add('c'); } 
-				li.onmouseout=function(){ this.classList.remove('c'); }					
-				allSe.onclick=function(){
-					if(allSe.innerText=='√'){   //判断如果框内打勾，
-						allSe.innerText='';	    //清除全选框的勾
-						for(let m=0;m<lis.length;m++){ 
-							lis[m].classList.remove('d'); //清除每个li选中时的颜色
-							sele[m].innerText='';	 //清除每个div框的勾
-							arySele[m]=false;   //数组每项都赋值为false，与li中div框的勾对应
-						}
-					}else{
-						allSe.innerText='√'	   //否则，全选框打勾
-						for(let m=0;m<lis.length;m++){
-							lis[m].classList.add('d'); //增加每个li选中时的颜色
-							sele[m].innerText='√';	//增加每个div框的勾
-							arySele[m]=true;   //数组每项都赋值为true，与li中div框的勾对应
-						}
-					}
+	</div>
+	<script>
+		//获取元素
+		let lis = document.querySelectorAll('#list li')
+		let sele = document.querySelectorAll('#list li div')
+		let allSe = document.getElementById('selectAll')
+		let arySele = [];  //声明空数组，每一项值与li是否选中相对应，为了全选判断
+		lis.forEach((li, i) => {
+			arySele[i] = false  //初始加载每个li都没选中，所以都为false
+			i % 2 == 0 ? li.classList.add('a') : li.classList.add('b'); //通过增加class名实现隔行变色
+			li.onmouseover = function () { this.classList.add('c'); }
+			li.onmouseout = function () { this.classList.remove('c'); }
+			li.onclick = function () { //点击变蓝，再点去除
+				if (this.className.includes('d')) { //判断当前li的class名里有没有样式d(颜色)
+					this.classList.remove('d');   //有就移除d，去除勾，把数组中对应项改为false
+					sele[i].innerText = '';
+					arySele[i] = false;
+				} else {	                       //否则增加d，打勾，数组对应项改为true
+					this.classList.add('d');
+					sele[i].innerText = '√';
+					arySele[i] = true;
 				}
-				li.onclick=function(){ //点击变蓝，再点去除
-					if(this.className.includes('d')){ //判断当前li的class名里有没有样式d
-						this.classList.remove('d');   //有就移除d，去除勾，把数组中对应项改为false
-						sele[i].innerText='';
-						arySele[i]=false;
-					}else{	                       //否则增加d，打勾，数组对应项改为true
-						this.classList.add('d'); 
-						sele[i].innerText='√';
-						arySele[i]=true;
-					}
-					let aryBoolean=arySele.every(item=>item==true);
-					if(aryBoolean){       //判断数组中每一项是否都为true（即每一个li是否都打勾）
-						allSe.innerText='√';   //都为true则全选框打勾，否则去除勾
-					}else{
-						allSe.innerText='';
-					}	
-				}				
-			})
-		</script>
-	</body>
+				let aryBoolean = arySele.every(item => item == true);
+				if (aryBoolean) {       //判断数组中每一项是否都为true（即每一个li是否都打勾）
+					allSe.innerText = '√';   //都为true则全选框打勾，否则去除勾
+				} else {
+					allSe.innerText = '';
+				}
+			}
+		})
+		allSe.onclick = function () {
+			if (allSe.innerText == '√') {   //判断如果框内打勾，
+				allSe.innerText = '';	    //清除全选框的勾
+				for (let m = 0; m < lis.length; m++) {
+					lis[m].classList.remove('d'); //清除每个li选中时的颜色
+					sele[m].innerText = '';	 //清除每个div框的勾
+					arySele[m] = false;   //数组每项都赋值为false，与li中div框的勾对应
+				}
+			} else {
+				allSe.innerText = '√'	   //否则，全选框打勾
+				for (let m = 0; m < lis.length; m++) {
+					lis[m].classList.add('d'); //增加每个li选中时的颜色
+					sele[m].innerText = '√';	//增加每个div框的勾
+					arySele[m] = true;   //数组每项都赋值为true，与li中div框的勾对应
+				}
+			}
+		}
+	</script>
+</body>
 
 </html>

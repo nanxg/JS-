@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,8 +17,10 @@
             var i = 0;
             btn.onclick = function(){
                 alert(i);
+
                 //btn.onclick = null;
-                i = null;
+                i = null; //避免存值太多导致栈溢出，释放内存
+                
                 console.dir(btn.onclick); //闭包，函数内没有var i，所以把window的i的值改了
             }
             btn2.onclick = function(){
@@ -38,12 +41,12 @@
     <button id="bt">0</button>
     <script>
         const btns = document.querySelectorAll('button');
-         //3
-        for(var i=0;i<btns.length;i++){
+        //3
+        for (var i = 0; i < btns.length; i++) {
             console.log(i);
             //btns[i].index = i; //没有闭包，需要循环给每一项增加属性，并赋值i
-            function fn(a){
-                btns[i].onclick = function(){ //循环第一次，i=0，形参a=i，闭包，此时a=0；第二次闭包a=1；第三次闭包a=2
+            function fn(a) {
+                btns[i].onclick = function () { //循环第一次，i=0，形参a=i，闭包，此时a=0；第二次闭包a=1；第三次闭包a=2
                     alert(a);
                 }
             }
@@ -58,12 +61,13 @@
         }
 
         /* 计数器 */
-        bt.onclick = (function(){
-        var i = 0;
-        return function(){
-            bt.innerHTML = ++i;
-        }
-    })();
+        bt.onclick = (function () {
+            var i = 0;
+            return function () {
+                bt.innerHTML = ++i;
+            }
+        })();
     </script>
 </body>
+
 </html>

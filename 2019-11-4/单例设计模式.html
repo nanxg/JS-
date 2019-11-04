@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>单例模式</title>
+</head>
+
+<body>
+    <script>
+        /* 单例模式：
+              单例：单独的实例
+              实例：描述一个具体的事物
+              构造函数：抽象一个类的封装过程
+              例如：let obj={name:'xxx'}
+        
+           高级单例模式：让当前实例功能更加强大，还可隐藏/暴露细节信息,解决了命名冲突的问题
+              例如：(function(){
+                        function sun(){}
+                        return{}
+                    })()
+                    最后让一个变量去接收返回值
+            解决命名冲突的方式：
+            1. 封闭空间（把变量或函数放到函数中） 
+                let a=10
+                (function(){
+                   let a=12
+                })()            
+            2. 命名空间
+                // let a = 10;
+                obj.a=10
+                // let a = 20;
+                obj2.a=20               
+        */
+
+
+        /* 原始值:字符串，数字，布尔值...        
+         let name = '珠峰';
+         let ip = '东大街';
+         let age = 10;
+         let name2 = '孟粥';
+         let ip2 = '东大街';
+         let age2 = 5; 
+         */
+
+
+        /* 引用类型(里面存着很多原始值和引用值)
+ 
+         对象（实例）
+         let obj = {
+             name:'珠峰',
+             age:10,
+             ip:'东大街'
+         } 
+         let obj2 = {
+             name:'孟粥',
+             age:5,
+             ip:'东大街'
+         }  
+         */
+
+
+        let obj3 = (function () {
+            let name = '珠峰';
+            let ip = '东大街';
+            let age = 0;
+            function sum() {
+                let age = 0;
+                for (let i = 0; i < 10; i++) {
+                    age++
+                }
+                return age;
+            }
+            age = sum();
+            console.log(age);//10
+            return {
+                name: name,
+                ip: ip,
+                age: age,
+                sum: sum
+            }
+        })();
+        console.log(obj3);
+
+
+        let obj4 = (function () {
+            let age = 0;
+            function sum() {
+                console.log(1);
+            }
+            sum();
+            console.log(obj3.sum());//10
+        })();
+
+
+
+
+    </script>
+</body>
+
+</html>

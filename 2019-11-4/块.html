@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>块</title>
+</head>
+
+<body>
+    <script>
+
+        console.log(a);//undifined
+        {
+            var a = 10
+        }
+        console.log(a);//10
+
+
+        {
+            console.log(fa); //undefined
+            {
+                console.log(fa); //fa()
+                function fa() { console.log(a); }
+            }
+            console.log(fa);  //fa()
+        }
+
+
+
+        console.log(fb);//undefined
+        {
+            console.log(fb); //fb(){}
+            function fb() { };
+            {
+                console.log(fb); //fb(){console.log(a);}
+                function fb() { console.log(a); }
+            }
+            console.log(fb);  //fb(){}
+        }
+        console.log(fb); //fb(){}
+
+        
+
+    </script>
+</body>
+
+</html>
