@@ -54,19 +54,19 @@
         function Fn() {
             //this.a = 10;
         }
+        function fb(){}
         Fn.prototype.a = 20;
-        Fn.a = 30;
-        console.dir(Fn);
-        
-        console.log(Fn.a);
-        
+        Fn.b = 30;
+        console.dir(Fn);      
+        console.log(Fn.b);//30     
         Function.prototype.a = 50;
-        console.log(Fn.a);
+        console.log(Fn.a);//50
+        console.log(fb.a);//50
         
         let f = new Fn();
         let Fb= new Function
         //f.a = 40;
-        console.log(f.a);//40
+        console.log(f.a);//40//10//20
         console.log(Fb.a);//50
 
    
