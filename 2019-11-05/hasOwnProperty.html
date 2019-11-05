@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>hasOwnProperty</title>
+</head>
+
+<body>
+    <script>
+        /* hasOwnProperty
+            查看某个属性是不是对象自身的
+            返回一个布尔值
+                是自身的属性就是true没有就false
+    
+            用法：
+                for in的时候会枚举原型，把自定义属性或方法枚举出来
+    
+                筛选对象自身的属性或方法（面向对象中）即查看某个属性或方法是公有还是私有
+    
+              在for in的过程当中，如果不能确定构造函数的原型下是否有自定义的属性或者方法那么建议加一个if判断，判断枚举的属性都是自身的
+        */
+
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.sex = '未知';
+
+        let per1 = new Person('xxx',66);
+        console.log(per1); // Person{name:"xxx",age:66}
+        console.log(per1.sex); //未知
+        console.log(per1.hasOwnProperty('name')); //true
+        console.log(per1.hasOwnProperty('sex')); //false
+
+        Object.prototype.sex = '随便';
+        let obj = {
+            name: 'zf',
+            age: 10
+        }
+        for (let attr in obj) {
+            console.log(attr) //name age sex
+        }
+
+        for (let attr in obj) {
+            if (obj.hasOwnProperty(attr)) {
+                console.log(attr) //name age
+            }
+        }
+
+
+        /* 封装hasPubProperty 查看某个属性是不是公共的*/
+
+        function hasPubProperty(ob,attr) {
+            return !ob.hasOwnProperty(attr);
+        }
+        console.log(hasPubProperty(obj,'sex'));//true
+        
+
+
+
+
+    </script>
+</body>
+
+</html>

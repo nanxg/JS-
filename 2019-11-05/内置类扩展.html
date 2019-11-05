@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+            例：push
+            Array.prototype.push
+        */
+
+        let ary = [1, 2, 3];
+
+        Array.prototype.mypush = function(...arg){
+            let newary = this.concat(arg); 
+            let le = newary.length;
+            for(let i=0;i<le;i++){
+                this[i] = newary[i];
+            }
+            return le;
+        }
+
+        console.log(ary.mypush(4,5,6));
+
+        console.log(ary);
+
+
+        // console.log(ary.concat([4,5,6]) === ary)
+
+        //链式调用
+        // console.log(ary.concat([4,5,6]).concat([7,8]));
+
+        // console.log(ary.concat([4,5],[6,7]));
+
+        Array.prototype.myconcat = function (...arg) {
+            return [...this, ...arg.flat(Infinity)];
+        }
+        console.log(ary.myconcat([4, 5], [6, 7]).myconcat([8, 9]));
+
+
+        // push(ary,4,5,6); //-> 6
+        //ary [1,2,3,4,5,6]
+        
+    </script>
+</body>
+
+</html>

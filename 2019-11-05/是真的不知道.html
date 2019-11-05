@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>是真的不知道</title>
+</head>
+
+<body>
+    <script>
+        /*
+        在函数原型下有一个属性 contructor ，这个属性指向构造函数；但是它的指向并不一定准确，只是一个参考，很容易被修改。
+
+        注意：在对象赋值给构造函数原型的时候，constructor的指向会被修改为指向Object,所以需手动修正constructor的指向。
+            Fn.prototype = {
+                 constructor:Fn
+            }
+         */
+    </script>
+    <script>
+        // 构造函数
+        function Fn() {
+            this.x = 100;
+            this.y = 200;
+            this.getX = function () {
+                console.log(this.x);
+            }
+        }
+        Fn.prototype = {// 赋址  => constructor指向被修改为Objcet而不是Fn，需要手动修正：constructor:Fn
+            y: 400,
+            getX: function () {
+                console.log(this.x);
+            },
+            getY: function () {
+                console.log(this.y);
+            },
+            sum: function () {
+                console.log(this.x + this.y);
+            }
+        };
+        var f1 = new Fn();//Fn{}=> __proto__ => Object
+        var f2 = new Fn; //
+        console.log(f1.getX === f2.getX);// false//分别指向自己的getX，地址不同
+        console.log(f1.getY === f2.getY); // true//顺原型链都指向Fn.prototype里的getY，地址相同
+        console.log(f1.__proto__.getY === Fn.prototype.getY); // true //实例原型链全等于函数原型，都指向Fn.prototype里的getY，地址相同
+        console.log(f1.__proto__.getX === f2.getX);// false //一个指向Fn.prototype里的getX，一个自己的，地址不同
+        console.log(f1.getX === Fn.prototype.getX);// false //一个自己的getX，一个指向Fn.prototype里的，地址不同
+        console.log(f1.constructor);// Object //本来是指向构造函数,但是给构造函数原型赋值了对象，所以constructor的指向会被修改为指向Object
+        console.log(Fn.prototype.__proto__.constructor);// Object 
+        f1.getX(); // 100
+        f1.__proto__.getX();// undefined //实例原型链全等于函数原型，即原型中的getX执行，this.x为原型的x,原型中没有x，获取不到为undefined
+        f2.getY(); // 200 //对象下的this指的.之前的对象，即f2，所以this.y是f2的y
+        Fn.prototype.getY();// 400
+        f1.sum();// 300  this指的f1，f1调用的sum，所以是f1中的x+y=300
+        Fn.prototype.sum();// NaN //Fn.prototype的this.x为undefined，所以结果NaN
+
+    </script>
+    <script>
+        /* 
+            预解析
+            Foo = function() {}
+          // var getName   //被函数干掉
+            getName = function() {}
+            var a,b,c
+        */
+        
+        function Foo() {
+            getName = function () { console.log(1); }; //函数内没有声明getName，相当于window.getName=function(){console.log(1);}
+            return this;
+        }
+        Foo.getName = function () { console.log(2); };
+        Foo.prototype.getName = function () { console.log(3); };
+        var getName = function () { console.log(4); };
+        function getName() { console.log(5); };
+        Foo.getName(); // 2
+        getName();   // 4
+        Foo().getName(); // 1 =>Foo执行后，getName赋值为函数function(){console.log(1);}，执行结果为1
+        getName(); //1
+        var a = new Foo.getName();    // 2    a = Foo.getName{} //先看Foo.getName()，后new；Foo下的getName的实例，即function (){console.log(2);}的实例
+        var b = new Foo().getName();   // 3   b = undefined //先看new Foo()，后.getName()；函数Foo实例下的getName执行，实例自身没getName，顺原型链找函数原型->function (){console.log(3);}，执行后输出3;没有return，b=undefined
+        var c = new new Foo().getName(); // 3 c = new Foo{}.getName() =>Foo.prototype.getName{}；函数Foo的实例下的getName的实例
+        console.log(a, b, c);
+
+    </script>
+    <script>
+        
+        function person() {
+            this.name = 'zhufeng'
+        };
+        person.prototype.getName = function () {
+            console.log(this.name);
+            console.log(this.age)
+        };
+        person.prototype.age = 5000;
+
+        var per1 = new person;
+        per1.getName();//'zhufeng' 5000
+        per1.age = 9; 
+
+        per1.getName(); //'zhufeng' 9
+        console.log(per1.age); //9
+        var per2 = new person;
+        console.log(per2.age) //5000
+
+
+    </script>
+</body>
+
+</html>

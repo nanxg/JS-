@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function fn() {}
+        Object.prototype.a = 20
+        fn.prototype.a = function(){
+            console.log(this);
+        };
+        // console.dir(new fn().__proto__  === fn.prototype); //实例原型链全等于构造函数原型
+        // console.log(fn.prototype)
+        // console.log(new fn().__proto__.a); //实例原型链下的a，即构造函数原型下的a
+        // new fn().__proto__.a(); //实例原型链下的a即构造函数原型下的a执行，this为函数原型
+        // new fn().a(); //实例下的a执行，.前为实例，this为实例
+        /*
+            实例下的.a -> 实例.__proto__  -> 构造函数的原型(fn.prototype) -> fn.prototype.__proto__ -> Object.prototype -> Object.prototype.__proto__ = null
+
+            fn.prototype = {
+                __proto__:Object.prototype
+            }
+
+            内置类:浏览器自带的类
+
+                所有的类型都是构造函数构造出来的
+
+                string  '',"",`` -> new String()
+
+                object  {} -> new Object()
+
+                function -> new Function
+
+                [] -> new Array
+        */
+
+        console.log(new fn().a);
+        console.log(new String('123')) // String {"123"}
+        console.dir(typeof Object); //function
+        console.log(typeof new Function()); //function
+        console.log(typeof Function); //function
+
+        let fn1 = new Function('a,b','return (a+b)'); 
+        console.log(fn1); //function(a,b){return (a+b)}
+        console.log(fn1(1,2));
+        
+        // 错综复杂的关系网
+        console.log(Object instanceof Object); //true
+        console.log(Function instanceof Object); //true
+        console.log(Function instanceof Function); //true
+        console.log(Object instanceof Function); //true
+        console.dir(Function);
+
+
+        Function.prototype.a = 10;
+        function ff() {}
+        ff.prototype.a = 20;
+        console.log(new ff().a); //20
+        console.log(ff.a); //ff是Function的实例，ff.a -> ff.__proto__ -> Function.prototype
+        console.dir(ff)
+
+
+        /*
+            fn.a  fn.__proto__ -> Function.prototype
+
+            Function.a   Function.__proto__ -> Function.prototype
+        */
+        function fa(){}
+        console.log(fa.a);//10     
+        console.log(Function.a) //10
+
+    </script>
+</body>
+
+</html>

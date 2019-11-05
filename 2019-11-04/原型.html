@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>原型</title>
+</head>
+
+<body>
+    <script>
+        /* 
+        原型：构造函数上的属性(是个对象)
+        JS中所有的类都是函数模拟出来的；
+
+        当声明一个函数的时候，这个函数自带一些属性或方法，其中有一个属性叫prototype，他的值为对象，这个prototype就叫原型；函数身上才有原型
+
+        函数原型(prototype)下的属性或方法只能通过两种方法使用：
+            1. 给他的实例化对象使用
+            2. 直接使用
+
+        原型链：实例身上的属性(__proto__ )
+            __proto__ 实例化对象下都有,这个属性全等于实例的构造函数原型
+
+        通过原型链查找属性名属性值的方法：
+            实例下属性->实例原型链->构造函数原型(对象)->构造函数原型(对象)原型链->构造函数(Object)的原型->Object.prototype.__proto__ = null    
+            (实例的构造函数Fn，Fn的原型是对象，对象的构造函数是Object)
+
+        内置类：浏览器自带的类
+            所有类型都是构造函数构造出来的
+         */
+        function fn() { }
+        console.dir(fn);
+        fn.prototype.say = 10;
+        fn.prototype.aa = function () { }
+        console.dir(fn.prototype);
+       
+        let f = new fn;
+        console.log(f); //实例对象
+
+        console.log(f.aa); //function () { }
+        console.log(f.__proto__.aa); //function () { }
+        console.log(fn.prototype.aa); //function () { }
+
+        // f.say = 20;
+        // console.log(f.say);
+        console.dir(f.say);
+        /*  f.say  -> f.__proto__ ->  fn.prototype
+        */
+        console.dir(f.__proto__ === fn.prototype); //true
+
+        // Object.prototype.say = 0;
+        // let obj = new Object;
+        // console.log(obj.say);
+
+
+        let ary = new Array;
+        ary.push = function () {
+            alert(1);
+        }
+        console.log(ary.push());//自创ary的push方法
+        console.dir(Array);     //并不是数组的
+
+
+      //猫类   构造函数
+        function Cat(name) {
+            this.name = name;
+            this.foot = '4只';
+            this.body = '小';
+            this.weiba = true;
+            this.mao = '毛';
+            this.zhuazi = '小爪子';
+        }
+        Cat.prototype.say = function () {
+            alert('喵喵');
+        }
+        // Cat.prototype.skill = function(){
+        //     alert('抓老鼠');
+        // }
+        let kitty = new Cat('kitty'); //实例
+            kitty.say();
+        Object.prototype.skill = 8;
+        console.log(kitty.skill)
+        /*   
+            kitty.skill -> kitty.__proto__ -> Cat.prototype -> Cat.prototype = { __proto__:构造函数的原型 } -> Object.prototype  
+        */
+        /*  
+            实例有原型链，函数有原型，原型又是一个对象，对象它就是实例
+            实例又有原型链，找到构造函数的原型，Object.prototype.__proto__ = null  
+            (顺杆爬，顺藤摸瓜策略)
+        */
+        console.dir(kitty)
+        console.log(Object.prototype.__proto__);
+
+
+    </script>
+</body>
+
+</html>
