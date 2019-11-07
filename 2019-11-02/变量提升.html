@@ -80,6 +80,18 @@
         //     console.log(2);}
         //console.log(fo);  // function(){console.log(2);}
 
+        var j=0,k=0;
+        function A(j){
+            console.log(j);        
+            A=function(k){
+                console.log(j+k++);// j=j+k  k++
+                console.log(j);        
+            }
+            console.log(j++);     
+        }
+        A(1);  //变量提升，第一次执行A(j),A赋值函数(k),j存值2
+        A(2);  //k赋值2，j+k=2+2=4
+
     </script>
 </body>
 

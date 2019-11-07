@@ -16,11 +16,10 @@
                 是自身的属性就是true没有就false
     
             用法：
-                for in的时候会枚举原型，把自定义属性或方法枚举出来
-    
                 筛选对象自身的属性或方法（面向对象中）即查看某个属性或方法是公有还是私有
+
+                for in的时候会枚举原型，把自定义属性或方法枚举出来，如果不能确定构造函数的原型下是否有自定义的属性或者方法，那么可以加一个if判断，判断枚举的属性都是自身的
     
-              在for in的过程当中，如果不能确定构造函数的原型下是否有自定义的属性或者方法那么建议加一个if判断，判断枚举的属性都是自身的
         */
 
         function Person(name, age) {
@@ -34,6 +33,11 @@
         console.log(per1.sex); //未知
         console.log(per1.hasOwnProperty('name')); //true
         console.log(per1.hasOwnProperty('sex')); //false
+
+        let obj1={
+            age : 'age'
+        }
+        console.log(obj1.hasOwnProperty('age'));//true
 
         Object.prototype.sex = '随便';
         let obj = {

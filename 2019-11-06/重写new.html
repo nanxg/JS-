@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>重写new</title>
+</head>
+<body>
+    <script>
+        /*  重写new  */
+
+        function fn(name){
+            this.name=name 
+            console.dir(this);
+        }
+
+        let a=myNew(fn,'xx')
+        console.log(a);
+        
+        function myNew(f,...arg){
+            let obj={};
+            let callback=f.call(obj,...arg) //把构造函数的this改成实例,函数中属性也会添加到obj中
+            obj.__proto__ = f.prototype //使实例原型链等于构造函数原型
+        /* 自定返回值 */
+            if(callback !== null && typeof callback === 'object' || callback === 'function'){
+                return callback
+            }
+            return obj
+        }
+        
+    </script>
+</body>
+</html>

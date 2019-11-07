@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <script>   
+        /*
+            所有的数据都有一个toString的方法，但是写法是不一样的
+            唯独Object的toString能够去检测当前的数据类型，所以
+            可以把this改变，达到我们的目的
+
+            querySelectorAll() 获取结果可以用数组的方法
+
+            Array.from(ary)  把类数组转数组
+            Array.prototype.slice.call(ary)  把类数组转数组
+            Math.max.apply(null, [])  数组取最大值
+        */
+        
+        /* 
+          //调用方法的字母太多可以用变量代替
+            let toS = Object.prototype.toString;
+            let log = console.log
+            log(toS.call(123)); //[object Number] 
+        */
+
+        // let str = '321312';
+        // console.log(str.toString());
+        // console.log([12,1,3,5].toString());
+
+        console.log(Object.prototype.toString.call([1,2,3])); //[object Array]
+
+        // Array的toString，可以检测数组以外的数据类型(不能检测自身)
+        console.log( Array.prototype.toString.call('3212') ); //[object String]
+        console.log( Array.prototype.toString.call([1,2]) ); //'1,2'
+
+
+        //querySelectorAll可以用数组的方法
+        var lis = document.getElementsByTagName('li'); 
+
+        //slice返回一个新的数组，不传参就是把整个数组返回
+        let aryLis=Array.prototype.slice.call(lis)
+        console.log( aryLis ); //类数组转数组，之后可以用数组的方法
+        
+       // console.log( Array.prototype.push.call(lis,'li') ) //??
+        console.log( Object.prototype.toString.call(lis) ); //[object HTMLCollection] 
+        console.log( Object.prototype.toString.call(aryLis) ); //[object Array]
+
+        // var arr = [];
+        // for(var i=0;i<lis.length;i++){
+        //     arr.push(lis[i]);
+        // }
+
+        /*
+            为什么call this就能借到某个方法？
+        
+            因为这些方法内部使用的数据都是this
+        
+            A: 水  ->  可乐
+        
+            B: 土  ->  土乐      
+        */
+
+
+        Array.prototype.mySlice = function () {
+            //this是个数组,把this改成了类数组
+            return [...this];
+        }
+        let ary2 = [1, 2, 3, 4];
+
+        console.log(ary2.mySlice());
+
+
+
+        /* Array.from()  把类数组转数组 */
+        var arr = Array.from(lis);//Array.prototype.mySlice.call(lis);
+
+        console.log(arr);
+
+        arr.forEach((ele, i) => {
+            ele.onclick = function () {
+                alert(i);
+            }
+        });
+        console.log(arr.forEach);
+
+
+        //取数组最大值，借法Math.max
+        console.log(Math.max.apply(null, [1, 2, 3, 4]));
+
+
+        //对象借用push方法，相当于obj.push(3,4)
+        let obj={a:1,b:2}
+        console.log( Array.prototype.push.call(obj,3,4) )
+        console.log(obj);
+        
+
+    </script>
+</body>
+
+</html>

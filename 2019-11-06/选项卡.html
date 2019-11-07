@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .active {
+            background: yellow;
+        }
+
+        #box div,
+        #box2 div {
+            width: 200px;
+            height: 100px;
+            border: 1px solid #000;
+            display: none;
+        }
+
+        #box div.show,
+        #box2 div.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <button class="active" index="0">按钮一</button>
+        <button index="1">按钮二</button>
+        <button index="2">按钮三</button>
+        <div class="show">11111</div>
+        <div>22222</div>
+        <div>33333</div>
+    </div>
+    <div id="box2">
+        <button class="active" index="0">按钮一</button>
+        <button index="1">按钮二</button>
+        <button index="2">按钮三</button>
+        <div class="show">11111</div>
+        <div>22222</div>
+        <div>33333</div>
+    </div>
+        <button id="btn1">让第二个停</button>
+        <button id="btn2">让第一个开</button>
+        <button id="btn3">让开的关，关的开</button>
+    <script>
+        //获取选项卡元素
+        /* function tab(id) {
+            this.box = document.getElementById(id); //
+            this.btns = this.box.querySelectorAll('button'); //获取大box内的按钮
+            this.divs = this.box.querySelectorAll('div'); //获取大box内的div
+            this.previndex = 0;  // 设置定点清楚的默认点
+            this.timer;  //设置定时器名
+            this.num = 0;
+        } */
+        class tab{
+            constructor(id){
+                this.box = document.getElementById(id); //
+                this.btns = this.box.querySelectorAll('button'); //获取大box内的按钮
+                this.divs = this.box.querySelectorAll('div'); //获取大box内的div
+                this.previndex = 0;  // 设置定点清楚的默认点
+                this.timer;  //设置定时器名
+                this.num = 0;
+            }
+        }
+
+        //绑定点击事件
+        tab.prototype.events = function (etName = 'onclick') { //事件参数，可更改点击，可滑入
+            const that = this;           //this指实例
+
+            this.btns.forEach((ele,i)=>{
+                ele[etName]=(()=>{    //箭头函数中的this与上下文一样，可以不用that
+                    //that.change(i)
+                    this.change(i)    //点击给change传索引
+                })
+            })
+
+            /* for (let i = 0, len = this.btns.length; i < len; i++) {
+                this.btns[i].onclick = function () {
+                    that.change(i, this);
+                }
+            } */
+        }
+
+        //改变样式
+        tab.prototype.change = function (i, that) {
+            this.btns[this.previndex].className = ''; //定点清样式
+            this.divs[this.previndex].className = '';
+            this.previndex = i;   //定本次点击的点
+            this.divs[i].className = 'show';
+            this.btns[i].className='active';
+            //that.className = 'active';     //可通过点击事件把this(点谁是谁)传过来
+        }
+
+        //选项轮播开始
+        tab.prototype.play = function () {
+            this.timer = setInterval(() => {
+                this.num++;
+                this.num %= this.btns.length;//num一直在0~2之间循环
+                this.change(this.num);
+            }, 500);
+        }
+
+        //选项轮播停止
+        tab.prototype.stop = function () {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+
+        //轮播停的转转的停
+        tab.prototype.isAutoPlay = function () {
+            if (this.timer) { //不是null就stop，是null就play
+                this.stop()
+            } else {
+                this.play()
+            }
+        }
+
+
+        let a = new tab('box')
+        console.log(a);
+        a.events()
+        let b = new tab('box2')
+        b.events()
+
+        btn1.onclick = function () {
+            b.stop();           
+        }
+        btn2.onclick = function () {
+            a.play();
+        }
+        btn3.onclick = function () {
+            a.isAutoPlay();
+            b.isAutoPlay();
+        }
+    </script>
+</body>
+
+</html>

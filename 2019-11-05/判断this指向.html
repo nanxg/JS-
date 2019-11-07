@@ -21,12 +21,11 @@
             只要是事件函数内的this都指向事件触发的元素
 
         3.点前面的对象
+            例：Fn.prototype.say()  this为Fn.prototype
 
         4.实例
             构造函数下的this是实例   new Fn
             构造函数原型的this也是实例 (需要实例调用)
-            例：Fn.prototype.say()  this为Fn.prototype
-
 
         5.箭头函数
             指向的是声明箭头函数的上下文中的this，与声明箭头函数的上下文的this相同
@@ -66,11 +65,12 @@
             }  
         */
 
-        /*  
+        /* 
             document.onclick = function(){
-                setTimeout (new fn,1000);
+                setTimeout (new fn,1000); 
+                //点击执行函数，先new fn，一秒后执行(new fn),所以this是实例，一秒后报错
                 function fn(){
-                    console.log(this);  //fn{} 报错
+                    console.log(this);  //fn{} 一秒后报错
                 }
             }  
         */
@@ -83,18 +83,18 @@
                 }
             }
             setTimeout(obj.getName,1000);//this指向window
-            // obj.getName() // this指向window 
+            obj.getName() // this指向obj 
         */
 
         /*  
             function Fn(){
-            this.name = 'zf';
+                this.name = 'zf';
             }
             Fn.prototype.name = '小明';
             Fn.name = '小强';
             Function.prototype.name = '小花';
-            console.log(Object.name); //Object
-            console.dir(Object); //Object 
+            console.log(Object.name); //Object //Object自带name属性
+            console.dir(Object); 
         */
 
         /*  
@@ -104,9 +104,9 @@
             Fn.prototype.name1 = '小明';
             Fn.name1 = '小强';
             Function.prototype.name1 = '小花';
-            console.log(Object.name1); //小花 
+            console.log(Object.name1); //小花 //Object为Function的实例
             
-            function Object(){} -> Function.prototype   
+            //function Object(){} -> Function.prototype   
         */
 
         /* 
@@ -122,7 +122,7 @@
             Function.prototype.name1 =function(){
                 console.log(this)
             };
-            new Fn().name1();  //报错 
+            new Fn().name1();  //报错 ，自身有name1，字符串不能执行
         */
 
         /* 
@@ -138,13 +138,13 @@
             Function.prototype.name1 =function(){
                 console.log(this)
             };
-            new Fn().name1();  //Fn{} 
+            new Fn().name1();  // Fn{} 
         */
        
         /* 
             document.onclick = function(){
                 let fn = () =>{
-                console.log(this);
+                console.log(this); //document 
                 }
             fn();
             } 

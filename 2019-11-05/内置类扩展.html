@@ -13,6 +13,7 @@
         /*
             例：push
             Array.prototype.push
+            自定义扩展方法放到原型下
         */
 
         let ary = [1, 2, 3];
@@ -31,12 +32,12 @@
         console.log(ary);
 
 
-        // console.log(ary.concat([4,5,6]) === ary)
+        console.log(ary.concat([4,5,6]) === ary)//false
 
         //链式调用
-        // console.log(ary.concat([4,5,6]).concat([7,8]));
+        console.log(ary.concat([4,5,6]).concat([7,8]));
 
-        // console.log(ary.concat([4,5],[6,7]));
+        console.log(ary.concat([4,5],[6,7]));
 
         Array.prototype.myconcat = function (...arg) {
             return [...this, ...arg.flat(Infinity)];

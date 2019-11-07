@@ -10,9 +10,55 @@
 
 <body>
     <script>
-        function fn() {}
+        /* 
+         原型和原型链:
+            函数走原型 （构造函数的实例）
+            实例走链 （实例找不到某个属性或者方法就走链）
+    
+            实例的原型链 === 构造函数的原型
+    
+                { name: 'xxx' } -> this.name = 'xxx'
+                obj.name = 'xxx' -> new Fn().name = 'xxx'
+        
+        
+                obj.__proto__ -> Fn.prototype -> Fn.prototype.__proto__ -> Object.prototype
+    
+            实例
+                new Function -> function 
+        */
+
+        function Fn() {
+            this.a = '10' 
+        }
+        Fn.prototype.a = function(){ console.log('1');}
+        Fn.a = function(){console.log('3');}
+        Function.a = function(){ console.log('4');}
+        Function.prototype.a = function(){console.log(5)}
+        Object.a = function(){console.log('6')};
+        Object.prototype.a = function(){console.log('7')};
+        Fn.prototype.a = function(){ console.log('2');}
+        let f = new Fn();
+
+        Fn.prototype.a();
+        //f.a(); //报错，f下的a不是函数，注掉Fn内容，输出2
+        Fn.a(); //3，注掉Fn.a， 输出5
+        Function.a(); //4 注掉Function.a，输出5
+        Object.a(); //6 注掉Object.a，输出5
+        Function.prototype.a();
+        console.log(f.a);
+
+        f.name = 'abc'; 
+        new Fn().name = 'xxx'; 
+
+        console.log( f ) //Fn {a: "10", name: "abc"}
+        console.log(new Fn().name); //另一个实例的name，与f无关
+        console.log({name:'qwe'}.name) //{name:'qwe'}的name
+
+
+
+        function fn() { }
         Object.prototype.a = 20
-        fn.prototype.a = function(){
+        fn.prototype.a = function () {
             console.log(this);
         };
         // console.dir(new fn().__proto__  === fn.prototype); //实例原型链全等于构造函数原型
@@ -20,6 +66,7 @@
         // console.log(new fn().__proto__.a); //实例原型链下的a，即构造函数原型下的a
         // new fn().__proto__.a(); //实例原型链下的a即构造函数原型下的a执行，this为函数原型
         // new fn().a(); //实例下的a执行，.前为实例，this为实例
+
         /*
             实例下的.a -> 实例.__proto__  -> 构造函数的原型(fn.prototype) -> fn.prototype.__proto__ -> Object.prototype -> Object.prototype.__proto__ = null
 
@@ -46,10 +93,11 @@
         console.log(typeof new Function()); //function
         console.log(typeof Function); //function
 
-        let fn1 = new Function('a,b','return (a+b)'); 
+        let fn1 = new Function('a,b', 'return (a+b)');
         console.log(fn1); //function(a,b){return (a+b)}
-        console.log(fn1(1,2));
-        
+        console.log(fn1(1, 2));
+
+
         // 错综复杂的关系网
         console.log(Object instanceof Object); //true
         console.log(Function instanceof Object); //true
@@ -59,7 +107,7 @@
 
 
         Function.prototype.a = 10;
-        function ff() {}
+        function ff() { }
         ff.prototype.a = 20;
         console.log(new ff().a); //20
         console.log(ff.a); //ff是Function的实例，ff.a -> ff.__proto__ -> Function.prototype
@@ -71,7 +119,7 @@
 
             Function.a   Function.__proto__ -> Function.prototype
         */
-        function fa(){}
+        function fa() { }
         console.log(fa.a);//10     
         console.log(Function.a) //10
 

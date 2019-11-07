@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        var a = 1;
+        a.a = 2;
+        console.log(a.a); //基本数据类型添加属性为undefined
+
+        const x = {
+                a:1,
+                c:{
+                    a:3,
+                    c:{
+                        a:5,
+                        d:function(){
+                            console.log(this.a)
+                        }
+                    }
+                }
+             }
+        const y = x.c.c.d; // y=function(){console.log(this.a)}
+        x.c.c.d(); //d中函数的this指的它的上级c，c.a是5
+        y(); //window的a
+    </script>
+</body>
+
+</html>

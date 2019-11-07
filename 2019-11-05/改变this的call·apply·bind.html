@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>改变this指向</title>
+</head>
+<body>
+    <script>
+        /* 改变this指向的方法：call apply bind */
+
+        /* 函数创建时自带call apply bind方法 */
+
+        /* 
+            call：fn.call(this指向,实参...)
+                参数(若干)：
+                第一个修改this指向；第二个之后为函数实参
+            apply：fn.apply(this指向,[实参...])
+                参数(2个)：
+                第一个修改this指向；第二个为数组，存放实参
+            bind：fn.bind(this指向,实参...)(实参...) 惰性函数/柯里化函数
+                参数(若干)：
+                第一个修改this指向；第二个之后为函数实参
+                返回新函数，只有调用返回的函数才会执行
+            注：    
+                修改this时不能传null与undefined，传了都是window
+        
+         */
+         function fn(x,y){
+            //  this.c=x
+            //  this.d=y
+             console.log(x,y);         
+             console.log(this);
+         }
+         obj={
+             a:1,
+             b:2
+         }      
+         ary=[1,2,3]
+        //  fn.call(document,1,2)
+        //  fn.apply(document,[1,2])
+        //  fn.bind(document,1,2)()
+        //  fn.bind(document)(1,2)
+        /*  
+            call方法会改变函数fn的this为obj、执行函数、传参，等同于fn中的this变成了obj，函数执行并且传实参1，2进去 即：
+                function fn(1, 2) {
+                    obj.c = 1;
+                    obj.d = 2;
+                }
+            所以obj中增加了俩键值对
+        */
+        //  let aa=fn.call(obj,1,2);
+        //  console.log(aa);  //没有返回值，undefined
+        //  console.log(obj); //{a:1, b:2, c:1, d:2}
+        //  fn.call(ary,1,2);
+        //  console.log(ary); //[1, 2, 3, c: 1]
+
+        //  fn.apply(obj,[1,2]);
+        //  console.log(obj); //{a:1, b:2, c:1, d:2}
+
+        //  fn.bind(obj,1,2)()
+        //  fn.bind(obj)(1,2)
+        //  console.log(obj); //{a:1, b:2, c:1, d:2}
+    </script>
+</body>
+</html>
