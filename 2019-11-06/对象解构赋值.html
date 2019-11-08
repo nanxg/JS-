@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <input type="text" id="input" value="123">
 <script>
 
     /*
@@ -40,7 +41,7 @@
         let { baz } = { foo: 'aaa', bar: 'bbb' }; //baz -> undefined
     */
 
-    
+    /* 
         let objhdjksdjks = {
             type: "sug", 
             sa: "s_2",
@@ -55,6 +56,7 @@
         console.log(objhdjksdjks.type);
         console.log(objhdjksdjks.q);
         console.log(objhdjksdjks.s);
+    */
 
     /* 
         let {log,dir} = console;
@@ -83,6 +85,7 @@
 
         console.log(j);
     */
+
     /* 
         const node = {
             loc: {
@@ -96,48 +99,63 @@
         let { loc, loc: { start }, loc: { start: { line }} } = node;
 
         console.log(line); //1
+        console.log(loc); //{start: {line: 1,column: 5}}
+        console.log(start); //{line: 1, column: 5}
     */
+
     /* 
         let {f,f:x} = {f:{name:'11',age:22}}
 
         console.log(f); //{name: "11", age: 22}
     */
 
-
+    /* 
         let obj = {};
         let arr = [];
         //foo->123  -> obj.prop = 123 
         ({ foo: obj.prop, bar: arr[0] } = { foo: 123, bar: true });
 
         console.log(obj,arr); //obj.prop = {}.foo;
+    */
 
     /* 
         var {x, y = 5} = {x: 1};
         console.log(x,y); //1  5
     */
-    
-    // let {value:val} = input
 
+    /* 
+    let {value:val} = input
+        console.log(val); //123
+    */  
 
+    /* 
     function fn({age:{b}}){
         // obj.age.b
-        console.log(b);
+        console.log(b); //2
     }
-    fn({name:'haha',age:{s:1,b:2}}) //2
+    fn({name:'haha',age:{s:1,b:2}}) // {age:{b}}={name:'haha',age:{s:1,b:2}} -> {b}={s:1,b:2}
+    */
 
-
-    // function move({x, y} = { x: 0, y: 0 }) {
-    //     return [x, y];
-    // }
 
     /**
         传了对象那么就按照传的对象来解析，不会按照默认的来解析 
     **/
-    //const {log} = console;
+    const {log} = console;
+    // function move({x, y} = { x: 0, y: 0 }) {
+    //     return [x, y];
+    // }  
     // log(move({x: 3, y: 8}));  //3,8
-    // log( move( {x: 3} )); //3,undefined
-    // log( move({}));//undefined,undefined
-    // log(move());//0,0
+    // log(move({x: 3})); //3,undefined
+    // log(move({})); //undefined,undefined ——> 传了就走传的，获取不到就undefined
+    // log(move()); //0,0  ——> 没传走默认
+
+    function mov({x = 0, y = 0} = {}) { //有默认值0
+        return [x, y];
+    }
+    log(mov({x: 3, y: 8})); // [3, 8]
+    log(mov({x: 3})); // [3, 0]
+    log(mov({})); // [0, 0]
+    log(mov()); // [0, 0] //没有穿参，形参没得解构，会报错，所以需要形参加上 ={}
 
 
     // log([1, undefined, 3].map((item='yes') => item) );

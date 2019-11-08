@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+            继承：
+                子类具有父类一部分特征（继承自父类），自己还有自己的特征
+    
+                作用：
+                减少子类代码量，达到高内聚低耦合，减少开发成本
+    
+                方式：
+                类式继承(call继承)
+                原型继承
+                寄生式组合继承
+                拷贝继承
+                对象继承
+                class继承
+                ......
+    
+                结果：
+                继承到父类的属性方法
+    
+                属性继承：
+                调用父类，通过call把this变为子类的实例(call继承)
+    
+                    function 子类名(形参){ 父类名.call(this,形参) }
+                    new 子类   
+                方法继承：
+                浅拷贝：
+                    Object.assign(obj,obj1,obj2) 
+                    浅拷贝对象的属性,可以放多个参数,第一个参数接收,第二个往后的参数属性依次拷贝进去；最后改变的是最左边的参数对象。
+                拷贝继承：Object.assign(子类.prototype,父类.prototype) 
+    
+                原型继承：
+                    function Paohui(){}
+                    Paohui.prototype = Person.prototype;
+                    Police.prototype = new Paohui;
+                    Police.prototype.constructor = Police;
+
+                    Police.prototype = new Person;//new Paohui;
+                    Police.prototype.constructor = Police;
+    
+                寄生继承：
+                    子类.prototype = Object.create(父类.prototype);//会改变constructor指向
+                    子类.prototype.constructor = 父类;
+    
+                class继承：
+                如果需要用this，必须写在super()下边，没有super或者在super上边是没有this的
+                class 子类名 extends 父类名{
+                    constructor(){
+                        super()
+                    }
+                }
+    
+            */
+
+        /* 
+          //浅克隆
+            let obj={aa:22}
+            let obj1={
+                name:'xxx',
+                age:11,
+                dd:'ww'
+            }
+            let obj2={
+                name:'vvv',
+                aa:'66',
+                bb:'33'
+            }
+            let obj3={
+                name:'qqq',
+                aa:'77',
+                bb:'44',
+                cc:00
+            }
+            Object.assign(obj,obj1,obj2,obj3) 
+            console.log(obj);
+            console.log(obj1);
+            console.log(obj2); 
+            */
+
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+            // console.log(this);
+        }
+        Person.prototype.say = function () {
+            alert(`我是` + this.name);
+        }
+
+        /* 
+           //用call继承属性
+           function Police(name, age) {
+               //this -> 实例
+               Person.call(this, name, age);
+           }
+
+           //直接让原型相等不可取，引用类型会赋址，地址相同，修改A就会影响B
+           //Police.prototype = Person.prototype;
+
+           //解决赋址的方案
+           //①浅继承方法
+            //Object.assign(Police.prototype,Person.prototype);
+           //②循环赋值
+            for (let attr in Person.prototype) {
+                //for in会枚举当前对象原型下的属性或方法，使用hasOwnProperty筛选对象自身的属性
+                if (Person.prototype.hasOwnProperty(attr)) {
+                    Police.prototype[attr] = Person.prototype[attr];
+                }
+            }
+            */
+
+
+
+
+
+        //原型继承①
+        // function Paohui(){}
+        // Paohui.prototype = Person.prototype;
+        // Police.prototype = new Paohui; //Police.prototype.constructor指向变成Person
+        // Police.prototype.constructor = Police;//需要把原型的constructor指向修正
+        /*
+           p2.say  -> p2.__proto__ -> Police.prototype
+       
+           new Paohui() -> new Paohui().__proto__ ->
+       
+           Paohui.prototype -> Person.prototype
+       
+           Person.prototype.say  √
+           */
+
+        //原型继承② //不利于浏览器优化，多执行一遍父类函数
+        // Police.prototype = new Person; //Police.prototype.constructor指向变成Person
+        // Police.prototype.constructor = Police;//需要把原型的constructor指向修正
+        /*
+           p2.say -> p2.__proto__ -> Police.prototype ->
+       
+           new Person ->new Person().__proto__ ->
+       
+           Person.prototype
+           */
+           
+        /* 
+        //寄生式继承
+        Police.prototype = Object.create(Person.prototype); 
+        Police.prototype.constructor = Police;
+           */
+
+        Police.prototype.say = function () {
+            alert(`我是警察`);
+        }
+        let p2 = new Police('xxx', 10);
+        let p = new Person('aaa', 18);
+        p2.say();
+        p.say();
+        console.log(p.say);
+        console.log(p2.say);
+
+        console.log(p2.constructor);
+
+
+    </script>
+</body>
+
+</html>
