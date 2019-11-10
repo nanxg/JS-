@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/1.css">
+</head>
+
+<body>
+    <section class="box">
+        <nav>
+            <span>排序</span>
+            <a href="javascript:void(0);" data-name="time">
+                <i class="up"></i>
+                <i class="down"></i>
+                上架时间
+            </a>
+            <a href="javascript:void(0);" data-name="hot">
+                <i class="up"></i>
+                <i class="down"></i>
+                热度
+            </a>
+            <a href="javascript:void(0);" data-name="price">
+                <i class="up "></i>
+                <i class="down"></i>
+                价钱
+            </a>
+            <div>
+                <select name="" id="sele">
+                    <option value="title">按照文字搜索</option>
+                    <option value="price">按照价格搜索</option>
+                    <option value="hot">按照热度搜索</option>
+                </select>
+                <div id="num" class="hide">
+                    从<input type="text" id="start">
+                    到<input type="text" id="end">
+                </div>
+                <div id="txt" class="show">
+                    <input type="text" id="txt1">
+                </div>
+                <button id="search">搜索</button>
+                <button id="init">还原</button>
+            </div>
+        </nav>
+        <ul class="list" id="ul">
+            <!-- <li>
+                <img src="./img/2.jpg" alt="">
+                <p>商品名称:<span>dsdsadsads</span></p>
+                <p>上架时间:<span>2019-10-10</span></p>
+                <p>商品热度:<span>32</span></p>
+                <p>商品价格::<span>200</span></p>
+            </li> -->
+        </ul>
+
+    </section>
+    <!-- <script src="./json/product.js"></script> -->
+    <script>
+        /*  fetch('json/product.json').then(d => d.json()).then(date => {//获取json文件内容放到date中，使用date的话必须在函数内
+             console.log(date);
+             let newDate = date.concat() //复制date
+             //创建函数渲染页面
+             function reader(newDate) {  
+                 let lis = newDate.map(({ title, img, price, time, hot }, i) => { //回调函数形参解构赋值，提取newDate每一项中参数
+                     return `<li>
+                                 <img src="${img}" alt="">
+                                 <p title="${title}">商品名称:<span>${title.substr(0, 6)}</span></p>
+                                 <p>上架时间:<span>${time}</span></p>
+                                 <p>商品热度:<span>${hot}</span></p>
+                                 <p>商品价格::<span>${price}</span></p>
+                             </li>` //字符串拼接
+                 }).join('')  //返回的是数组，需要转字符串后放到ul内
+                 ul.innerHTML = lis 
+             }
+             reader(newDate)
+             //排序
+             let as=document.querySelectorAll('a');
+             as.forEach((ele,i)=>{
+                 ele.onoff=true  //单独添加开关，以防互相干扰
+                 ele.onclick=function(){
+                     if(this.onoff){  
+                         newDate.sort((a,b)=>{ 
+                             if(this.dataset.name==='time'){ //this指a标签元素 
+                                 return new Date(a.time)-new Date(b.time) //日期是字符串需转毫秒
+                             }else{
+                                 return a[this.dataset.name]-b[this.dataset.name] 
+                             }
+                         })
+                         this.children[0].classList.add('activet') //正反序的箭头颜色样式
+                         this.children[1].classList.remove('activeb')
+                     }else{
+                         newDate.sort((a,b)=>{
+                             if(this.dataset.name==='time'){//this指a元素
+                                 return new Date(b.time)-new Date(a.time)
+                             }else{
+                                 return b[this.dataset.name]-a[this.dataset.name]
+                             }
+                         })
+                         this.children[1].classList.add('activeb') 
+                         this.children[0].classList.remove('activet') 
+                     }
+                     this.onoff=!this.onoff 
+                     reader(newDate) //排序完毕，重新渲染
+                 }
+             }) 
+         })*/
+
+        fetch('json/product.json').then(d => d.json()).then(data => {
+            console.log(data);
+            let newData = data.concat()
+            function renders(newData) {
+                let lis = newData.map(({ title, price, time, hot, img }) => {
+                    return ` <li>
+                                    <img src="${img}"">
+                                    <p title="${title}">商品名称:<span>${title.substr(0, 6)}</span></p>
+                                    <p>上架时间:<span>${time}</span></p>
+                                    <p>商品热度:<span>${hot}</span></p>
+                                    <p>商品价格::<span>${price}</span></p>
+                                </li>`
+                })
+                ul.innerHTML = lis
+            }
+            renders(newData)
+            let as = document.querySelectorAll('a')
+            console.log(as);
+
+            as.forEach((ele, i) => {
+                ele.onoff = true
+                ele.onclick = function () {
+                    if (this.onoff) {
+                        newData.sort((a, b) => {
+                            if (this.dataset.name === 'time') {
+                                return new Date(a[this.dataset.name]) - new Date(b[this.dataset.name])
+                            } else {
+                                return a[this.dataset.name] - b[this.dataset.name]
+                            }
+                        })
+                        this.children[0].classList.add('activet')
+                        this.children[1].classList.remove('activeb')
+                    } else {
+                        newData.sort((a, b) => {
+                            if (this.dataset.name === 'time') {
+                                return new Date(b[this.dataset.name]) - new Date(a[this.dataset.name])
+                            } else {
+                                return b[this.dataset.name] - a[this.dataset.name]
+                            }
+                        })
+                        this.children[0].classList.remove('activet')
+                        this.children[1].classList.add('activeb')
+                    }
+                    this.onoff = !this.onoff
+                    renders(newData)
+                }
+            })
+
+            //搜索
+            const start = document.querySelector('#start');
+            const end = document.querySelector('#end');
+            const btn = document.querySelector('#search');
+            const sele = document.querySelector('#sele');
+            const txt1 = document.querySelector('#txt1');
+
+
+            btn.onclick = function () {
+                let { value: v1 } = start; //解构获取input框输入值
+                let { value: v2 } = end;
+                let { value: v4 } = txt1;
+                if (v4 || v1 && v2) { //文字框有内容就走文字框，没有就看数字框有没有内容
+
+                    let { value: v3 } = sele; //要搜索的关键字(选择哪个option，sele的value就是哪个option的value)
+                    //console.dir(sele);
+
+                    /*
+                        找到符合的数据(一个个小对象)
+                    */
+                    let d = null;
+                    if (v4) { //v4有内容就搜文字
+                        d = newData.filter(item => { //过滤符合条件的内容
+                            return item[v3].includes(v4);
+                        })
+                    } else { //没有就搜数字
+                        d = newData.filter(item => {
+                            return item[v3] >= v1 && item[v3] <= v2
+                        });
+                    }
+                    renders(d);
+
+                    //还原页面
+                    init.onclick = function () {
+                        txt1.value = start.value = end.value = '';
+                        as.forEach((ele, i) => {
+                            ele.children[0].classList.remove('activet')
+                            ele.children[1].classList.remove('activeb')
+                        });
+                        renders(data);
+                    }
+                } else { //不输入内容弹框
+                    alert('请正确输入搜索内容');
+                }
+            };
+            //当选择框的内容改变的时候触发这个事件
+            sele.onchange = function () {
+                txt1.value = start.value = end.value = ''; //清空input框的输入内容
+                let { value } = this;
+                if (value === 'title') {  //改变搜索输入框的样式
+                    num.className = 'hide';
+                    txt.className = 'show';
+                } else {
+                    num.className = 'show';
+                    txt.className = 'hide';
+                }
+            }
+
+        })
+
+    </script>
+</body>
+
+</html>
