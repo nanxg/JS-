@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		body,
+		ul,
+		li {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="price.css" />
+</head>
+
+<body onselectstart="return false;">
+	<div class="wrap">
+		<div class="box">
+			<ul class="list">
+				<li>
+					<i class="subtract"></i>
+					<em>0</em>
+					<i class="plus"></i>
+					<span>
+						单价：<strong>12.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i class="subtract"></i>
+					<em>0</em>
+					<i class="plus"></i>
+					<span>
+						单价：<strong>10.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i class="subtract"></i>
+					<em>0</em>
+					<i class="plus"></i>
+					<span>
+						单价：<strong>8.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i class="subtract"></i>
+					<em>0</em>
+					<i class="plus"></i>
+					<span>
+						单价：<strong>8元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+				<li>
+					<i class="subtract"></i>
+					<em>0</em>
+					<i class="plus"></i>
+					<span>
+						单价：<strong>14.5元 </strong> 小计：<strong>0元</strong>
+					</span>
+				</li>
+			</ul>
+			<div class="info">
+				<span>商品公合计：<em>0</em>件</span>
+				<span>共花费了：<em>0</em>元</span>
+				<br />
+				<br />
+				<span>其中最贵的商品单价是：<em>0</em>元</span>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		const lis=document.querySelectorAll('.list li')		
+		const emSum=document.querySelectorAll('.info em')
+		const ems=document.querySelectorAll('.list em')
+		const is=document.querySelectorAll('.list i')
+		const span=document.querySelectorAll('.list span')
+		
+		is.forEach((ele,i)=>{
+			ele.onclick=function(){
+				let val1=parseFloat(this.parentNode.children[3].children[0].innerHTML)
+				let val2=parseFloat(this.parentNode.children[3].children[1].innerHTML)	
+				if(this.className==="subtract"){			
+					if(this.nextElementSibling.innerHTML>0){
+						this.nextElementSibling.innerHTML--
+						this.parentNode.children[3].children[1].innerHTML=val2-val1 + '元'
+						emSum[0].innerHTML--
+						emSum[1].innerHTML=Number(emSum[1].innerHTML)-parseFloat(this.parentNode.children[3].children[0].innerHTML)
+					}		
+				}else{			
+					this.previousElementSibling.innerHTML++
+					this.parentNode.children[3].children[1].innerHTML=val1+val2 + '元'
+					emSum[0].innerHTML++
+					emSum[1].innerHTML=Number(emSum[1].innerHTML)+parseFloat(this.parentNode.children[3].children[0].innerHTML)
+				}	
+				let ary=[]		
+				// ems.forEach((ele,i)=>{					
+				// 	if(ele.innerHTML!==0){
+				// 		ary[i]=ele.innerHTML
+				// 		console.log(ary);						
+				// 	}					
+				// })
+				for(let i=0;i<ems.length;i++){
+					ary.push(0)
+					console.log(ems[i].innerHTML!=0);
+					if(ems[i].innerHTML!=0){
+						ary[i]=parseFloat(span[i].children[0].innerHTML)
+					}
+					ary2=ary.sort((a,b)=>{
+						return b-a
+					})
+					emSum[2].innerHTML=ary2[0]
+				}
+			}
+			
+		})
+
+
+
+
+
+
+
+
+	</script>
+</body>
+
+</html>

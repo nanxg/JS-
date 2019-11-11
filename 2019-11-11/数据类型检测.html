@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+    /*
+        [] -> typeof 'object' 不全面
+
+        检测数据类型完美办法：
+            Object.prototype.toString.call(数据) === 
+        */
+
+        class Tools {
+            static type(data){//通过传data数据检测它的类型
+                if(typeof data !== 'object'){
+                    return typeof data;
+                }
+              //转换大小写的办法
+                // let ary = ['Null','Array','Object'];
+                // let ary2 = ['null','array','object']; 
+                // {object:'Object'}
+                let obj = {
+                    object:'Object',
+                    array:'Array',
+                    null:'Null'
+                } 
+                let toS = Object.prototype.toString;
+                //循环判断类型，输出属性名
+                for(let attr in obj){ 
+                    if(toS.call(data) === `[object ${obj[attr]}]`){
+                        return attr;
+                    }
+                }
+                // for(let i=0;i<ary.length;i++){
+                //     if(toS.call(data) === `[object ${ary[i]}]`){
+                //         return ary[i].toLowerCase(); 
+                //     }
+                // }
+            }
+        }
+
+
+        console.log(Tools.type([]));// [] -> 'array'
+
+    </script>
+</body>
+
+</html>
