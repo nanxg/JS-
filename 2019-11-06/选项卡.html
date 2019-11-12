@@ -74,7 +74,7 @@
 
         //绑定点击事件
         tab.prototype.events = function (etName = 'onclick') { //事件参数，可更改点击，可滑入
-            const that = this;           //this指实例
+            //const that = this;           //this指实例
 
             this.btns.forEach((ele,i)=>{
                 ele[etName]=(()=>{    //箭头函数中的this与上下文一样，可以不用that

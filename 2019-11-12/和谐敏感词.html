@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="txt" /><button id="btn">发送</button>
+    <ul id="ul"></ul>
+    
+    <script>
+
+        let sql = ['卧槽', '艹', '羊驼', '敏感词'];  //敏感词组
+        let str = '*%$#@^!~&?'; //替换的文字
+        btn.onclick = function () {
+            let { value } = txt;
+            let fhx = value;
+            let li = document.createElement('li');
+            let btns = document.createElement('button');
+            let span = document.createElement('span');
+            btns.innerText = '显示';
+
+            let re = new RegExp(sql.join('|'), 'g'); // -> /'卧槽|艹|羊驼|敏感词'/g
+
+            value = value.replace(re, ($0) => { //$0是每次匹配到的敏感词字符串
+                let temp = '';
+                for (let i = 0; i < $0.length; i++) { //敏感词有几个字就用几个码替换
+                    temp += str[Math.round(Math.random() * str.length - 1)];
+                }
+                return temp;
+            });
+
+            let onoff = true
+            btns.onclick = function () {
+                if (onoff) {
+                    span.innerText = fhx;  //创建的btns与span相对应
+                    btns.innerText = '河蟹'
+                } else {
+                    span.innerText = value;
+                    btns.innerText = '显示';
+
+                }
+                onoff = !onoff
+            }
+
+            span.innerText = value;
+            li.appendChild(span)
+            li.appendChild(btns);
+            ul.insertBefore(li, ul.children[0]);
+            txt.value = '';
+        }
+    </script>
+</body>
+
+</html>

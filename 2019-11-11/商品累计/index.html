@@ -97,15 +97,18 @@
 				}	
 				let ary=[]		
 				// ems.forEach((ele,i)=>{					
-				// 	if(ele.innerHTML!==0){
-				// 		ary[i]=ele.innerHTML
+				// 	if(ele.innerHTML!=0){
+				// 		ary[i]=parseFloat(span[i].children[0].innerHTML)
 				// 		console.log(ary);						
-				// 	}					
+				// 	}	
+					// ary2=ary.sort((a,b)=>{
+					// 	return b-a
+					// })
+					// emSum[2].innerHTML=ary2[0]				
 				// })
 				for(let i=0;i<ems.length;i++){
 					ary.push(0)
-					console.log(ems[i].innerHTML!=0);
-					if(ems[i].innerHTML!=0){
+					if(+ems[i].innerHTML){
 						ary[i]=parseFloat(span[i].children[0].innerHTML)
 					}
 					ary2=ary.sort((a,b)=>{
@@ -113,12 +116,21 @@
 					})
 					emSum[2].innerHTML=ary2[0]
 				}
-			}
-			
+			}		
 		})
 
 
+		/* 面向对象版 */
+		class count{
+			constructor(){
+				this.lis=document.querySelectorAll('.list li')		
+				this.emSum=document.querySelectorAll('.info em')
+				this.ems=document.querySelectorAll('.list em')
+				this.is=document.querySelectorAll('.list i')
+				this.span=document.querySelectorAll('.list span')
+			}
 
+		}
 
 
 
