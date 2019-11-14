@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li class="li clear li1">1</li>
+        <li class="aa">2</li>
+        <li class="li ll">3</li>
+        <li class="li">4</li>
+        <li>5</li>
+    </ul>
+    <script>
+        let li = document.getElementsByTagName('li')
+        let obj={}
+        for (let i = 0; i < li.length; i++) {
+            if (li[i].className === 'li') {
+                obj[i]=li[i]
+            }
+        }
+        console.log(obj);//只有第四个li
+
+        function getByClass(cn){
+            let elemt=document.getElementsByTagName('*');//通配符，找到所有标签
+            let ary=[];
+
+            // for(let i=0;i<elemt.length;i++){
+            //     let scn=elemt[i].className;//获取所有class名,根据空格分隔
+            //     //console.log(scn);         
+            //     let ary2=scn.split(' ');
+            //     ary2.forEach(classname=>{
+            //         if(classname===cn){
+            //             ary.push(elemt[i]);
+            //         }
+            //     })
+            // }
+
+            let reg=new RegExp('\\b'+cn+'\\b')
+            console.log(reg); // /\bli\b/
+            for(let i=0;i<elemt.length;i++){ 
+                if(reg.test(elemt[i].className)){ //'|li| |clear| |li1|'
+                    ary.push(elemt[i])
+                }
+            }
+            return ary
+        }
+        let lis = getByClass('li');
+        console.log(lis);
+        lis.forEach(ele=>ele.style.background='blue')
+
+
+        
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        let str='  23@4a中v,ct i_e2/3i'
+        console.log(str.replace(/\b/g,'|'));
+        let str1='中国人中国人德国人中国的美国人越南人缅甸人中国人老挝人菲律宾人'
+        console.log(str1.replace(/(?<=中国)人/g,'神'));
+        console.log(str1.replace(/中国(?=人)/g,'chinese'));
+        console.log(str1.replace(/(?<!中国)人/g,'person'));
+        console.log(str1.replace(/中国(?!人)/g,'aa'));
+        console.log(str1.replace(/(?<!中国)(?:人)/g,'aa'));
+        
+        
+        
+        
+        
+       
+    </script>
+</body>
+</html>

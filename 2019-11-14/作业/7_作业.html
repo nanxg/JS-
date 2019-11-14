@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+           把下面str的name，age，say换成obj中的value值
+        */
+        let obj = {
+            name: '小明',
+            age: 18,
+            say: '好好学习，天天向上'
+        }
+        let str = '我的名字叫{name},年龄是{age}岁,我想说:{say}';
+
+        //console.log(str.match(/\W+(\w+)\W+(\w+)\W+(\w+)\W/));
+
+        let str3 = str.replace(/(\W+)\w+(\W+)\w+(\W+)\w+(\W)/, function ($0, $1, $2, $3, $4) {
+            return $1 + obj.name + $2 + obj.age + $3 + obj.say + $4
+        });
+        console.log(str3)
+
+
+        /*
+            计算下面字符串中哪个字符出现的次数最多,它是谁，出现了多少次
+        */
+
+        let str2 = 'hd82nxa89a3axdma2naejaaxaa8n2xdanja2cah2hnadhioamwajexnad8mdahiodn';
+
+        let ary1 = [];
+        function fn(str) {
+            let ary2 = [];
+            let str1 = str.match(/^[a-z|0-9]/);
+            ary2 = str.match(new RegExp(str1, 'g'));
+            str = str.replace(new RegExp(str1, 'g'), '');
+            if (ary1.length < ary2.length) {
+                ary1 = ary2
+                if (str.length != 0) {
+                    fn(str)
+                }
+            } else {
+                if (str.length != 0) {
+                    fn(str)
+                }
+            }
+        }
+        fn(str2)
+        console.log(ary1[0], ary1.length);
+
+
+
+
+
+        /* var str = "aabbcc";
+        function maxstringload(str) {
+            var obj = {};
+            for (var i = 0; i < str.length; i++) {
+                var key = str[i];//key中存储的是每一个字符串
+                if (obj[key]) {//判断这个键值对中有没有这个键
+                    obj[key]++;
+                } else {
+                    obj[key] = 1;//obj[w]=1
+                }
+            }
+            var maxCount = 0;//假设是出现次数最多的次数
+            var maxString = "";//假设这个字符串是次数出现最多的字符串
+            for (var key in obj) {
+                if (maxCount < obj[key]) {
+                    maxCount = obj[key];//保存最大的次数
+                    maxString = key;
+                }
+            }
+            return "出现次数最多的字母:" + maxString + "出现了" + maxCount + "次";
+        }
+        console.log(maxstringload(str)) */
+
+
+
+       /*  var str = 'aabbcc';
+        //把字符串转化数组，并利用new Set()对数组进行去重
+        var arr = [...new Set(str.split(''))];
+        var max = 0;
+        var code = '';
+        for (var i = 0; i < arr.length; i++) {
+            //创建正则匹配字符
+            var reg = new RegExp(arr[i], 'g');
+            //利用match找出对应字符在中字符串中出现的地方，取匹配的返回数组的长度，即是对应字符串出现的次数
+            var val = (str.match(reg) || []).length;
+            //更新出现次数最高的字符与次数
+            if (val > max) {
+                max = val;
+                code = arr[i];
+            } else if (val == max) {  //处理不同字符出现次数相同的情况
+                code = `${code}、${arr[i]}`;
+            }
+        }
+        console.log(`出现次数最多的字符是：${code},次数为：${max}`); */
+      
+
+
+    // for(i=0;i<str2.length;i++){
+    //     str2.match(/^\S/g)
+
+    // }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

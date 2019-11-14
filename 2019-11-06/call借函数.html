@@ -51,8 +51,8 @@
         var lis = document.getElementsByTagName('li'); 
 
         //slice返回一个新的数组，不传参就是把整个数组返回
-        let aryLis=Array.prototype.slice.call(lis)
-        console.log( aryLis ); //类数组转数组，之后可以用数组的方法
+        let aryLis=Array.prototype.slice.call(lis)  //类数组转数组，之后可以用数组的方法
+        console.log( aryLis ); 
         
        // console.log( Array.prototype.push.call(lis,'li') ) //??
         console.log( Object.prototype.toString.call(lis) ); //[object HTMLCollection] 
