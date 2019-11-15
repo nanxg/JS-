@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+            省份城市那个区生日男的女的X
+            11
+            34城市
+            56区县
+            生日
+            年：
+                19[2-9]\d   1920-1999
+                2000-2019  20[0-1]\d
+            月:
+                01-12 -> 01-09  10-12  
+                01-31 -> 01-09   10-29  30-31
+            派出所编号2位
+            男女(单是男,双是女)   
+            校验码（0-9|x）
+
+         */
+
+        let str2 = '53010320190808291X';
+        //开头不为0，后边5个数字，然后生日年月日，然后编号
+        let yz=/^[1-8]\d{5}(19[2-9]\d|20[01]\d)(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/
+        console.log(yz.test(str2));
+        
+    </script>
+</body>
+</html>

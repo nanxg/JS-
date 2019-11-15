@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let str = "good good study，day day up! ";
+        let reg = /\b([a-zA-Z])[a-zA-Z]*\b/g;
+        console.log(reg);
+        console.log(str.match(reg));
+        
+            //=>函数被执行了六次，每一次 都把正则匹配信息传递给arg
+            //=>每一次ARG:["good" ,"g"] ["good","g"] ["study" , "s"]...
+            str = str. replace(reg,(...arg)=>{
+                    let [content, $1]=arg;
+                    console.log($1);
+                    
+                        $1=$1.toUpperCase() ;
+                        content=content.substring(1);
+                        return $1+content;
+                    });
+                    console.log(str);
+                    
+    </script>
+</body>
+</html>

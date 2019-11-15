@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    div {
+        padding: 40px;
+    }
+
+    #box {
+        background: red;
+        height:200px;
+        -position: relative;
+    }
+
+    #box1 {
+        background: green;
+        position: relative;
+        height:80px;
+        border: 20px solid #000;
+    }
+
+    #box2 {
+        padding: 20px;
+        background: skyblue;
+        position: absolute;
+        /* top: 150px; */
+        border: 20px solid #000;
+    }
+</style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="box1">
+            <div id="box2"></div>
+        </div>
+    </div>
+    <script>
+       
+        //console.log(box2.offsetLeft);//距body->108 距box->100  距box1->40
+        /* 
+        步骤:
+            1.先定义一个元素（作为当前元素）
+            2.先求当前元素的距离（包含定位距离和边框距离）
+            3.把这次的定位父级变成下一次循环的当前
+        */
+
+        class Tools {
+            position(nowEle) {
+                let left = 0;
+                let to = 0;
+                let cl = nowEle.clientLeft;
+                let ct = nowEle.clientTop;
+                //只要当前是元素就循环
+                while (nowEle) {
+                    left += (nowEle.offsetLeft + nowEle.clientLeft);//边框 加 外边框到父级内边框距离
+                    to += (nowEle.offsetTop + nowEle.clientTop);
+                    nowEle = nowEle.offsetParent; //把本次的定位父级变成，下次循环的当前元素。
+                }
+                left = left - cl;
+                to = to - ct;
+                return {
+                    left,
+                    to
+                }
+            }
+        }
+        let t1 = new Tools;
+        let { left, to } = t1.position(box2);
+        console.log(left, to);
+
+
+
+
+    </script>
+</body>
+
+</html>

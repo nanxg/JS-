@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: skyblue;
+            _display: none;
+            padding: 50px;
+            border: 1px solid #000;
+        }
+        body{
+            height:3000px;
+            width:3000px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+            dsadsdsadsadsadsa
+            dsadsdsadsadsadsad
+            sadsdsadsadsadsadsad
+            sdsadsadsadsads
+            adsdsadsadsadsadsa
+            dsdsadsadsadsa
+            dsadsdsadsadsadsa
+        dsadsdsadsadsadsad
+        sadsdsadsadsadsadsad
+        sdsadsadsadsads
+        adsdsadsadsadsadsa
+        dsdsadsadsadsa
+    </div>
+    <script>
+        /* 
+            获取标签的样式数据：getComputedStyle(element).属性名
+    
+                可获取到样式表、css、行内等的最终结果
+                注：获取到的值带单位
+                需要隐藏某个元素，但是又要存一个当前元素的尺寸，这个时候使用getComputedStyle
+    
+            元素盒子可视宽高(支持padding,结果为不带单位的数字)：
+                element.clientWidth  
+                element.clientHeight
+                
+    
+            元素盒子左边框和上边框(结果为不带单位的数字):
+                element.clientLeft
+                element.clientTop
+                
+    
+            元素的定位父级（相对谁定位，谁就是父级）：
+                offSetParent  在低版本IE下要触发haslayout属性(使用zoom属性)，使用起来才不会出问题
+    
+            元素盒子的可视宽高(支持border，结果为不带单位的数字)：
+                offSetHeight
+                offSetWidth
+    
+            子外边框(border)到定位父级内边框距离(结果为不带单位的数字)：
+                offSetLeft
+                offSetTop
+    
+                获取的距离是根据定位父级来的,定位较多时慎用;
+                绝对位置(当前元素到页面顶部的距离)才是最稳的一个距离
+    
+            被内容撑开的高度(不包括border)：
+                scrollHeight
+    
+            滚动条顶部距滚动条区域顶部/左边：
+                scrollTop
+                scrollLeft
+    
+         */
+
+        const box = document.getElementById('box');
+
+        //box.style.width = '200px';
+        console.log(box.style.width); //非行内属性，直接获取不到
+        console.log(getComputedStyle(box).height); //可以找到样式表数据
+        console.dir(getComputedStyle(box));
+
+        let {width,height} = getComputedStyle(box);
+        console.log(width,height);
+        console.log(box.clientWidth); //有padding，没border
+        console.log(box.clientHeight); 
+        console.log(box.offsetHeight);//有padding，有border
+        console.log(box.offsetWidth);
+        console.log(box.clientLeft);
+        console.log(box.offsetParent); //body
+        console.log(box.scrollHeight);
+
+        document.onclick = function(){
+            console.log(document.documentElement.scrollTop);
+        }  
+
+
+
+    </script>
+</body>
+
+</html>
