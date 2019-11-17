@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .aa{
+            width:0;
+            height:50px;
+            border:10px solid red;
+            border-bottom-color: transparent;
+        }
+        .bb{
+            width:100px;
+            height:100px;
+            outline:20px solid #000;
+            outline-offset:-65px;
+        }
+    </style>
+</head>
+<body>
+    <div class="aa"></div>
+    <div class="bb"></div>
+    <script>
+    // 把下面str的name，age，say换成obj中的value值
+        let obj = {
+            name: '小明',
+            age: 18,
+            say: '好好学习，天天向上'
+        }
+        let str = '我的名字叫{name},年龄是{age}岁,我想说:{say}';
+        let i=1;
+        let s=str.replace(/{(\w+)}/g,/* ($0,$1) */(...arg)=>{
+            //return obj[$1]
+            let [,a]=arg;  //解构取第二项
+            return obj[a]
+            //return i++
+        })
+        console.log(s);
+
+
+
+    // 找出下面字符串中出现次数最多的字符和出现次数 
+        let str1 = 'hdd82nxa89a3axdma2naejaaxaa8n2xdanja2cah2hnadhioamwajexnad8mdahiodn';
+        // ①
+        let obj1={};
+        let ary=[];
+        for(i=0;i<str1.length;i++){
+            if(!ary.includes(str1[i])){  //如果不包含此项就执行，避免正则重复match
+                let re=new RegExp(str1[i],'g');
+                let le=str1.match(re).length;
+                obj1[le]=str1[i];
+                ary.push(str1[i])
+            }
+        }
+        console.log(obj1);
+
+        let keys = Object.keys(obj1); //把对象的key拿出来，组成数组
+        let vals = Object.values(obj1) //把对象的value拿出来，组成数组
+        console.log(vals[vals.length-1],keys[keys.length-1]);
+
+        // ②
+        let obj2={};
+        let num=0;
+        let key='';
+        for(let i=0;i<str1.length;i++){
+            if(!obj2[str1[i]]){   //循环，对象中没有当前项就增加一组键值对
+                obj2[str1[i]]=1
+            }else{                //如果是重复项就让对象的那一项+1
+                obj2[str1[i]]++
+            }
+
+            // ① 选最大值
+            // if(obj2[str1[i]]>num){
+            //     num=obj2[str1[i]];
+            //     key=str1[i];
+            // }
+
+            // ② 选最大值
+            for(let attr in obj2){
+                if(obj2[attr]>num){
+                    num=obj2[attr];
+                    key=attr;
+                }
+            }
+        }
+        console.log(key,num);
+
+        // ③
+        let num1=0;
+        let k='';
+        str1=str1.split('').sort().join('') //转数组自动排序，会把相同项连一起，在转字符串
+        console.log(str1);
+        str1.replace(/(\w)\1+/g,($0,$1)=>{ //必须\1重复子项，不然会全匹配到           
+            if($0.length>num1){
+                num1=$0.length
+                k=$1
+            }
+        })
+        console.log(`${k}出现的次数最多，出现了${num1}次`);
+        
+        
+      
+
+    </script>
+</body>
+</html>

@@ -90,40 +90,34 @@
 <script>
 /*
     设置一个时间，如果设置的时间不等于输入的时间就是错误的时间
-
-    
 */
     //console.log(new Date('2019-13')=='Invalid Date');
     let qq=document.querySelector('#qq input')
     let email=document.querySelector('#email input')
     let mobile=document.querySelector('#mobile input')
     let date=document.querySelector('#date input')
-    
-    qq.onkeyup=function(){
+    //输入事件
+    qq.oninput=function(){
         ((/^[1-9]\d{4,10}$/).test(qq.value))?qq.className='ok':qq.className='error';
     }
+    //敲击事件
     email.onkeyup=function(){
         (/^[a-zA-Z][\w.-]{5,17}@[0-9a-zA-Z]{2,10}\.c(om|n)$/.test(email.value))?email.className='ok':email.className='error';
     }
-    mobile.onkeyup=function(){
+    mobile.oninput=function(){
         (/^1[3-9]\d{9}$/.test(mobile.value))?mobile.className='ok':mobile.className='error';
     }
-    
     /* bug */
     date.onkeyup=function(){
         //console.log(date.value);
         
         //console.log(/^\d{4}[-\d{2}-]\d{2}&/.test(date.value));
         
-        //console.log(new Date(date.value)=='Invalid Date');
-        
+        //console.log(new Date(date.value)=='Invalid Date');      
         let aa=new Date(date.value);
-        console.log(aa);
-        
-        /\d{4}-\d{2}-\d{2}/.test(date.value)?(aa=='Invalid Date'?date.className='error':date.className='ok'):date.className='error'
-        
+        console.log(aa);   
+        /\d{4}-\d{2}-\d{2}/.test(date.value)?(aa=='Invalid Date'?date.className='error':date.className='ok'):date.className='error'     
     }
-    
     btn.onmouseover=function(){
         date.className=='ok'&&qq.className=='ok'&&mobile.className=='ok'&&email.className=='ok'?btn.style.cursor='pointer':btn.style.cursor='no-drop';
     }

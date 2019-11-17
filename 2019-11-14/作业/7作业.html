@@ -20,8 +20,11 @@
 
         //console.log(str.match(/\W+(\w+)\W+(\w+)\W+(\w+)\W/));
 
-        let str3 = str.replace(/(\W+)\w+(\W+)\w+(\W+)\w+(\W)/, function ($0, $1, $2, $3, $4) {
-            return $1 + obj.name + $2 + obj.age + $3 + obj.say + $4
+        // let str3 = str.replace(/(\W+)\w+(\W+)\w+(\W+)\w+(\W)/, function ($0, $1, $2, $3, $4) {
+        //     return $1 + obj.name + $2 + obj.age + $3 + obj.say + $4
+        // }); 
+        let str3 = str.replace(/{(\w+)}/g, function ($0, $1) {
+            return obj[$1]   
         });
         console.log(str3)
 
