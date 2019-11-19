@@ -16,12 +16,13 @@
     */
 
     let ary = [1,1,2,3,4];
+    /* forEach */
     Array.prototype.myForEach = function (callback,that){
         for(let i=0;i<this.length;i++){
             callback.call(that,this[i],i,this);
         }
     }
-
+    /* map */
     Array.prototype.myMap = function(callback,that){
         let ary = [];
         for(let i=0;i<this.length;i++){
@@ -31,7 +32,7 @@
     }
 
     let str = '珠峰培训峰';
-
+    /* replace */
     String.prototype.myReplace = function(...arg){
         let [a,b] = arg;
         //谁调用，this就是谁

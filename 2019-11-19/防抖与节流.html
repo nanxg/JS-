@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /* 
+        防抖：
+            频率很高的触发事件的时候，只有当他停下来才执行代码
+
+        节流：
+            每隔固定时间执行代码
+
+            作用：
+                降低请求次数，利于体验
+
+        */
+       /* 找最小高度的元素 */
+       function minEle(lis){
+           //lis中每个元素被内容撑开的高度，每个高度与每个lis元素对应
+            let ary=[...lis].map(ele=>ele.scrollHeight)
+            //高度的最小值
+            let min=Math.min(...ary)
+            //ary中最小高度对应的索引
+            let index=ary.findIndex(item=>item===min)
+            return {
+                ele:lis[index],
+                index,
+                min
+            }
+       }
+
+       //document.onclick = debounce(fn,200);
+       document.onclick = throttling(fn,200);
+
+       function fn(a){
+           console.log(this);
+           console.log(a);
+           
+       }
+       /* 防抖 */
+       //触发事件时先清除定时器，后设置定时器，定时器还没执行时又触发就再清除；直到不再触发事件，等待达到定时器的时间后才执行
+       function debounce(callback,time){
+            let timer;
+            return function(...arg){
+                //如果timer有值，就清除定时器
+                if(timer){
+                    clearTimeout(timer)
+                }
+                timer=setTimeout(()=>{
+                    //定时器箭头函数会改变this指向，所以重新定向
+                    callback.call(this,...arg)
+                },time)
+            }
+       }
+
+        /* 节流 */
+        //触发事件设置初始时间为0，ne时间戳减去初始时间大于设定时间，则执行并把当前时间戳赋给初始时间，不断触发使两次触发间隔小于设定时间，则不执行
+        function throttling(callback,time){
+            let prevTime=0,timer
+            return function(...arg){
+                let nowTime=+new Date //时间戳转数字
+                if(nowTime-prevTime>time){
+                    callback.call(this,...arg)
+                }
+                prevTime=nowTime
+            }
+        }
+        
+        function throttling1(cb,time){
+            let prevtime = 0,timer;
+            return function(...arg){
+                let nowTime = +new Date;
+                if(nowTime - prevtime > time){
+                    cb.call(this,...arg);
+                }else{
+                    clearTimeout(timer);
+                    timer = setTimeout(() => {
+                        if(+new Date - prevtime > time){
+                            cb.call(this,...arg);
+                        }
+                    }, time);
+                }
+                prevtime = nowTime;
+            }
+        }
+
+        
+
+
+</script>
+</body>
+</html>

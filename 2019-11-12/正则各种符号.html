@@ -93,9 +93,15 @@
     正则方法：
         exec：查看字符串中是否有匹配项 (只找一次)返回数组(length为1)，找不到返回null
             /需匹配的字符/.exec(字符串)
+            把正则赋给变量，用变量多次调用会依次查找下一个匹配项，直到找不到返回null
 
         test：查看字符串中是否有规则匹配项，返回Boolean值
             /需匹配的字符/.exec(字符串)
+
+        lastIndex：/需匹配的字符/g.lastIndex
+                拿到匹配项的后一个位置的索引(下一个的索引);
+                配合exec与test使用，正则表达式要有全局修饰符
+            
 
         string.match(//)，exec升级版，字符串的方法
             找到正则匹配的字符(找一次或多次)，并把它放到数组中，返回数组，找不到返回null
@@ -139,6 +145,21 @@
     console.log(new RegExp('d','gi').test(str));
     console.log(str.match(/z+/gi)); //查找全局是否有大写或小写的z(修饰符不用分隔)
     console.log(str.match(new RegExp(/z+/,'gi')))
+
+    let sr='abacbababa'
+    let re=/a/g
+    console.dir(re);
+    console.log(re.exec(sr)); //第0个a
+    console.log(re.lastIndex);//1 拿到匹配项的后一个位置的索引(下一个的索引)
+    console.log(re.exec(sr)); //第2个a
+    console.log(re.lastIndex); //3
+    console.log(re.exec(sr)); //第5个a
+    console.log(re.lastIndex); //6
+    console.log(re.exec(sr)); //第7个a
+    console.log(re.exec(sr)); //第9个a
+    console.log(re.lastIndex); //10
+    console.log(re.exec(sr)); //null
+    
 
     let str1 = 'dj1x中8nhce2f3%6f\n7%vrxbby';
     console.log(str1.match(/.+/g));
