@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">点击创建</button>
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+<script>
+    //getElements系列，chileren,都是动态获取
+    let lis=document.getElementsByTagName('li'); //动态获取  页面中添加li元素，lis也会变
+    let liss=document.querySelectorAll('li'); //静态获取  页面中添加li元素，liss不会变
+    console.log(lis);
+    console.log(liss);
+    let num = 4;
+    btn.onclick = function(){
+        ul.innerHTML += '<li>'+(++num)+'</li>'; //覆盖的问题
+        //lis = document.querySelectorAll('li');
+        console.log(lis.length);
+        console.log(liss.length);
+        for(var i=0;i<lis.length;i++){
+            lis[i].onclick = function(){
+                alert(this.innerHTML);
+            }
+        }
+    }
+
+    //动态获取，lis随着DOM操作改变
+    // for(var i=0;i<lis.length;i++){
+    //     ul.appendChild(lis[i]);  //是剪切不是复制 2 4 3 1 
+    // } 
+
+    //静态获取，liss不随DOM操作变化
+    for(var i=0;i<lis.length;i++){
+        ul.appendChild(liss[i]);  //是剪切不是复制 1 2 3 4
+    } 
+    
+    
+</script>
+</body>
+</html>

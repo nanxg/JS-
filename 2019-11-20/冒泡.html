@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+div{
+    padding:100px;
+}
+#box{
+    background:lightblue;
+}
+#box1{
+    background:lightseagreen;
+}
+#box2{
+    background:teal;
+}
+#btn{
+    background:tomato;
+}
+</style>
+</head>
+<body>
+    <div id="box">
+        <div id="box1">
+            <div id="box2">
+                <button id="btn">按钮</button>
+            </div>
+        </div>
+    </div>
+<script>
+    //祖先级元素与子元素绑定相同事件时，触发子元素，会逐层向外(父级)执行直到window，这过程叫冒泡
+    
+    //阻断冒泡两种方法：
+        // ① ev.cancelBubble = true; 不是标准，但是所有浏览器都兼容
+        // ② ev.stopPropagation(); 标准，但是低版本浏览器不兼容
+       
+    box.onclick = function(){
+        alert('box')
+    }
+    box1.onclick = function(){
+        alert('box1')
+    }
+    box2.onclick = function(){
+        alert('box2')
+    }
+    btn.onclick = function(ev){
+        alert('btn')
+        //阻断冒泡两种方法：
+        // ① 不是标准，但是所有浏览器都兼容
+        //ev.cancelBubble = true;
+        // ② 标准，但是低版本浏览器不兼容
+        ev.stopPropagation();
+        console.log(ev)
+    }
+    window.onclick = function(){
+        alert('window')
+    }
+   
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box1{
+        width:200px;
+        height:200px;
+        background: tomato;
+        margin:0 auto;
+    }
+    #box2{
+        width:100px;
+        height:100px;
+        background: turquoise;
+    }
+    #box3{
+        width:200px;
+        height:200px;
+        background: lightslategray;
+        margin:50px auto;
+    }
+    #box4{
+        width:100px;
+        height:100px;
+        background: lime;
+    }
+
+    </style>
+</head>
+<body>
+    <div id="box1">
+        <div id="box2"></div>
+    </div>
+    
+    <div id="box3">
+            <div id="box4"></div>
+        </div>
+    
+<script>
+    //两个鼠标滑入滑出的区别
+    box1.onmouseenter=function(){
+        console.log('大盒子1移入')
+    }
+    box1.onmouseleave=function(){
+        console.log('大盒子1移出')
+    }
+    box2.onmouseenter=function(){
+        console.log('小盒子2移入')
+    }
+    box2.onmouseleave=function(){
+        console.log('小盒子2移出')
+    }
+    //
+    box3.onmouseover=function(){
+        console.log('大盒子3移入')
+    }
+    box3.onmouseout=function(){
+        console.log('大盒子3移出')
+    }
+    box4.onmouseover=function(){
+        console.log('小盒子4移入')
+    }
+    box4.onmouseout=function(){
+        console.log('小盒子4移出')
+    }
+</script>
+</body>
+</html>

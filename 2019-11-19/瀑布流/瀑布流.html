@@ -53,6 +53,7 @@
     //        console.log(a);
            
     //    }
+    
        /* 防抖 */
        //触发事件时先清除定时器，后设置定时器，定时器还没执行时又触发就再清除；直到不再触发事件，等待达到定时器的时间后才执行
        function debounce(callback,time){
@@ -72,9 +73,9 @@
         /* 节流 */
         //触发事件设置初始时间为0，ne时间戳减去初始时间大于设定时间，则执行并把当前时间戳赋给初始时间，不断触发使两次触发间隔小于设定时间，则不执行
         function throttling(callback,time){
-            let prevTime=0,timer
+            let prevTime=0
             return function(...arg){
-                let nowTime=+new Date //时间戳转数字
+                let nowTime= +new Date //时间戳转数字
                 if(nowTime-prevTime>time){
                     callback.call(this,...arg)
                 }
@@ -106,11 +107,10 @@
     const head=document.querySelector('.head');
     function render(){
         fetch('./data.json').then(d=>d.json()).then(ary=>{
-            console.log(ary);
+            // console.log(ary);
             ary.forEach((item,i)=>{
                 let {ele}=minEle(lis);
-                console.log(ele);
-                
+                // console.log(ele);          
                 let div=document.createElement('div');
                 div.className='img_box';
                 let img=document.createElement('img');
@@ -136,11 +136,12 @@
     
     let ih=window.innerHeight;
     window.onscroll=debounce(fn,200);
-    function fn(){
+    // window.onscroll=throttling1(fn,200);
+    function fn(){   
         if(box.scrollHeight<ih)return;
-        let {min}=minEle(lis)
-        let scroll=window.pageYOffset
-        if(ih+scroll>=min+head.offsetHieght){
+        let {min}=minEle(lis)   
+        let scroll=window.pageYOffset  
+        if(ih+scroll>=min+head.offsetHeight){       
             render()
         }
     }

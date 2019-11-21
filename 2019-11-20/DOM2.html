@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    div{
+        padding:100px;
+    }
+    #box{
+        background: red;;
+    }
+    #box1{
+        background:slateblue;
+    }
+    #box2{
+        background:teal;
+    }
+    #btn{
+        background:tomato;
+    }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="box1">
+            <div id="box2">
+                <button id="btn">按钮</button>
+            </div>
+        </div>
+    </div>
+<script>
+    /* 
+    带on的事件方式是DOM0中的标准,重复赋值会覆盖，只执行最后赋值的那个
+
+    DOM2：重复添加事件会依次执行，不会覆盖
+        事件绑定 -> addEventListener('不带on的事件名',事件函数,布尔值|对象)
+        事件移除 -> removeEventListener('不带on的事件名',事件函数,布尔值|对象)
+        布尔值:
+            true : 捕获
+            false: 冒泡(默认值)
+
+    从捕获到目标到冒泡的整个过程就叫事件流（事件模型）
+
+    三个阶段：
+        第一个阶段：捕获
+        第二个阶段：目标
+        第三个阶段：冒泡
+
+    **目标阶段**使用事件绑定的方式，执行顺序是按照绑定代码的先后顺序来的（而不是按照先捕获再冒泡的顺序来的）
+
+    当用户触发某个事件的时候，会从window起自上而下一级级往目标元素上查找传递
+    只要绑定DOM2事件第三个参数为true就能捕获到捕获的过程，目标阶段（事件触发的源头），再从源头起到window止的过程叫冒泡（DOM0,DOM2第三个参数为false就能捕获到冒泡阶段）
+
+     */
+    //事件流顺序：捕获->目标->冒泡，即使父级元素冒泡代码在前，也先捕获
+    box.addEventListener('click',function(){
+        alert('box_冒泡');
+    },false);
+    box.addEventListener('click',function(){
+        alert('box_捕获');
+    },true);
+
+    box1.addEventListener('click',function(){
+        alert('box1');
+    },false);
+    box2.addEventListener('click',function(){
+        alert('box2');
+    },false);
+   //目标阶段执行顺序按照代码顺序执行
+    btn.addEventListener('click',function(){
+        alert('btn_冒泡');
+    },false);
+    btn.addEventListener('click',function(){
+        alert('btn_捕获');
+    },true);
+  
+    box1.addEventListener('click',function(){
+        alert('box1');
+    },true);
+    box2.addEventListener('click',function(){
+        alert('box2');
+    },true);
+
+</script>
+</body>
+</html>

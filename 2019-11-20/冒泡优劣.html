@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width:100px;
+        height:100px;
+        background: tomato;
+        display: none;
+    }
+    </style>
+</head>
+<body>
+    <button id="btn">显示</button>
+    <div id="box"></div>
+    <button id="btn1">点击创建</button>
+    <ul id="ul">
+        <li>1</li>
+    </ul>
+<script>
+    // 坏处：事件函数与父级冲突，导致不显示
+     btn.onclick = function(ev){
+        box.style.display = 'block';
+        //阻止之后 解决为题
+        ev.cancelBubble = true;
+    }
+    window.onclick = function(){
+        box.style.display = 'none';
+    }
+</script>
+<script>
+    let num = 1;
+    btn1.onclick = function(){
+        ul.innerHTML += '<li>'+(++num)+'</li>';
+    }
+    // 好处：方便给子元素添加事件
+    ul.onclick = function(ev){
+        //ev.target：事件源
+        console.log(ev.target);
+        console.log(ev.target.tagName);
+        if(ev.target.tagName === 'LI'){
+            console.log(ev.target.innerHTML);
+            ev.target.style.background = 'red';
+        }
+    }
+</script>
+</body>
+</html>

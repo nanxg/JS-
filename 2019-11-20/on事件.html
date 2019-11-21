@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    body{
+        height:2000px;
+        width:2000px;
+    }
+    #box1{
+        width:200px;
+        height:200px;
+        background: slateblue;
+        position: absolute;
+        left:0;
+        top:200px;
+        cursor: move;
+    }
+    </style>
+    <script>
+        //全部加载完才执行
+        window.onload=function(){
+            console.log(1);
+            let a=document.querySelector('div')
+            console.log(a);
+        }
+        console.log(2);
+    </script>
+</head>
+<body>
+    <div id="box"></div>
+    <select name="" id="sele">
+        <option value="">上海</option>
+        <option value="">北京</option>
+        <option value="">土耳其</option>
+    </select>
+    <input type="text" id="txt" maxlength="10">
+    <span id="span">0</span>/10字
+    <input type="file" name="" id="f">
+    <p></p>
+    <div id="box1"></div>
+    <button id="btn">按钮</button>
+    <button id="btn2">按钮2</button>
+    <p></p>
+    <input type="text" id="txt1">
+    <ul id="ul"></ul>
+    <script>
+        /* 
+        on事件记录:(DOM0标准)
+             onmouseover  鼠标滑上时触发该事件(鼠标滑入事件)
+             onmouseout   鼠标离开时触发该事件(鼠标滑出事件)
+             onclick      鼠标点击时触发该事件(点击事件)
+             onchange     当输入框改变光标离开时触发(光标改变事件)(select标签改变value值也会触发)
+             onkeyup      当用户释放键盘，输入完成时触发(键盘点击事件)
+             oninput      当用户输入/删除内容时触发(输入事件)
+             onscroll     当滚动条滚动时触发(滚动条事件)
+             onload       当资源加载成功后触发该事件(加载成功事件)
+             onerror      当资源加载失败后触发该事件(加载失败事件)
+             onfocus      当输入框聚焦时触发该事件(聚焦事件)(表单元素)
+             onblur       当输入框失去焦点时触发该事件(失焦事件)(表单元素)
+             onresize     当浏览器可视区窗口缩放时触发
+             onmousedown  鼠标按下
+             onmouseup    鼠标抬起
+             onmousemove  鼠标移动
+             onmouseenter 鼠标移入(没有冒泡，解决穿透问题)
+             onmouseleave 鼠标移出(没有冒泡，解决穿透问题)
+             onmousewheel 鼠标滚轮
+             onkeydown    键盘按下
+             onkeyup      键盘抬起
+
+            解除事件函数 - > 给元素事件赋值 null即可
+        */   
+        /* 
+        DOM2标准
+            事件绑定：addEventListener('不带on的事件名',事件函数,布尔值|对象)
+
+                布尔值： true为捕获(反向冒泡)
+                        false为冒泡(默认)
+        */
+        /* 
+        键盘特殊按键：
+            ev.ctrlKey  布尔值，按住就为true，不按就为false
+            ev.shiftKey  布尔值，按住就为true，不按就为false
+            ev.altKey  布尔值，按住就为true，不按就为false
+
+            组合键默认无法使用
+
+        */
+        //选择框内容改变触发
+        sele.onchange=function(){ console.log(3); sele.onchange=null}//解除事件->赋值null
+        //文字框内容改变失焦触发
+        txt.onchange=function(){ console.log(4); }
+        //改变框内的内容触发
+        txt.oninput=function(){ console.log(5); span.innerText=this.value.length }
+        //失焦触发
+        txt.onblur=function(){ console.log(6); }
+        sele.onblur=function(){ console.log(9); }
+        //聚焦触发
+        txt.onfocus=function(){ console.log(7); }
+        sele.onfocus=function(){ console.log(8); }
+       
+        //长按
+        function fn(cb){
+            let timer
+            btn.onmousedown=function(){
+                let time= +new Date;//按住只获取一次
+                //console.log(time);
+                timer=setInterval(()=>{  //重复执行，now一直更新(setTimeout只执行一次)
+                    let now= +new Date
+                    //console.log(now);
+                    if(now-time>1000){
+                        //console.log(66)
+                        cb()
+                    }            
+                })
+            }
+            btn.onmouseup = function(){ //抬起清除定时器
+                clearInterval(timer); 
+            }
+        }
+        let num = 1;
+        fn(function(){
+            num -= .01;
+            box1.style.opacity = num;
+        });
+        console.log(window.pageXOffset);
+        
+        //盒子跟随鼠标
+        box1.onmousemove=function(ev){
+            console.log(ev);
+            //可视区的X,Y 有滚轮出现会出bug
+            // this.style.left=ev.clientX-this.clientWidth/2+'px';
+            // this.style.top=ev.clientY-this.clientHeight/2+'px';
+
+            //加上滚轮距离，消除bug；用client可视区，page页面不行
+            // this.style.left = window.pageXOffset + ev.clientX - this.clientWidth/2 + 'px';
+            // this.style.top = window.pageYOffset + ev.clientY - this.clientHeight/2 + 'px';
+            
+            //或者用页面的距离
+            this.style.left = ev.pageX - this.clientWidth/2 + 'px';
+            this.style.top = ev.pageY - this.clientHeight/2 + 'px';
+        }
+
+
+        //按下时获取的value没有当前的按键值
+        txt1.onkeydown = function(){
+            console.log(this.value);
+        }
+        //抬起时获取的value有当前的按键值
+        // txt1.onkeyup = function(){ //抬起的时候才能拿到最新的value值
+        //     console.log(this.value);
+        // }
+
+        txt1.onkeyup = function(ev){ 
+            if(ev.keyCode === 13 && ev.ctrlKey){  //按下回车与ctrl触发
+                ul.innerHTML += `<li>${this.value}</li>`;
+                this.value = '';
+            }
+            console.log( ev.keyCode );//ev.keyCode是事件的按键值，每个按键都不同
+        }
+
+    </script>
+</body>
+</html>

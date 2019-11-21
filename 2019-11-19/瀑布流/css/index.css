@@ -8,13 +8,12 @@ body{
 }
 #box{
     margin: auto;
-    /* width: 1244px; */
+    width: 1244px;
 }
 .head{
     width: 100%;
     height: 142px;
     overflow: hidden;
-    display:none;
 }
 .head li{
     float: left;
@@ -31,19 +30,14 @@ body{
 }
 .body{
     width: 100%;
-    _overflow: hidden;
-    position: relative;
-    margin:0 auto;
+    overflow: hidden;
 }
 .body li{
-    /* float: left; */
+    float: left;
     width: 236px;
-    /* margin: 0 16px 16px 0; */
+    margin: 0 16px 16px 0;
     border-radius: 5px;
-    position: absolute;
-    left:0;
-    top:0;
-   transition: .5s;
+   
 }
 .body li:nth-child(5){
     margin-right: 0;
