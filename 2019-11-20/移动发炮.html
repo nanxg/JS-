@@ -31,32 +31,37 @@
     <div id="box">
         <div id="box2"></div>
     </div>
-<script>
+<!-- <script>
     /*
         作业:
             1.做到切换按键的时候不卡
             2.2个按键按下时斜着跑
     */
  
- 
         var obj={}
-        let timer
+        var ary=[]
+        var timer
+
         document.addEventListener('keydown',function(ev){
-            obj[ev.keyCode]=true
+            //obj[ev.keyCode]=true
             //console.log(ev.keyCode);
-            
-            timer=setInterval(()=>{  //重复执行，now一直更新(setTimeout只执行一次)
+            clearInterval(obj[ev.keyCode]); 
+            obj[ev.keyCode]=setInterval(()=>{  //重复执行，now一直更新(setTimeout只执行一次)
 
                 if(obj[ev.keyCode]){
-                    if(ev.keyCode===87){
+                    if(ev.keyCode===87||ev.keyCode===38){
                         box.style.top = box.offsetTop - 1 + 'px';
-                    }else if(ev.keyCode===83){
+                    }
+                    if(ev.keyCode===83||ev.keyCode===40){
                         box.style.top = box.offsetTop + 1 + 'px';
-                    }else if(ev.keyCode===65){
+                    }
+                    if(ev.keyCode===65||ev.keyCode===37){
                         box.style.left = box.offsetLeft - 1 + 'px';
-                    }else if(ev.keyCode===68){
+                    }
+                    if(ev.keyCode===68||ev.keyCode===39){
                         box.style.left = box.offsetLeft + 1 + 'px';
-                    }else if(ev.keyCode===32){
+                    }
+                    if(ev.keyCode===32){
                         let div = document.createElement('div');
                         div.className = 'box2';
                         box.append(div);
@@ -66,13 +71,17 @@
                     }
                 }  
             })
-            setTimeout(()=>{clearInterval(timer);},20)
+            ary.push(obj[ev.keyCode])
+            //setTimeout(()=>{clearInterval(timer);},20)
             
-        },true);
+        },false);
             
         document.addEventListener('keyup',function(ev){ //抬起清除定时器
-            clearInterval(timer); 
-            obj[ev.keyCode]=false
+            ary.forEach(item=>{
+                clearInterval(item);
+            })
+            //clearInterval(obj[ev.keyCode]); 
+            //obj[ev.keyCode]=false
 
         },false)
 
@@ -98,10 +107,54 @@
         //             }
         //         }            
         //     })
-        // }
+        // } 
+</script> -->
 
-   
-    
+<script>
+    /*
+        作业:
+            1.做到切换按键的时候不卡
+            2.2个按键按下时斜着跑
+    */
+ 
+        var obj={}
+        var timer
+        document.addEventListener('keydown',function(ev){
+            obj[ev.keyCode]=true
+            //console.log(ev.keyCode);
+            timer=setInterval(()=>{  //重复执行，now一直更新(setTimeout只执行一次)
+
+                if(obj[ev.keyCode]){
+                    if(ev.keyCode===87||ev.keyCode===38){
+                        box.style.top = box.offsetTop - 1 + 'px';
+                    }
+                    if(ev.keyCode===83||ev.keyCode===40){
+                        box.style.top = box.offsetTop + 1 + 'px';
+                    }
+                    if(ev.keyCode===65||ev.keyCode===37){
+                        box.style.left = box.offsetLeft - 1 + 'px';
+                    }
+                    if(ev.keyCode===68||ev.keyCode===39){
+                        box.style.left = box.offsetLeft + 1 + 'px';
+                    }
+                    if(ev.keyCode===32){
+                        let div = document.createElement('div');
+                        div.className = 'box2';
+                        box.append(div);
+                        setTimeout(() => {
+                            div.style.top = -1000 + 'px';
+                        });
+                    }
+                }  
+            })
+            setTimeout(()=>{clearInterval(timer);},20)
+            
+        },false);
+            
+        document.addEventListener('keyup',function(ev){ //抬起清除定时器
+            clearInterval(timer); 
+            obj[ev.keyCode]=false
+        },false)
 </script>
 </body>
 
