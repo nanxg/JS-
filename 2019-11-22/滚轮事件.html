@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width: 100px;
+        height:100px;
+        background: lightseagreen;
+        position: absolute;
+        top:0;
+        left:0;
+    }
+    </style>
+</head>
+<body _style="height:3000px">
+    <div id="box"></div>
+
+<script>
+    /* 
+        onmousewheel 滚轮事件
+            ev.wheelDelta：检测滚动方向，大于零向上，小于零向下
+
+        DOMMouseScroll (火狐浏览器中)注意:这个事件只能使用事件绑定的方式去写
+            ev.detail：检测滚动方向，大于0向下，小于0向上
+        
+        滚轮事件onmousewheel的用法
+
+        鼠标滚轮滚动控制图片或文字的大小，例如此类的转动鼠标滚轮实现缩放等等交互效果中，会用到 Mousewheel 事件。
+
+        在大多数浏览器（IE6, IE7, IE8, Opera 10+, Safari 5+）中，都提供了 “mousewheel” 事件。
+
+        滚轮事件的兼容性差异有些不拘一格，不是以往的IE8-派和其他派，而是FireFox派和其他派，Firefox 3.5+ 却不支持此事件。
+
+        Firefox 3.5+ 中提供了另外一个等同的事件：”DOMMouseScroll” ，兼容代码如下：
+        
+        复制代码代码示例:
+            // isFirefox 是伪代码，大家自行实现
+            mousewheel = isFirefox ? "DOMMouseScroll" : "mousewheel";
+            “mousewheel” 事件中“event.wheelDelta”属性值：返回的值，如果是正值说明滚轮是向上滚动，负值说明滚轮是向下滚动；返回的值，均为120 的倍数，即：幅度大小 = 返回的值 / 120。
+
+            “DOMMouseScroll” 事件中的 “event.detail” 属性值：返回的值，如果是负值说明滚轮是向上滚动（与 “event.wheelDelta” 正好相反），正值说明滚轮是向下滚动；返回的值，均为 3 的倍数，即：幅度大小 = 返回的值 / 3。
+
+            “mousewheel” 事件在 Opera 10+ 中却是个特例，既有 “event.wheelDelta” 属性，也有 “event.detail” 属性。
+     */
+     document.onmousewheel=function(ev){
+        //console.log(ev);
+        console.log(ev.wheelDelta);
+        console.log(ev.wheelDeltaY); //与上边相同
+        console.log(ev.deltaY); //正负与上边相反
+        if(ev.wheelDelta>0){
+            console.log('上'); 
+        }else{
+            console.log('下'); 
+        }
+     }
+     /* 火狐浏览器 */
+     document.addEventListener('DOMMouseScroll',function(ev){
+        if(ev.detail>0){
+            console.log('下');       
+        }else{
+            console.log('上'); 
+        }
+     })
+
+
+     /* 封装兼容各种浏览器的滚轮事件 */
+     function addWheel(obj,cb){
+        if(obj.onmousewheel===null){ //判断是哪个浏览器事件
+            obj.onmousewheel=listen; //添加谷歌的事件 
+        }else{
+            obj.addEventListener('DOMMouseScroll',listen); //绑定火狐的事件
+        }
+        function listen(ev){  //事件函数
+            let o=false;  // 滚轮上下滑动的默认值，为向下
+            if(ev.wheelDelta){  //谷歌的滚轮方向
+                o=ev.wheelDelta>0?true:false;
+            }else{
+                o=ev.detail<0?true:false;  //火狐的滚轮方向
+            }
+            cb.call(this,o); // 调用具体事件行为函数
+        }
+     }
+
+     addWheel(box,function(o){
+        //console.log(getComputedStyle(this));
+        let {width,height} = getComputedStyle(this);//获取css写的参数
+        if(o){
+            this.style.width = parseFloat(width) + 5 + 'px';
+            this.style.height = parseFloat(height) + 5 + 'px';
+        }else{
+            this.style.width = parseFloat(width) - 5 + 'px';
+            this.style.height = parseFloat(height) - 5 + 'px';
+        }
+     })
+
+     
+
+</script>
+</body>
+</html>

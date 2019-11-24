@@ -10,8 +10,8 @@
             height: 50px;
             background: orchid;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 50%;
+            left: 50%;
         }
 
         .box2 {
@@ -46,7 +46,7 @@
             //obj[ev.keyCode]=true
             //console.log(ev.keyCode);
             clearInterval(obj[ev.keyCode]); 
-            obj[ev.keyCode]=setInterval(()=>{  //重复执行，now一直更新(setTimeout只执行一次)
+            obj[ev.keyCode]=setInterval(()=>{  
 
                 if(obj[ev.keyCode]){
                     if(ev.keyCode===87||ev.keyCode===38){
@@ -76,7 +76,7 @@
             
         },false);
             
-        document.addEventListener('keyup',function(ev){ //抬起清除定时器
+        document.addEventListener('keyup',function(ev){ 
             ary.forEach(item=>{
                 clearInterval(item);
             })
@@ -86,7 +86,7 @@
         },false)
 
         // function fn(){
-        //     timer=setInterval(()=>{  //重复执行，now一直更新(setTimeout只执行一次)
+        //     timer=setInterval(()=>{  
 
         //         if(obj[ev.keyCode]){
         //             if(ev.keyCode===87){
@@ -110,7 +110,7 @@
         // } 
 </script> -->
 
-<script>
+<!-- <script>
     /*
         作业:
             1.做到切换按键的时候不卡
@@ -155,6 +155,55 @@
             clearInterval(timer); 
             obj[ev.keyCode]=false
         },false)
+</script> -->
+
+<script>
+    var obj={}
+    var timer
+    document.addEventListener('keydown',function(ev){
+        obj[ev.keyCode]=true
+        //console.log(ev.keyCode);   
+        if(!timer){
+            timer=setInterval(fn)
+        }    
+    },false);
+      
+    document.addEventListener('keyup',function(ev){ 
+        obj[ev.keyCode]=false
+        // 判断obj中每一项是否有true，即是否有按键按下，有就不停，没有就停止定时器
+        if(Object.values(obj).every(item=>!item)){
+            clearInterval(timer);
+            timer = null;
+        }
+    },false)
+
+    fn=()=>{
+        if(obj[87]||obj[38]){
+            box.style.top = box.offsetTop - 1 + 'px';
+        }
+        if(obj[83]||obj[40]){
+            box.style.top = box.offsetTop + 1 + 'px';
+        }
+        if(obj[65]||obj[37]){
+            box.style.left = box.offsetLeft - 1 + 'px';
+        }
+        if(obj[68]||obj[39]){
+            box.style.left = box.offsetLeft + 1 + 'px';
+        }
+        if(obj[32]){
+            let divs = document.createElement('div');
+            divs.className = 'box2';
+            box.append(divs);
+            setTimeout(() => {
+                divs.style.top = -1000 + 'px';
+                setTimeout(() => {
+                    divs.style.display = 'none';
+                },999)
+            });
+        }       
+    }
+    //timer=setInterval(fn) 
+
 </script>
 </body>
 

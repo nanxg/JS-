@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        margin:0;
+        padding:0;
+        list-style: none;
+    }
+    #ul {
+        width:100px;
+        border:1px solid hotpink;
+        display: none;
+        position:absolute;
+        top:0;
+        left:0;
+    }
+    
+    #ul li{
+        height:20px;
+        line-height: 20px;
+        text-align: center;
+        border-bottom:1px dashed plum;
+    }
+    #ul li:hover{
+        background: hotpink;
+        color:#fff;
+    }
+    </style>
+</head>
+<body style="height:3000px">
+    <input type="text" id="txt">
+    <img id="img"src="./timg.jpg" alt="" srcset="">
+
+    <a href="http://www.baidu.com" id="aa">去百度</a>
+
+    <ul id="ul">
+        <li><a href="http://www.baidu.com" target="_blank">我的帖子</a></li>
+        <li>用户管理</li>
+        <li>我的关注</li>
+        <li>我的好兄弟</li>
+    </ul>
+
+<script>
+    /* 
+    window下有event，chrome浏览器默认为undefined，IE默认为null 
+
+    */
+    //console.log(event);
+
+    /* 
+    浏览器默认行为：
+        非人为设置，浏览器本身默认设置
+
+    DOM0的方式：
+        要阻止默认行为，需知道是什么事件触发的
+
+        return false ：全部阻止，下边的代码不再执行
+
+        把事件的ev.returnValue设置为false（灵活，想阻止哪个就设置那个，下边代码正常执行）
+        ev.returnValue = false
+
+        ev.preventDefault() ：事件绑定的时候使用
+
+        oncontextmenu 鼠标右键事件
+
+    DOM2的方式：
+        return false 不好使
+
+        ev.returnValue = false 
+        ev.preventDefault() ：事件绑定的时候使用
+     */
+    //
+
+  
+    document.onkeydown=function(ev){
+        if(ev.keyCode===32){ //单独阻止空格键默认行为
+            console.log(onkeydown1);
+            // ev.returnValue=false;  // 下边代码可以执行
+            return false // 下边代码不再执行
+        }
+        console.log(onkeydown2);
+        //默认行为全部阻止
+        // ev.returnValue=false
+        // return false
+        
+    }
+
+    txt.onkeydown = function(ev){
+        console.log(onkeydown3);
+        ev.cancelBubble = true; //阻止冒泡，按下事件默认行为不会document的事件被清除
+        // ev.returnValue = false
+        // return false
+    }
+
+    img.onmousedown = function(){ //阻止后不可拖动
+        return false;
+    }
+
+
+    //右键弹出列表
+    document.oncontextmenu=function(ev){
+        console.log('oncontextmenu');
+        ul.style.cssText=`display:block;top:${ev.clientY}px;left:${ev.clientX}px`
+        return false
+    }
+    ul.onclick = function(ev){
+        console.log(ev.target.innerHTML)
+        ev.stopPropagation(); //阻止冒泡，点击不会执行document的onclick(看需求)
+        // ul.style.display = 'none';
+    }
+    document.onclick = function(){
+        ul.style.display = 'none';
+    }
+
+
+    // aa.addEventListener('click',function(ev){
+    //     // ev.returnValue = false;
+    //     // return false;
+    //     ev.preventDefault();
+    // })
+
+
+    //let quanxian = true; //权限够跳转，不够不跳
+    let quanxian = false; //权限够跳转，不够不跳
+    aa.onclick = function(){
+        if(!quanxian){
+            return false;
+        }
+    }
+
+
+    
+</script>
+</body>
+</html>

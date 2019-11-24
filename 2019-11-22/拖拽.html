@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    div{
+        text-align:center;
+        padding:35px;
+        box-sizing: border-box;
+    }
+    #box{
+        width:100px;
+        height:100px;
+        position: absolute;
+        top:0;
+        left:0;
+        background: lightskyblue;
+        _z-index: 1;
+    }
+    #box2{
+        width:100px;
+        height:100px;
+        position: absolute;
+        top:0;
+        left:150px;
+        background: lightseagreen;
+        _z-index: 1;
+    }
+</style>
+</head>
+<body>
+    <div id="box"><span>1</span></div>
+    <div id="box2"><span>2</span></div>
+<script>
+    /*
+        三大事件组成:
+            onmousedown
+            onmousemove
+            onmouseup
+
+        先要触发down，然后才能move和up
+    */
+
+    box.onmousedown = function(ev){ //按下必须在box上
+        //按下鼠标的点到盒子边的距离(按下鼠标的点到页面边的距离减去盒子边到页面边的距离)
+        let disX = ev.pageX - box.offsetLeft; 
+        let disY = ev.pageY - box.offsetTop; 
+        this.style.zIndex=2
+        box2.style.zIndex=1
+        //console.log('down'); 
+        //按下之后才出发移动事件
+        document.onmousemove = function(ev){ //移动如果写在box上一旦滑太快出圈会出错  
+            //盒子的位置(鼠标当前的位置减去鼠标到盒子边的距离)
+            box.style.left = ev.pageX - disX + 'px';
+            box.style.top = ev.pageY - disY + 'px';
+            //console.log('move')
+            //console.log(box.offsetLeft,box.offsetTop)
+        }
+        document.onmouseup = function(){ //抬起如果写在box上一旦滑太快出圈会出错
+            //console.log('up');
+            document.onmousemove = null;
+        }
+    }
+
+    box2.onmousedown = function(ev){ //按下必须在box上
+        //按下鼠标的点到盒子边的距离(按下鼠标的点到页面边的距离减去盒子边到页面边的距离)
+        let disX = ev.pageX - box2.offsetLeft; 
+        let disY = ev.pageY - box2.offsetTop; 
+        this.style.zIndex=2
+        box.style.zIndex=1
+        //console.log('down'); 
+        //按下之后才出发移动事件
+        document.onmousemove = function(ev){ //移动如果写在box上一旦滑太快出圈会出错  
+            //盒子的位置(鼠标当前的位置减去鼠标到盒子边的距离)
+            box2.style.left = ev.pageX - disX + 'px';
+            box2.style.top = ev.pageY - disY + 'px';
+            //console.log('move')
+            //console.log(box.offsetLeft,box.offsetTop)
+        }
+        document.onmouseup = function(){ //抬起如果写在box上一旦滑太快出圈会出错
+            //console.log('up');
+            document.onmousemove = null; 
+        }
+    }
+    
+
+</script>
+</body>
+</html>

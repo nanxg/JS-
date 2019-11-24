@@ -61,7 +61,7 @@
         /* 节流 */
         //触发事件设置初始时间为0，ne时间戳减去初始时间大于设定时间，则执行并把当前时间戳赋给初始时间，不断触发使两次触发间隔小于设定时间，则不执行
         function throttling(callback,time){
-            let prevTime=0,timer
+            let prevTime=0
             return function(...arg){
                 let nowTime=+new Date //时间戳转数字
                 if(nowTime-prevTime>time){

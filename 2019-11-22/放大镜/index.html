@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+}
+div{
+    float:left
+}
+#box{
+    width:350px;
+    height: 350px;
+    border:1px solid #000;
+    position: relative;
+}
+#box2{
+    position: absolute;
+    width:153px;
+    height:153px;
+    background:rgba(255,125,175,.5);
+    top:0;
+    left:0;
+    display:none;
+    cursor: move;
+}
+#box3{
+    width:350px;
+    height:350px;
+    border:1px solid #000;
+    position: relative;
+    overflow: hidden;
+    display:none;
+}
+#img2{
+    position: absolute;
+    top:0;
+    left:0;
+}
+</style>
+</head>
+<body>
+    <div id="box">
+        <img src="./1.jpg" alt="" srcset="">
+        <div id="box2"></div>
+    </div>
+    <div id="box3">
+            <img id="img2" src="./2.jpg" alt="" srcset="">
+    </div>
+<script>
+    // 滑入|滑出图片div，显示|隐藏放大镜、大图盒子
+    box.onmouseover = function(ev){
+        box3.style.display = box2.style.display = 'block';
+    }
+    box.onmouseout = function(){
+        box3.style.display = box2.style.display = 'none';
+    }
+
+    box.onmousemove = function(ev){
+        let boxl = box.clientWidth-box2.clientWidth;  
+        let boxt = box.clientHeight-box2.clientHeight;  
+
+        // 放大镜box2的可视区位置
+        let l=ev.clientX-box2.clientWidth/2;
+        let t=ev.clientY-box2.clientHeight/2;
+        // 限制范围
+        if(l<0){
+            l=0;
+        }else if(l>boxl){
+            l=boxl;
+        }
+        if(t<0){
+            t=0;
+        }else if(t>boxt){
+            t=boxt;
+        }      
+        box2.style.top=t+'px';
+        box2.style.left=l+'px';
+
+        // 通过放大镜盒子在box上的位置比例，换算图片的位置比例
+        let blX=box2.offsetLeft/(boxl);
+        let blY=box2.offsetTop/(boxt);
+        
+        // 通过比例去计算img2的位置(图大于盒子，位置为负值)
+        img2.style.top=(box3.clientHeight-img2.clientHeight)*blY+'px';
+        img2.style.left=(box3.clientWidth-img2.clientWidth)*blX+'px';
+
+
+    }
+
+</script>
+</body>
+</html>

@@ -25,7 +25,8 @@ div{
     <div id="box">
         <div id="box1">
             <div id="box2">
-                <button id="btn">按钮</button>
+                <button id="btn1">按钮1</button>
+                <button id="btn2">按钮2</button>
             </div>
         </div>
     </div>
@@ -45,14 +46,18 @@ div{
     box2.onclick = function(){
         alert('box2')
     }
-    btn.onclick = function(ev){
-        alert('btn')
+    btn1.onclick = function(ev){
+        alert('btn1')
         //阻断冒泡两种方法：
         // ① 不是标准，但是所有浏览器都兼容
         //ev.cancelBubble = true;
         // ② 标准，但是低版本浏览器不兼容
         ev.stopPropagation();
         console.log(ev)
+    }
+    btn2.onclick = function(ev){
+        alert('btn2')
+        ev.cancelBubble = true;
     }
     window.onclick = function(){
         alert('window')

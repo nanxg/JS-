@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            overflow: hidden;
+        }
+        #ul{
+            position: absolute;
+            list-style: none;
+            top:0;
+            left:0;
+            transition: 1s;
+        }
+    </style>
+</head>
+<body>
+    <ul id="ul"></ul>
+<script>
+    let ary = ['green','pink','skyblue','hotpink','yellow'];
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    let li = ary.map(item=>`<li style="width:${w}px;height:${h}px;background:${item}"></li>`).join('');
+
+    ul.innerHTML = li;
+
+    let num = 0;  
+    addWheel(document,throttling(fn,800)); //调用兼容滚轮事件，第二个参数为防抖|节流的返回值函数
+    // addWheel(document,debounce(fn,1000));
+    // 事件函数
+    function fn(o){
+        if(o){
+            num --;
+            if(num < 0){ //如果到顶再往上滚就回到最后一屏
+                num = ary.length-1;
+            }
+        }else{
+            num ++;
+            if(num > ary.length-1){ //如果到底再往下滚就回到第一屏
+                num = 0;
+            }
+        }
+        ul.style.top = - num * h + 'px';
+    }
+    // 兼容版滚轮事件
+    function addWheel(obj,cb){
+        if(obj.onmousewheel === null){ 
+            obj.onmousewheel = listen;
+        }else{  
+            obj.addEventListener('DOMMouseScroll',listen);
+        }
+        function listen(ev){
+            let o = false; 
+            if(ev.wheelDelta){ 
+                o = ev.wheelDelta > 0? true : false;
+            }else{
+                o = ev.detail < 0 ? true : false;
+            }
+            cb.call(this,o);
+        }
+    }
+    // 防抖
+    function debounce(cb,time){
+        let timer;
+        return function(...arg){
+            if(timer){
+                clearTimeout(timer);
+            }
+            timer = setTimeout(() => {
+                cb.call(this,...arg);
+            }, time);
+        }
+    }
+    // 节流
+    function throttling(cb,time){
+        let prevtime = 0;
+        return function(...arg){
+            let nowTime = +new Date;
+            if(nowTime - prevtime > time){
+                cb.call(this,...arg);
+            }
+            prevtime = nowTime;
+        }
+    }
+</script>
+</body>
+</html>
