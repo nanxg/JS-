@@ -10,9 +10,10 @@
         width: 100px;
         height:100px;
         background: lightseagreen;
-        position: absolute;
+        margin:0 auto;
+        /* position: absolute;
         top:0;
-        left:0;
+        left:50%; */
     }
     </style>
 </head>
@@ -85,6 +86,7 @@
         }
      }
 
+     //滚动放大缩小
      addWheel(box,function(o){
         //console.log(getComputedStyle(this));
         let {width,height} = getComputedStyle(this);//获取css写的参数

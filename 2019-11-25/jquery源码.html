@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    //构造函数
+    /*
+        JQ不在函数外面new，但是如果在函数内new自己会出现递归
+    */
+    function myQuery(){
+        // return new myQuery; //递归
+        return new $; //new中介函数，不会递归，使他们俩原型相等，达到效果
+    } 
+    // 中介函数，具有myQuery的方法属性
+    function $(){ }
+
+    myQuery.prototype = {
+        v:'x.0',
+        constructor:myQuery, //修正指向
+        css:function(){
+            console.log(1);
+        }
+    }
+
+    // 让$的实例化对象拥有myQuery的方法
+    $.prototype = myQuery.prototype;
+
+    myQuery().css();
+
+</script>
+</body>
+</html>

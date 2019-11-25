@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+    <ul class="ul1">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+    <input type="text">
+    <input type="button" value="添加">
+    <input type="text" class="ag"/>
+    <input type="checkbox" class="ac"/>
+    <input type="checkbox" class="ac"/>
+    <input type="checkbox" class="ac"/>
+    <input type="button" value="选中">
+    <input type="radio" class="ab"/>
+    <input type="password" class="aba"/>
+    <input type="time" class="b"/>
+    <input type="date" class="ab"/>
+    <ul class="ul2"></ul>
+  
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script>
+    /* 选择器、属性、样式 与DOM*/
+    
+    console.log($);
+    
+    console.log( $('#box') );
+    console.log( $('.ul1 li') );
+    console.log( $('input[type="text"]') );
+    console.log( $('input[type!="text"]') );
+    console.log( $('input[class^="a"]') );
+    console.log( $('input[class$="b"]') );
+    
+    $('.ul1 li').css({ //添加多个css样式
+        width:200,
+        height:100,
+        background:'red'
+    }).click(function(){
+        console.log(this);
+        $(this).animate({width:300}) //css动画效果 $(selector).animate(styles,speed,easing,callback)
+        $(this).css('border','2px solid skyblue');//添加css样式
+        console.log($(this).css('width')); //获取css样式属性 
+    })
+
+    
+    $('input[type="button"]').click(function(){
+        // this.value='按钮2';
+        $(this).val('按钮2');  //改value值
+    });
+    $(':button').click(function(){
+        let val = $(':text').val(); //获取value值
+        $('.ul2').html('<li>'+val+'</li>' + $('.ul2').html());
+        $(':text').val('')  
+    })
+    
+    // even偶数，odd奇数； 但是js从0开始计数
+    $('.ul1 li:even').css('background','red');
+    $('.ul1 li:odd').css('background','blue');
+
+    $(':button').click(function(){
+        console.log($(':checked')); //选中的input
+        console.log($(this).attr('value')); //点击的按钮value属性值
+        $(this).attr('index','0') //添加属性与值
+        $(this).hide();
+    });
+
+    $('input[type="button"]:eq(1)').click(function(){ //获取botton中的索引1的那个
+        // console.log($(':checkbox').attr('checked')) //attr获取复选框checked属性为checked|undefined
+        // console.log($(':checkbox').prop('checked')) //prop获取复选框checked属性为boolean值
+        // if($(':checkbox').attr('checked') === 'checked'){     
+        if($(':checkbox').prop('checked') === true){
+             //xxx.checked = false;
+            $(':checkbox').attr('checked',false);
+        }else{
+            //xxx.checked = true;
+            $(':checkbox').attr('checked',true);
+        }
+        $(':button').show();
+    });
+
+    
+    
+</script>
+</body>
+</html>

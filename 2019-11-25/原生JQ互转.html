@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">1</div>
+    <div id="box2">2</div>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /* 
+        原生对象转jquery对象只需要用$()  ——> box -> $(box) 
+
+        jquery转原生 ——> $box -> $box.get(0) 或 $box[0]
+
+    */
+    
+    // 原生对象转jquery对象只需要用$()  ——> box -> $(box) 
+    const box = document.getElementById('box');
+    console.log($(box));
+    $(box).css({
+        width:100,
+        height:100,
+        background:'red'
+    });
+
+    //jquery转原生 ——> $box -> $box.get(0) 或 $box[0]
+    const $box2 = $('#box2');
+    $box2.text('111')
+    console.log( $box2.get(0) , $box2[0] );
+    $box2[0].innerHTML=666
+
+
+
+</script>
+</body>
+</html>
