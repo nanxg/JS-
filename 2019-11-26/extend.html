@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <textarea id="txt"></textarea>  
+    <script src="../2019-11-25/node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /* 
+        extend:
+            $.extend(true,对象形式，克隆的对象) 
+
+                有true就是深度克隆，没有就是浅克隆
+
+            $.extend({方法名:fn})  工具方法(直接用)  -> $.xx()
+
+                扩展插件使用，extend里面写一个对象，对象的属性就是添加的方法名，值就是函数
+
+            $.fn.extend  功能方法(元素用)  -> $().xx()
+
+    */
+    let obj = {
+        name:'小明'
+    }
+
+    let obj2=$.extend({},obj);   //浅克隆
+    console.log(obj2 == obj);  //false 地址不同
+
+    let ary = [1,2,[3,4]];
+    let ary2=$.extend(true,[],ary);   //true就代表深度克隆
+    ary2[2].push(5);
+    console.log(ary);
+
+    // 扩展插件
+    $.extend({
+        trimLeft:function(str){
+            return str.replace(/^\s+/,''); //替换开头空格为空
+        }
+    });
+    console.log($.trimLeft('   12345'));
+    
+
+    //功能方法（$()的方法）
+    $.fn.extend({
+        scrollH:function(){
+           return this[0].scrollHeight; //文字撑开的高度
+        }
+    });
+    $(document).click(function(){
+        console.log($('#txt').innerHeight())
+        console.log($('#txt').scrollH());
+    });
+
+</script>
+</body>
+</html>

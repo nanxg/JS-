@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    #box{
+        width:100px;
+        height:100px;
+        background: red;
+        position: absolute;
+        top:0;
+        left:0;
+    }
+    #box2{
+        width:100px;
+        height:100px;
+        background: red;
+        position: absolute;
+        opacity: .3;
+        top:0;
+        left:0;
+    }
+</style>
+</head>
+<body>
+    <div id="box"></div>
+    
+    <script src="../2019-11-25/node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*  offset() -> 绝对位置
+        position() -> 相对位置(相对父级)
+    */
+    $('#box').mousedown(function(ev){
+        let l=ev.pageX-$('#box').offset().left; //获取鼠标按下时点到box边的距离
+        let t=ev.pageY-$('#box').offset().top;
+        let $box2=$('<div id="box2"></div>') //创建阴影box2
+        $box2.css({  //box2的位置为当前box的位置
+            left:$('#box').offset().left,
+            top:$('#box').offset().top
+        })
+        $('body').append($box2) 
+        $(document).mousemove(function(ev){ // 移动阴影
+            let y=ev.pageY-t
+
+            if(y<50)y=0 //靠边吸引条件
+
+            $box2.css({
+                left:ev.pageX-l,
+                top:y
+            })
+        })
+        $(document).mouseup(function(ev){ // 抬起让box过去
+            
+       
+            $('#box').css({ 
+                left:$box2.offset().left,
+                top:$box2.offset().top
+            })
+            
+            $(document).off('mousemove') // 关闭事件，避免点击多次添加
+            $(document).off('mouseup') 
+            $box2.remove() //移除box2元素
+        })
+        return false //阻止默认行为 
+    })
+</script>
+
+
+</body>
+</html>

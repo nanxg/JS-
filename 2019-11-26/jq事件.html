@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width:100px;
+        height:100px;
+        background: red;
+        text-align:center;
+    }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <button>按钮</button>   
+    </div>
+    <input type="button" value="解绑1">
+    <input type="button" value="解绑2">
+    <ul class="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul> 
+    <button class="bt">1</button>
+    <ul class="ul2"></ul>
+<script src="../2019-11-25/node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /*
+        事件三大部分：
+            1.事件流
+            2.有哪些事件，作用
+            3.事件对象
+
+        mouseover
+        mouseout
+
+        hover(fn1,fn2): 效果相同
+            fn1：onmouseenter
+            fn2：onouseleave
+
+        jQ中的所有事件，都是on来二次封装,JQ中的事件全部都是事件绑定
+
+        $(ele).off()：解绑元素所有事件
+
+        jQ的事件对象都是二次封装的，获取真正的原生js事件对象
+            ev.originalEvent（原生事件对象）
+
+        jQ中阻止冒泡和默认行为，末尾直接return false
+    */
+
+    $('#box').hover(function(){ //滑入
+            console.log('mouseenter');
+            $(this).css({background:'skyblue'});
+
+            // $('#box button').click(function(){ //多次滑入滑出在点击会有多次请求
+            //     console.log('一次请求');
+            // })
+            $('#box button').off().click(function(){ //off()解绑之前的所有事件，再添加一次新的click
+                console.log('一次请求');
+                return false
+            })
+
+        },function(){ //滑出
+            console.log('mouseleave');
+            $(this).css({background:'red'});
+    })
+ 
+
+    // 有区别
+    // $('#box').mouseover(function(){
+    //     console.log('滑入');
+    // })
+    // $('#box').mouseout(function(){
+    //     console.log('滑出');
+    // })
+
+
+    // 事件监听
+    let num=0 
+    $('.ul').delegate('li','click',function(){
+        console.log($(this).text());
+        $(this).text(num++)
+    })
+
+
+    $('.ul').on('click','li',function(){
+        console.log('点击'+$(this).text());
+    });
+
+
+    //存值{a:66}
+    $('.bt').on('click',{a:66},function(ev){
+        console.log(ev.data); // 存值位置
+        console.log(ev.data.a); // 获取储存的值
+    })
+
+
+    $('#box').on('click.a',function(){ 
+        console.log(111);
+    });
+    $('#box').on('click.b',function(){
+        console.log(222)
+    });
+    //解绑
+    $('input[value="解绑1"]').on('click',function(){
+        $('#box').off('click.a');
+        console.log('解绑1');
+    });
+    $('input[value="解绑2"]').on('click',function(){
+        $('#box').off('click.b');
+        console.log('解绑2');
+    });
+
+
+
+    let ary = ['丫鬟','小兰子','真能吃'];
+
+    ary.forEach((item,i)=>{
+        let $li = $('<li>'+(i+1)+'</li>');
+        $li.on('click',{dat:item},function(ev){
+            console.log(ev.data.dat); //获取存的数据
+            $(this).text('我是'+ev.data.dat)
+        });
+        $('.ul2').append($li);
+    });
+
+
+</script>
+</body>
+</html>

@@ -252,19 +252,11 @@
     </div>
 
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+
 <script type="text/javascript">
 let arrImg = ['img/img01.jpg', 'img/img02.jpg', 'img/img03.jpg', 'img/img04.jpg'];
 let arrText = ['文字描述一', '文字描述二', '文字描述三', '文字描述四'];
-/*
-<div id="imgBox">
-    <span>图片数量计算中……</span>
-    <img src="img/img01.jpg" id="pic">
-    <a href="javascript:void(0);" id="prev"><img src="img/prev.png" /></a>
-    <a href="javascript:void(0);" id="next"><img src="img/next.png" /></a>
-    <em></em>
-    <strong>图片文字加载中……</strong>
-</div>
-*/
+
     const $imgBox = $('#imgBox');  //模块缓存
     const $span = $imgBox.find('span'); //getElementsByTagName
     const $prev = $imgBox.find('#prev');
@@ -272,6 +264,7 @@ let arrText = ['文字描述一', '文字描述二', '文字描述三', '文字�
     const $pic = $imgBox.find('#pic');
     const $strong = $imgBox.find('strong');
     const $a = $('h2').find('a')
+    let onoff = true // 按钮启禁的开关
     
     let len = arrImg.length;
     let num = 0;
@@ -283,50 +276,134 @@ let arrText = ['文字描述一', '文字描述二', '文字描述三', '文字�
     init();
 
     $next.click(function(){
+        if(!onoff)return; //弹出最后一张的box就禁用按钮
+        num++;
         if($('a:eq(0)').attr('class')){
-            num ++;
             num %= len;
-            init();
         }else{
-            num++
-            if(num>3){
+            if(num>len-1){
                 $('#tanBox').show()
-                num=3;
+                onoff = false; // 禁用按钮的开关
+                num=len-1;
             }
-            init();
         }
+        init();
     });
 
     $prev.click(function(){
+        if(!onoff)return;  //弹出最后一张的box就禁用按钮
+        num--;
         if($('a:eq(0)').attr('class')){
-            num<0?num = 3:num--;
-            init()
+            num<0?num = len-1:null;
         }else{
-            num--
             if(num<0){
                 num=0;
                 $('#tanBox').show()
+                onoff = false; 
             }
-            init()
         }
+        init()
     })
     
-
     $a.click(function(){
+        if(!onoff)return; //弹出最后一张的box就禁用
         $a.removeAttr('class')
         $(this).attr('class','active')
         // console.log($('a:eq(0)').attr('class'));
     })
+
+    //JQ的each
+    // $a.each(function(i,ele){ //与原生forEach的用功能相同，传参相反
+    //     $ele.click(function(){
+    //         $a.removeClass('active')
+    //         $(this).addClass('active')
+    //     })
+    // })
     
-    $('#tanBox a').click(function(){
-        $('#tanBox').hide()
-    })
-    $('#tanBox span').click(function(){
-        $('#tanBox').hide()
+    $('#tanBox a,#tanBox span').click(function(){
+        $('#tanBox').hide(); 
+        onoff = true; // 关闭tanBox就启用各个按钮
     })
 
 
 </script>
+
+<!-- 老师版 -->
+<!-- <script type="text/javascript">
+    let arrImg = ['img/img01.jpg', 'img/img02.jpg', 'img/img03.jpg', 'img/img04.jpg'];
+    let arrText = ['文字描述一', '文字描述二', '文字描述三', '文字描述四'];
+
+        const $imgBox = $('#imgBox');  //模块缓存
+        const $span = $imgBox.find('span'); //getElementsByTagName
+        const $prev = $imgBox.find('#prev');
+        const $next = $imgBox.find('#next');
+        const $pic = $imgBox.find('#pic');
+        const $strong = $imgBox.find('strong');
+        const $aa = $('h2 a');
+        let onoff = false; //循环播放
+        // let state = false; //弹框隐藏  
+    
+        let len = arrImg.length;
+        let num = 0;
+        function init(){
+            $span.html((num+1) + '/' + len); //切换的张数
+            $strong.text(arrText[num]); //设置文字
+            $pic.attr('src',arrImg[num]); //设置图片
+        }
+    
+        init();
+    
+        $next.click(function(){
+            // if(state)return;
+            num ++;
+            if(onoff){
+                num %= len;
+            }else{
+                if(num > len-1){
+                    num = len-1; 
+                    $('#tanBox').show();
+                    $('#shadow').show();
+                    // state = true;
+                }
+            }
+            
+            init();
+        });
+    
+        $prev.click(function(){
+            // if(state)return;
+            num --;
+            if(num < 0){
+                num = len - 1;
+            }
+            init();
+        });
+    
+        let that = $aa[1];
+        $aa.each(function(i,ele){
+            $(ele).click(function(){
+                // if(state)return;
+                $aa.removeClass('active');
+                // this.className = 'active';
+                $(this).addClass('active');
+    
+                if(that !== this){
+                    onoff = !onoff;
+                }
+    
+                that = this;
+
+            })
+        });
+    
+        $('#tanBox a,#tanBox span').click(function(){
+            $('#tanBox').hide();
+            $('#shadow').hide();
+            // state = false;
+        });
+    
+</script> -->
+
 </body>
 
 </html>

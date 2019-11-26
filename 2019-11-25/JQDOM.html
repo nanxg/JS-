@@ -53,7 +53,9 @@
         // });
         
         $('#ul').click(function(ev){
-            $(ev.target).remove()
+            if(ev.target.tagName=='LI'){
+                $(ev.target).remove()
+            }    
         })
      
         

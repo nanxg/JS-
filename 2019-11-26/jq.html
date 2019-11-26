@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    div{
+        border:1px solid lightblue;
+        width:200px;
+        display:none;
+    }
+    .active{
+        background: yellow;
+    }
+    </style>
+</head>
+<body>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <div>11</div>
+    <div>22</div>
+    <div>33</div>
+    <ul>
+        <li>11</li>
+    </ul>
+<script src="../2019-11-25/node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+
+    //$('div').before('<p>00</p>') //每个div前都添加
+    $('ul').prepend($('<li>22</li>'))
+    $('ul').prepend('<li>33</li>')
+    console.log( $('div:eq(0)').prev() );  //前一个兄弟元素
+    console.log( $('div:eq(0)').next() );  //后一个兄弟元素
+    console.log( $('div').index() );  //所有兄弟节点中的索引位置
+    console.log( $('div').index('div') );  //在div中的索引位置
+    
+
+    // 简单选项卡
+    const $div=$('div')
+    //console.log($('div:eq($(this).index())'));
+
+    $('button').click(function(){
+        // 当前按钮添加class名，其他兄弟元素移除class名
+        $(this).addClass('active').siblings('button').removeClass('active')
+        // $('div').siblings('div').hide();
+        // 当前按钮索引对应的div显示，其他兄弟div元素隐藏
+        $('div').eq($(this).index()).show(500).siblings('div').hide(500);//参数为显示|隐藏时间
+    })
+
+
+</script>
+</body>
+</html>
