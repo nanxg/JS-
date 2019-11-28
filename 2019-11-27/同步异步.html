@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>       
+    <meta charset="UTF-8">       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">     
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+</head>
+<body>       
+<!-- 
+    js是从上到下解读代码，单线程（同一时间只能做一件事情）
+
+    同步：代码从上往下依次执行 如果一个地方卡住，下面的代码就不执行了
+
+    异步：代码虽然会依次执行 但是一个地方卡住了（事件函数、定时器、promise） 不阻止向下执行（js）
+
+    主线程：先执行
+    异步队列：（回调函数 、事件监听、定时器、promise ）
+        宏任务：定时器 事件（按设定的时间先后执行）
+        微任务：promise的then
+        微任务比宏任务先执行
+
+    程序执行顺序 主线程-异步队列(微任务->宏任务)
+
+    异步操作不利于程序维护开发 promise是来解决异步编程顺序问题的(让异步代码同步执行(使异步代码有执行顺序))
+
+    js先执行主线程的代码。主线程有异步，会把异步代码放到异步队列中，当异步条件成立，把异步代码放到主线程中执行(有微任务先执行微任务)，主线程空闲就执行异步代码，执行完在压入异步代码到主线程中，这个过程叫循环
+
+    注：先执行的微任务是第一层的，如果宏任务中有微任务，先执行宏任务在执行里边的微任务
+-->        
+<script>
+    /* 
+        Promise  承诺
+
+            new Promise(function(resolve,reject){  //主线程
+
+                // 当异步代码执行完，通过异步代码的结果去调用resolve(成功函数)或者reject(失败函数)
+                // 异步代码顺利执行就调用resolve；如果报错或者错误就执行reject
+                // 默认返回值是promise对象，这个对象有then方法
+            });
+
+            then(成功回调函数,失败回调函数)
+
+                finally是成功失败都会执行的回调函数
+
+                第一个then （微任务）
+                    成功函数里面的参数就是异步的结果
+
+                第二个then （微任务）
+                    参数是第一个then的返回值
+
+
+            let p = new Promise(function(resolve,reject){
+                resolve('xxx') //如果成功就不在调用下边的resolve、reject
+                reject('aaa')
+                resolve('bbb')
+            })
+
+            如果代码报错，下边代码不执行；
+            使用try{}catch(e){reject(e)},try中报错会进入catch，保证代码顺利执行
+            一旦成功或失败，则不再进行其他的
+            p.then(function(data){
+                console.log(data);  // 'xxx'
+            },function(){
+                console.log();  //'aaa'
+            }).finally(){
+                 成功失败都会走这
+            }
+
+            then中才是微任务
+
+            第一个then的返回值，是第二then的参数
+
+            then中参数不是函数 就穿透
+
+            虽然promise解决了异步编程的问题，但是在then的外面还是异步的
+
+            此时的知识点需要后期内容的铺垫和若干个异步请求实验总结才能领悟这个promise
+
+
+                fetch().then(function(d){
+                    return d.json();
+                }).then(function(d){
+                    console.log(d); //d就是d.json()，即前一个then的返回值
+                });
+
+                当进第一个then的时候，d就是fetch返回的数据，但是这个数据是被promise包了一层
+                JSON 长得像对象和数组的字符串，本质是字符串
+
+                d.json() -> 把'[]'或'{}'转为[]或{}
+                    '[]'JSON  ->  []数组
+                    '{}'JSON  ->  {}对象
+
+                JSON取值是不方便的，可以使用JSON.parse(),把JSON转成对象
+
+                parse必须为标准的JSON格式才成功转换
+                '{"name":"zf"}'
+                '[]' -> []
+
+                对象转JSON -> JSON.stringify()  副作用：函数和undefined会被过滤掉
+            
+    */
+
+    // 没有promise可以用回调函数代替 
+    // let a = 10;
+    // function fn(cb){
+    //     setTimeout(() => {
+    //         a=20;
+    //         cb(a);
+    //     })
+    // }
+    // fn(function(x){
+    //     console.log(x);
+    // })
+    // console.log(a);
+    
+    let p = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            a = 20;
+            // resolve(a);
+            setTimeout(() => {
+               b = 10; 
+            },0);
+            try{ //try里边成功就走resolve(a)，失败就进catch
+             // a;  
+                b;  
+                resolve(a)  
+            }catch(e){
+                reject(5);
+            }
+        },2000);   
+    });
+
+    p.then().finally(function(x){ //先then，后finally；下边的then先执行
+        console.log(x,'全部'); 
+    })
+    p.then().catch(function(x){ //失败时进入，接收reject参数
+        console.log(x,'catch');   //5
+    })
+
+    p.then(function(x){
+        console.log(x,'成功'); 
+    },function(x){
+        console.log(x,'失败');  //5
+        return 5
+    }).finally(function(x){
+        console.log(x,'都来')
+    }).then(x=>{   //参数为上一个then中函数的返回值
+        console.log(x);  //5
+    })
+
+
+    //pending
+    let q = new Promise((resolve,reject)=>{
+        setTimeout(() => {
+            resolve({
+                data:'{"name":"珠峰"}',
+                json:function (){ //'{"name":"珠峰"}' 是json字符串，把json转成对象使用JSON.parse()
+                    return JSON.parse(this.data);
+                }
+            })
+        }, 2000);
+    });
+
+    q.then(function(d){
+       return d.json(); 
+    })
+    .then(function(d){  
+        console.log(d.name);
+    });
+
+    // 过滤函数与undefined，把对象转字符串
+    console.log(JSON.stringify({a:5,fn:function(){},u:undefined,n:null})); //'{"a":5,"n":null}'
+    
+    console.log(JSON.parse('{"name":"zf","u":null}')) //转对象：{name: "zf", u: null}
+    // console.log(JSON.parse("{'name':'zf'}")) //不是标准格式,报错
+
+
+</script>
+</body>
+
+</html>

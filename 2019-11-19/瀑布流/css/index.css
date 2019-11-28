@@ -57,7 +57,7 @@ body{
 .img_box img{
     width: 100%;
     opacity: 0;
-    transition: .5s;
+    transition: .6s;
 }
 .img_box .desc{
     font-size: 15px;

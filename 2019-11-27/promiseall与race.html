@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body id="body">
+    <script src="../2019-11-25/node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    /* 
+        Promise.all([a,b,c]):
+            括号的数组中每一项的异步操作都成功才返回成功结果
+        Promise.race([a,b,c])：
+            数组中每一项只要有一个异步操作成功就返回成功结果
+    */
+    let a = new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    console.log(1);
+                    resolve(1);
+                },500)
+            })
+    let b = new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    console.log(2);
+                    resolve(2);
+                },1000)
+            })
+    let c = new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    try{
+                        console.log(aa);
+                    }catch(e){
+                        reject(3);
+                    }   
+                },1500)
+            })
+    Promise.all([a,b]).then(([a,b]) => console.log(a,b)); // 1 2 定时器全部执行完才输出
+    Promise.all([a,b]).then((a) => console.log(a)); // [1,2] 
+    Promise.all([a,b,c])
+    .then(d => console.log(d))
+    .catch(d => console.log(d)); // 3 
+    
+    Promise.race([a,b,c]).then((d) => console.log(d)); // 1  一个执行成功就输出
+ 
+    //加载图片
+    function promisePic(url){
+        return new Promise((resolve,reject)=>{
+            let img = document.createElement('img');
+            img.src =  url;
+            img.onload = function(){
+                resolve(img);
+            }
+            img.onerror = function(){
+                reject('错误');
+            }
+        });
+    }
+    let p1 = promisePic('http://pic25.nipic.com/20121113/9252150_105400798000_2.jpg');
+    let p2 = promisePic('http://b-ssl.duitang.com/uploads/item/201806/05/20180605182854_vkcpq.jpg');
+
+    //前一个then的return执行完毕，才走下一个then
+    Promise.all([p1,p2]).then(([a,b])=>{
+        console.log(a);
+        console.log(b);
+        body.append(a);
+        body.append(b);
+       return promisePic('http://pic37.nipic.com/20140103/10616010_215644481373_2.jpg')
+    },()=>{
+        console.log('错误')
+    }).then((img)=>{
+        body.append(img);
+    })
+
+    //利用ajax的myfetch函数
+    function myFetch(url){
+        return new Promise(function(resolve,reject){
+            // $.ajax({
+            //     url,
+            //     success:function(data){ //请求成功
+            //         resolve(data);
+            //     },
+            //     error:reject('失败') //失败
+            // });
+            fetch(url).then(d=>d.json()).then(d=>resolve(d))
+        })  
+    }
+    Promise.race([myFetch('2.json'),myFetch('1.json')])
+    .then((d)=>{
+        console.log(d);  
+    }).catch((d)=>{
+        console.log(d);
+        
+    })
+
+    
+
+
+   
+</script>
+</body>
+</html>

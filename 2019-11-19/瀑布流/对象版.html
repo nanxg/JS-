@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>瀑布流</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div id="box">
+        <ul class="head">
+            <li><img src="./img/head1.png" alt=""></li>
+            <li><img src="./img/head2.jpg" alt=""></li>
+            <li><img src="./img/head3.jpg" alt=""></li>
+            <li><img src="./img/head4.jpg" alt=""></li>
+            <li><img src="./img/head5.jpg" alt=""></li>
+        </ul>
+        <ul class="body">
+            <li>
+                <!-- <div class="img_box">
+                    <img src="./img/1.jpg" alt="">
+                    <p class="desc">所谓伊人，在水一方！</p>
+                    <p class="author">泰勒·斯威夫特</p>
+                </div> -->
+            </li>
+            <li></li>   
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div> 
+    <script>
+        class Tools{
+            minIndex(obj){
+                if(!Array.isArray(obj)){
+                    obj = [...obj].map(item => item.scrollHeight)
+                }
+                console.log(obj);
+                let min = Math.min(...obj)
+                let index = obj.findIndex(item => item === min)
+                return { min,index }
+            }
+            debounce(cb,time){
+                let timer;           
+                return function(...arg){
+                    if(timer){
+                        clearTimeout(timer)
+                    }
+                    timer = setTimeout(() => {
+                        cb.call(this,...arg)
+                    },time)
+                    
+                }
+            }
+            throtting(cb,time){
+                let prev = 0;
+                return function(...arg){
+                    let now = +new Date;
+                    if(now - prev > time){
+                        cb.call(this,...arg)
+                    }
+                    prev = now;
+                }
+            }
+        };
+
+        class waterfall extends Tools{
+            constructor(name){
+                super();
+                this.box = document.querySelector(name); //获取瀑布流的大盒子
+                this.lis = this.box.children; //获取每条瀑布流元素
+                this.boxT = this.box.offsetTop; //大盒子的位置
+                this.wh = window.innerHeight; //可视区高度
+
+            }
+            api(url,cb){
+                let that = this;
+                fetch('./data.json').then(d=>d.json()).then(data=>{
+                    cb.call(that,data)
+                })
+            }
+            render(){
+                this.api('./data.json',function(data){
+                    data.forEach((ever,i)=>{
+                        let {index} = this.minIndex(this.lis);
+                        let div = this.creat(ever);
+                        this.lis[index].appendChild(div);
+                        setTimeout(()=>{
+                            div.children[0].style.opacity=1
+                        },i*100)
+                    })
+                })
+            }
+            creat(ele){
+                let div = document.createElement('div');
+                div.className='img_box';
+                div.innerHTML=`<img src="${ele.pic}" height="${ele.height}" alt="">
+                                <p class="desc">${ele.desc}</p>
+                                <p class="author">${ele.author}</p>`;
+                return div;
+            }
+            scroll(){
+                let fn = () => { 
+                    let {min} = this.minIndex(this.lis)
+                    if(window.pageYOffset + this.wh > this.boxT + min){
+                        this.render()
+                    }
+                }
+                window.onscroll = this.debounce(fn,200)
+                window.onresize = () => {this.wh = window.innerHeight}
+            }
+        }
+        
+        let f = new waterfall('.body')
+        f.render()
+        f.scroll()
+
+    </script>
+</body>
+</html>
