@@ -1,0 +1,31 @@
+@p:1px;
+.w(@a) {
+    width:@a * @p;
+}
+.h(@a){
+    height:@a*@p;
+}
+.bgc(@a){
+    background-color:@a;
+}
+
+.lh(@a){
+    line-height: @a*@p;
+}
+.f(@a){
+    float:@a;
+}
+
+
+.clearfix:after {
+    display: block;
+    height: 0;
+    content: "";
+    clear: both;
+    overflow:hidden;
+    visibility:hidden;
+    font-size:0;
+}
+.clearfix{
+    *zoom:1
+}

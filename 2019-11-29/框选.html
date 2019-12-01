@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .cover{
+        width:0;
+        height:0;
+        background:rgba(112, 150, 187, 0.3);
+        border:1px solid rgba(112, 150, 187);
+        position: absolute;
+        left:0;
+        top:0;
+        display: none;
+    }
+    #box1{
+        width:100px;
+        height: 100px;
+        background: skyblue;
+        position: absolute;
+        top:300px;
+        left:300px;
+    }
+    #box2{
+        width:100px;
+        height: 100px;
+        background: skyblue;
+        position: absolute;
+        top:300px;
+        left:500px;
+    }
+    </style>
+</head>
+<body>
+    <div class="cover"></div>
+    <div id="box1" class="b"></div>
+    <div id="box2" class="b"></div>
+<script>
+    class Drag{
+        constructor(cov,pen){
+            // 获取选框与盒子
+            this.cov = document.querySelector(cov);
+            this.pen = document.querySelectorAll(pen);
+        }
+        // 执行down函数事件
+        init(){
+            document.addEventListener('mousedown',this.d = this.down.bind(this));
+        }
+        down(ev){
+            this.dX = ev.pageX;
+            this.dY = ev.pageY;
+            this.cov.style.display = 'block';
+            // 在哪按下，选框位置就在哪
+            this.cov.cssText = `top:${this.dY}px;left:${this.dX}px;`
+            // 按下之后的移动与抬起事件
+            document.addEventListener('mousemove',this.m = this.move.bind(this));
+            document.addEventListener('mouseup',this.u = this.up.bind(this));           
+        }
+        move(ev){
+            // 移动时获取位置与宽高，如果往左或上移动，则选取按下时与移动后的top|left的最小值
+            this.cov.style.top = Math.min(ev.pageY,this.dY) + 'px';
+            this.cov.style.left = Math.min(ev.pageX,this.dX) + 'px';
+            this.cov.style.width = Math.abs(ev.pageX - this.dX) + 'px';
+            this.cov.style.height = Math.abs(ev.pageY - this.dY) + 'px';
+            // 循环每个可能碰到的元素
+            this.pen.forEach(ele=>{
+                // 碰到就变色
+                if(this.peng(this.cov,ele)){
+                    ele.style.background = 'pink';
+                }else{
+                    ele.style.background = 'skyblue';
+                }
+            })
+        }
+        up(){
+            // 抬起清除样式
+            this.cov.style.display = 'none';
+            this.cov.style.width = this.cov.style.height = 0;
+            // 清除事件
+            document.removeEventListener('mousemove',this.m);
+            document.removeEventListener('mouseup',this.u);
+        }
+        // 碰撞条件函数
+        peng(d1,d2){
+            let {left:l,top:t,right:r,bottom:b} = d1.getBoundingClientRect();
+            let {left:l2,top:t2,right:r2,bottom:b2} = d2.getBoundingClientRect();
+            if(r<l2||b<t2||l>r2||t>b2){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+    let a = new Drag('.cover','.b')
+    a.init()
+</script>
+</body>
+</html>

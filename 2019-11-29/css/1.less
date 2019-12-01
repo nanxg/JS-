@@ -1,0 +1,35 @@
+@v:1px;
+*{
+    margin:0;padding:0;
+}
+
+.w(@a) {
+    width:@a*@v;
+}
+
+.folder{
+    .w(100);
+    padding:4px;
+    border: 1px solid lightslategrey;
+    _vertical-align: middle;
+    text-align: center;
+    img{
+        .w(100);
+        height:100px
+    }
+    input{
+        .w(80);
+        margin:0 auto;
+        font-size: 12px;
+    }
+    p{
+        .w(80);
+        margin:0 auto;
+        text-align: center;
+        display: none;
+        font-size: 12px;
+    }
+}
+#btn{
+    margin-bottom: 50px;
+}

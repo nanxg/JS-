@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件管理</title>
+    <link rel="stylesheet" href="./css/1.css">
+</head>
+<body>
+    <!-- 大盒子 -->
+    <section >
+        <!-- 头部 -->
+        <header class="clearfix">
+            <main>
+                <a href="javascript:;">
+                    <img src="./img/headimg.jpg" alt="">
+                    <span>文件管理</span>
+                </a>
+                <p class="jieshao">走别人的路，让别人无路可走~</p>   
+            </main>
+            <ul class="head_right">
+                <li class="right_0"><i>欢迎使用</i></li>
+                <li class="right_1">个人中心</li>
+                <li class="right_2">系统设置</li>
+            </ul>
+        </header>
+        <!-- 身子 -->
+        <section class="body">
+            <!-- 侧边栏 -->
+            <aside>
+                <ul class="nav_left">
+                    <li><p><span>我的文档</span><img src="./img/br_jt.png" alt=""></p>
+                        <ul class="nav_tag">
+                            <li>文档1</li>
+                            <li>文档2</li>
+                            <li>文档3</li>
+                        </ul>
+                    </li>
+                    <li><p><span>我的音乐</span><img src="./img/br_jt.png" alt=""></li>
+                    <li><p><span>我的图片</span><img src="./img/br_jt.png" alt=""></li>
+                </ul>
+            </aside>
+            <!-- 内容部分 -->
+            <section class="neirong">
+                <!-- 表头 -->
+                <nav class="top clearfix">
+                    <ul class="top_ul">
+                        <li class="top_l0"><i></i>新建</li>
+                        <li class="top_l1"><i></i>移动</li>
+                        <li class="top_l2"><i></i>重命名</li>
+                        <li class="top_l3"><i></i>分享</li>
+                        <li class="top_l4"><i></i>下载</li>
+                        <li class="top_l5"><i></i>删除</li>
+                        <li class="top_l6"><i></i>刷新</li>
+                        <li class="top_l7"><i></i>全选</li>
+                    </ul>
+                    <div class="top_dr clearfix">
+                        <div class="show_mode"></div>
+                        <div class="sort_mode">
+                            <i></i>
+                            <div class="cover"></div>
+                            <!-- <ul>
+                                <li>按时间排列</li>
+                                <li>按字母排列</li>
+                                <li>显示缩略图</li>
+                            </ul> -->
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- 主要内容 -->
+                <section class="fils">
+                    <div id="box">
+                        <!-- <div class="folder">
+                            <img src="./img/file.jpg">
+                            <input type="text"/>
+                            <p>新建文件夹</p>
+                        </div> -->
+                    </div>
+                    <!-- 画框 -->
+                    <div id="cover"></div>
+                </section>
+            </section>
+        </section>
+
+    </section>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/1.js"></script>
+</body>
+</html>

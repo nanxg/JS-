@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/1.css">
+    <style>
+    
+    </style>
+</head>
+<body>
+    <button id="btn">新建</button>
+    <div id="box">
+        <!-- <div class="folder">
+            <img src="" alt="">
+            <input type="text" placeholder="请输入文件名" value="新建文件夹">
+            <p>新建文件夹</p>
+        </div> --> 
+    </div>
+    <script src="../2019-11-25/node_modules/jquery/dist/jquery.min.js"></script>
+<!-- <script>
+    let ary = [
+        {id:0,title:'新建'},
+        // {id:1,title:'新建(1)'}
+    ];
+
+    $('#btn').click(function(){
+        let $folder = $(`
+            <div class="folder">
+                <img src="./img/folder-b.png">
+                <input type="text" placeholder="请设置文件名"  value="新建文件夹"/>
+                <p></p>
+            </div>
+        `);
+        $('#box').append($folder);
+        let $txt = $folder.find('input');
+        $txt.select(); //选中聚焦
+        $txt.blur(function(){
+            //当失焦的时候把新的数据push到ary中，并且通过新的数据渲染页面
+            let val = $txt.val();
+            //看看是否重复命名
+            let bool = ary.some(item=>item.title===val);
+
+            let num = 1; 
+            let nval=val;
+            while(bool){
+                //如果重名了那么从1开始看有没有重名
+                let va = val.replace(/\(\d\)$/,'') + '('+ num++ +')';
+                bool = ary.some(item=>item.title===va);
+                console.log(bool);
+                nval = va;
+            }
+            ary.push({
+                id:+new Date,
+                title:nval
+            });
+            $(':text').css('display','none');
+
+            $('p').html(nval);
+
+            $('p').css('display','block');
+            console.log(ary);
+        
+        });//失焦事件
+    })
+
+
+
+</script> -->
+
+<script>
+    let ary = [{
+            title:'新建文件夹',
+            id:0
+        }];
+        function render(arr){
+            $('#box').html(''); // 清空页面中的内容
+            $.each(arr,(i,item)=>{  // 根据数组中的数据生成文件
+                let $floder = $(`<div class="folder">
+                                <img src="file.jpg" alt="">
+                                <p>${item.title}</p>
+                            </div>`);
+                $('#box').append($floder);  // 把文件样式放进页面
+            })
+        }
+        render(ary);
+
+        $('#btn').click(function(){ 
+            // 新建时默认名去重
+            let vv = '新建文件夹'
+            let bo = ary.some(item=>item.title === vv); // 有一个重复名就是false
+            let num = 1;
+            while(bo){  //循环判断，名重复，末尾数字就+1
+                let v1 = vv.replace(/\(\d\)$/,'') + '('+ num++ +')';
+                bo = ary.some(item=>item.title === v1);
+                vv = v1;
+            }
+            // 创建元素，使用新文件名
+            let $floder = $(`<div class="folder">
+                                <img src="file.jpg" alt="">
+                                <input type="text" placeholder="请输入文件名" value="${vv}">
+                            </div>`);
+            $('#box').append($floder);
+            $('input').select(); //全选聚焦事件
+            $('input').blur(function(){ //失焦事件
+                let val = $('input').val();
+                let bol = ary.some(item=>item.title === val);
+                let num = 1;
+                while(bol){  //循环判断，名重复，末尾数字就+1
+                    let v = val.replace(/\(\d+\)$/,'') + '('+ num++ +')';
+                    bol = ary.some(item=>item.title === v);
+                    val = v;
+                }
+                ary.push({
+                    id:+new Date,
+                    title:val
+                })
+                
+                render(ary)
+            })
+
+            // let $floder = $(`<div class="folder">
+            //                     <img src="file.jpg" alt="">
+            //                     <input type="text" placeholder="请输入文件名" value="新建文件夹">
+            //                 </div>`);
+            // $('#box').append($floder);
+            // $('input').select();
+            // $('input').blur(function(){
+            //     let val = $('input').val();
+            //     let bol = ary.some(item=>item.title === val);
+            //     let num = 1;
+            //     while(bol){
+            //         let v = val.replace(/\(\d\)$/,'') + '('+ num++ +')';
+            //         bol = ary.some(item=>item.title === v);
+            //         val = v;
+            //     }
+            //     ary.push({
+            //         id:+new Date,
+            //         title:val
+            //     })
+
+            //     console.log(ary);
+                
+            //     render(ary)
+            // })
+        })
+
+
+</script>
+
+</body>
+</html>

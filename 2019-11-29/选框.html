@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width:0;
+        height:0;
+        background:rgba(112, 150, 187, 0.3);
+        border:1px solid rgba(112, 150, 187);
+        position: absolute;
+        left:0;
+        top:0;
+        display: none;
+    }
+    </style>
+</head>
+<body style="height:3000px">
+    <div id="box"></div>
+<script>
+    class Drag{
+        constructor(id){
+            this.box = document.querySelector(id);
+        }
+        init(){
+            document.addEventListener('mousedown',this.d = this.down.bind(this))
+        }
+        down(ev){
+            this.dX = ev.pageX;
+            this.dY = ev.pageY;
+            this.box.style.display = 'block';
+            this.box.cssText = `top:${this.dY}px;left:${this.dX}px`;
+            document.addEventListener('mousemove',this.m = this.move.bind(this))
+            document.addEventListener('mouseup',this.u = this.up.bind(this))
+        }
+        move(ev){
+            this.box.style.top = Math.min(ev.pageY,this.dY) + 'px';
+            this.box.style.left = Math.min(ev.pageX,this.dX) + 'px';
+            this.box.style.width = Math.abs(ev.pageX - this.dX) + 'px';
+            this.box.style.height = Math.abs(ev.pageY - this.dY) + 'px';
+        }
+        up(){
+            this.box.style.width = this.box.style.height = 0;
+            this.box.style.display = 'none';
+            document.removeEventListener('mousemove',this.m)
+            document.removeEventListener('mouseup',this.u)
+        }
+    }
+    let a = new Drag('#box');
+    a.init();
+</script>
+</body>
+</html>

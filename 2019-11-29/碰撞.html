@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width:100px;
+        height: 100px;
+        background: red;
+        position: absolute;
+        top:0;
+        left:0;
+    }
+    #box2{
+        width:100px;
+        height: 100px;
+        background: skyblue;
+        position: absolute;
+        top:300px;
+        left:300px;
+    }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <div id="box2"></div>
+<script>
+    // 碰撞函数
+    function peng(d1,d2){
+        let {left:l,top:t,right:r,bottom:b} = d1.getBoundingClientRect();
+        let {left:l2,top:t2,right:r2,bottom:b2} = d2.getBoundingClientRect();
+        if(r<l2||b<t2||l>r2||t>b2){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    // 盒子移动事件
+    box.addEventListener('mousedown',function(ev){
+        let {left:l,top:t} = this.getBoundingClientRect();
+        let dx = ev.pageX - l;
+        let dy = ev.pageY - t;
+        function move(ev){
+            if(peng(box,box2)){
+                box2.style.background = 'green';
+            }else{
+                box2.style.background = 'skyblue';
+            }
+            // 盒子移动的位置
+            // box.style.cssText = `left:${ev.pageX - dx}px;top:${ ev.pageY - dy}px;`;
+            box.style.left = ev.pageX - dx + 'px';
+            box.style.top = ev.pageY - dy + 'px';
+        }
+        // 鼠标抬起事件函数
+        function up(){
+            // 抬起就清除移动及抬起事件(每次按下都会添加)
+            document.removeEventListener('mousemove',move);
+            document.removeEventListener('mouseup',up);
+        }
+        document.addEventListener('mousemove',move);
+        document.addEventListener('mouseup',up);
+    })
+</script>
+</body>
+</html>

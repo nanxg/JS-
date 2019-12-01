@@ -55,17 +55,21 @@
                 reject('aaa')
                 resolve('bbb')
             })
-
-            如果代码报错，下边代码不执行；
-            使用try{}catch(e){reject(e)},try中报错会进入catch，保证代码顺利执行
-            一旦成功或失败，则不再进行其他的
+            // 
             p.then(function(data){
-                console.log(data);  // 'xxx'
+                console.log(data);  // 'xxx' 
             },function(){
                 console.log();  //'aaa'
             }).finally(){
-                 成功失败都会走这
+                // 成功失败都会走这
             }
+
+            
+            如果代码报错，会导致下边代码不执行，此时可以用try catch
+            使用try{}catch(e){reject(e)},try中报错会进入catch，保证代码顺利执行
+            一旦成功或失败，则不再进行其他的
+            catch中的e为错误日志，即错误信息
+
 
             then中才是微任务
 
@@ -85,7 +89,7 @@
                 });
 
                 当进第一个then的时候，d就是fetch返回的数据，但是这个数据是被promise包了一层
-                JSON 长得像对象和数组的字符串，本质是字符串
+                JSON：数据结构 长得像对象和数组的字符串，本质是字符串
 
                 d.json() -> 把'[]'或'{}'转为[]或{}
                     '[]'JSON  ->  []数组
@@ -93,12 +97,15 @@
 
                 JSON取值是不方便的，可以使用JSON.parse(),把JSON转成对象
 
-                parse必须为标准的JSON格式才成功转换
+                缺点：parse必须为标准的JSON格式才成功转换
                 '{"name":"zf"}'
                 '[]' -> []
 
-                对象转JSON -> JSON.stringify()  副作用：函数和undefined会被过滤掉
-            
+                对象转JSON -> JSON.stringify({key:value})  副作用：函数和undefined会被过滤掉
+
+                JSON.stringify({},function(key,value){
+                    // 函数参数可以接受到对象中的key、value值，同过return可以进行更改等操作
+                 })
     */
 
     // 没有promise可以用回调函数代替 
@@ -110,9 +117,9 @@
     //     })
     // }
     // fn(function(x){
-    //     console.log(x);
+    //     console.log(x); //20
     // })
-    // console.log(a);
+    // console.log(a); //10
     
     let p = new Promise((resolve, reject) => {
         setTimeout(() => {
