@@ -109,46 +109,45 @@
 	</div>
 </body>
 <script>
-	//递归组件
-	fetch('data.json').then((d) => d.json()).then(d => {
-		function render(d) {
+	fetch('data.json').then(d=>d.json()).then(d=>{
+		console.log(d);
+		// 把所有子级都渲染出来
+		function render(d){
 			let temp = '';
-			d.forEach((item, i) => {
+			d.forEach((item,i)=>{
+				// 如果有child就有加减号；有child就插入ul
 				temp += `<li>
-							<span class="${item.child ? 'add' : ''}"></span>
+							<span class="${item.child?'add':''}"></span>
 							<div>${item.title}</div>
-							${item.child ? `<ul>${render(item.child)}</ul>` : ''}
-						</li>`;
-			});
-			return temp;
+							${item.child?`<ul>${render(item.child)}</ul>`:''}
+						</li>`
+			})
+			return temp
 		}
-		oUl.innerHTML = render(d);
-
-		oUl.onclick = function (ev) {
-			//点击的元素是否为div
-			if (ev.target.tagName === 'DIV') {
-				//div下有木有ul
-				let ul = ev.target.nextElementSibling;
-				//如果有ul就让ul打开
-				if (ul) {
-					//通过classList.toggle去判断是否当前添加line
-					let b = ul.parentNode.children[0].classList.toggle('line');
-					// ul.style.display = b?'block':'none';
-					if (b) {
+		oUl.innerHTML = render(d)
+		// 利用冒泡的好处
+		oUl.onclick = function(ev){
+			if(ev.target.tagName === 'DIV'){
+				let ul = ev.target.nextElementSibling; //获取当前div的下一个兄弟元素
+				if(ul){   //存在ul就展开
+					// let sp = ul.parentNode.children[0].classList.toggle('line');//ul父级的第一个子元素
+					// toggle方法有布尔类型的返回值，添加class名就返回true，删除就返回false
+					let sp = ev.target.previousElementSibling.classList.toggle('line');//点击元素的上一个兄弟元素添加|删除class名
+					if(sp){							
 						ul.style.display = 'block';
-					} else {
-						ul.style.display = 'none';
-						// console.log(ul.querySelectorAll('ul'))
-						ul.querySelectorAll('ul').forEach(ele => {
-							ele.style.display = 'none';
-							ele.parentNode.children[0].className = 'add';
-						});
-					}
+					}else{
+						ul.style.display = 'none';	
+						ul.querySelectorAll('ul').forEach(item=>{
+							item.style.display = 'none';
+							// item.parentNode.children[0].className = 'add';
+							item.parentNode.children[0].classList.remove('line');
+						})
+					}	
 				}
 			}
-		};
-	});
-
+		}
+	})
+	
 </script>
 
 </html>
