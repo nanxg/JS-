@@ -85,6 +85,12 @@ $('.fils').mousedown(function(ev){ // 指定区域按下触发；(清除默认�
         // ev.preventDefault();
     })
     $(document).mouseup(function(ev){
+        if(ev.pageX===dX||ev.pageY===dY){
+            $('.folder').each(function(i,item){
+                item.style.backgroundColor = '';
+                item.id = '';
+            })
+        }
         $('#cover').css({display:'none',width:0,height:0});
         $('.fils').off('mousemove');
         $(document).off('mouseup');

@@ -26,25 +26,30 @@
             </ul>
         </header>
         <!-- 身子 -->
-        <section class="body">
+        <section class="body clearfix">
             <!-- 侧边栏 -->
-            <aside>
-                <ul class="nav_left">
-                    <li><p><span>我的文档</span><img src="./img/br_jt.png" alt=""></p>
-                        <ul class="nav_tag">
-                            <li>文档1</li>
-                            <li>文档2</li>
-                            <li>文档3</li>
-                        </ul>
+            <aside id="aside" class="clearfix">
+                <ul>
+                    <li class="0"><p><i></i>微云<img src="./img/br_jt.png" alt=""></p>
+                    <!-- <ul class="nav_left">
+                        <li><p><i></i><span>我的文档</span><img src="./img/br_jt.png" alt=""></p>
+                            <ul class="nav_tag">
+                                <li><p><i></i><span>${title}</span></p></li>
+                                <li><p><i></i><span>${title}</span></p></li>
+                                <li><p><i></i><span>${title}</span></p></li>
+                            </ul>
+                        </li>
+                        <li><p><i></i><span>我的音乐</span></li>
+                        <li><p><i></i><span>我的图片</span></li>
+                    </ul> -->
                     </li>
-                    <li><p><span>我的音乐</span><img src="./img/br_jt.png" alt=""></li>
-                    <li><p><span>我的图片</span><img src="./img/br_jt.png" alt=""></li>
                 </ul>
+                
             </aside>
             <!-- 内容部分 -->
             <section class="neirong">
                 <!-- 表头 -->
-                <nav class="top clearfix">
+                <nav class="top clearfix">   
                     <ul class="top_ul">
                         <li class="top_l0"><i></i>新建</li>
                         <li class="top_l1"><i></i>移动</li>
@@ -60,21 +65,24 @@
                         <div class="sort_mode">
                             <i></i>
                             <div class="cover"></div>
-                            <!-- <ul>
-                                <li>按时间排列</li>
-                                <li>按字母排列</li>
-                                <li>显示缩略图</li>
-                            </ul> -->
+                            <ul class="sort_ul">
+                                <li data-name="id">按时间排列</li>
+                                <li data-name="title">按文字排列</li>
+                                <!-- <li>显示缩略图</li> -->
+                            </ul>
                         </div>
                     </div>
                 </nav>
-
+                <div id="bread"></div>
+                <!-- <div class="tanDel"></div> -->
                 <!-- 主要内容 -->
                 <section class="fils">
+                    <div class="none"></div>
                     <div id="box">
-                        <!-- <div class="folder">
+                    <!-- <div class="folder active">
+                            <i class="checked"}></i>
                             <img src="./img/file.jpg">
-                            <input type="text"/>
+                            <input type="text" value="新建文件夹"/>
                             <p>新建文件夹</p>
                         </div> -->
                     </div>
@@ -83,9 +91,48 @@
                 </section>
             </section>
         </section>
-
+        <!-- 遮罩 -->
+        <div id="zhezhao"></div>
+        <!-- 移动框 -->
+        <div id="move">
+            <h4><span>请选择目录</span><i class="close"></i></h4>
+            <ul class="move_ul">
+                <li class="0"><p><img class="ulImg" src="./img/folder-b.png" alt=""><span>微云</span></p>
+                <!-- <ul class="nav_left">
+                    <li><p><i></i><span>我的文档</span></p>
+                        <ul class="nav_tag">
+                            <li><p><i></i><span>${title}</span></p></li>
+                            <li><p><i></i><span>${title}</span></p></li>
+                            <li><p><i></i><span>${title}</span></p></li>
+                        </ul>
+                    </li>
+                    <li><p><i></i><span>我的音乐</span></li>
+                    <li><p><i></i><span>我的图片</span></li>
+                </ul> -->
+                </li>
+            </ul>
+            <!-- <p><img src="./img/folder-b.png" alt=""><span>微云</span></p> -->
+            <div class="move_div yes">确定</div><div class="move_div no">取消</div>
+        </div>
+        <!-- 删除框 -->
+        <div id="delete">
+            <h4><span>删除文件</span><i class="close"></i></h4>
+            <div class="del">
+                <p>Are you sure？？？</p>
+                <input class="d_no" type="button" value="No">
+                <input class="d_yes" type="button" value="Yes">
+            </div>
+        </div>
     </section>
+    <script src="js/sql/data.js"></script>
     <script src="./js/jquery.min.js"></script>
-    <script src="./js/1.js"></script>
+    <script src="js/tools.js"></script>
+    <script src="js/folder.js"></script>
+    <script src="js/kuang.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/breadcrumb.js"></script>
+    <script src="js/sort.js"></script>
+    <!-- <script src="./js/1.js"></script> -->
+
 </body>
 </html>

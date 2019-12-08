@@ -89,23 +89,24 @@
                 });
 
                 当进第一个then的时候，d就是fetch返回的数据，但是这个数据是被promise包了一层
-                JSON：数据结构 长得像对象和数组的字符串，本质是字符串
 
-                d.json() -> 把'[]'或'{}'转为[]或{}
-                    '[]'JSON  ->  []数组
-                    '{}'JSON  ->  {}对象
+        JSON：数据结构 长得像对象和数组的字符串，本质是字符串
 
-                JSON取值是不方便的，可以使用JSON.parse(),把JSON转成对象
+            d.json() -> 把'[]'或'{}'转为[]或{}
+                '[]'JSON  ->  []数组
+                '{}'JSON  ->  {}对象
 
-                缺点：parse必须为标准的JSON格式才成功转换
-                '{"name":"zf"}'
-                '[]' -> []
+            JSON取值是不方便的，可以使用JSON.parse(),把JSON转成对象
 
-                对象转JSON -> JSON.stringify({key:value})  副作用：函数和undefined会被过滤掉
+            缺点：parse必须为标准的JSON格式才成功转换
+            '{"name":"zf"}'
+            '[]' -> []
 
-                JSON.stringify({},function(key,value){
-                    // 函数参数可以接受到对象中的key、value值，同过return可以进行更改等操作
-                 })
+            对象转JSON -> JSON.stringify({key:value})  副作用：函数和undefined会被过滤掉
+
+            JSON.stringify({},function(key,value){
+                // 函数参数可以接受到对象中的key、value值，同过return可以进行更改等操作
+                })
     */
 
     // 没有promise可以用回调函数代替 
