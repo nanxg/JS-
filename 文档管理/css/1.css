@@ -299,6 +299,9 @@ header .head_right .right_2 {
 .body .neirong .top .top_dr .sort_mode li:hover {
   background-color: #e1e8ee;
 }
+.body .neirong .top .top_dr .sort_mode:hover {
+  border-color: #56acdf;
+}
 .body .neirong .top .top_dr .sort_mode:hover ul {
   height: 73px;
   opacity: 1;
