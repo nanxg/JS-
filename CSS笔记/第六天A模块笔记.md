@@ -136,7 +136,8 @@ div{
 - 背景图滚动：background-attachment:
 	- fixed：背景图固定，不随其他板块滚动
 	- scroll：背景图随其他板块滚动而滚动（默认）
-
+- background: linear-gradient(direction, color1, color2, ...) ：渐变色
+	- direction：倾斜角度
 了解内容：
 - 背景图片定位区域（起始位置）background-origin:（测试时加上no-repeat）
 	- border-box：从边框区域开始
