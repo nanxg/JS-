@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 
+        @media:媒体
+        screen：媒体类型 
+            all 所有设备
+            screen 用于电脑屏幕，平板电脑，智能手机等。
+            print  用于打印机和打印预览
+        and：连接符
+        （）：判断条件
+        {}：符合判断条件时改变的样式
+        max-width:600px;小于等于600px时改变样式
+     -->
+    <style>
+        #box1,#box2{
+            width:100px;
+            height: 100px;
+            background: slateblue;
+        }
+        #box2{
+            background: springgreen;
+        }
+        /* 
+        @media screen and (max-width:1000px){
+            #box1,#box2{
+                background: lightcoral;
+            }
+        }
+        @media screen and (max-width:800px) and (min-width:600px){
+            #box1,#box2{
+                background: lightseagreen;
+            }
+        } */
+    </style>
+    <!-- 响应样式较多时可以用外链 -->
+    <link media="screen and (max-width:1000px)" rel="stylesheet" href="1.css">
+    <link media="screen and (max-width:800px)  and (min-width:600px)" rel="stylesheet" href="2.css">
+
+</head>
+<body>
+    <div id="box1">里岁花了发窘VR安</div>
+    <div id="box2">路if是我哈珀粗V领啥的</div>
+
+</body>
+</html>

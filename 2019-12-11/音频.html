@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #bar{
+            width:5px;
+            height:50px;
+            position: relative;
+            background:red;
+            margin-top:10px;
+            float:left;
+        }
+        #bar2{
+            width:5px;
+            height:5px;
+            position: absolute;
+            top:0;
+            left:0;
+            background: #000;
+        }
+        #bar3{
+            width:80px;
+            height:5px;
+            position: relative;
+            background:red;
+            margin-top:50px;
+            margin-left:50px;
+            float:left;
+        }
+        #bar4{
+            width:5px;
+            height:5px;
+            position: absolute;
+            top:0;
+            left:0;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="bar">
+        <div id="bar2"></div>
+    </div>
+    <div id="bar3">
+        <div id="bar4"></div>
+    </div>
+    <audio id="muzc" src="./VK-jingy.mp3" controls></audio>
+    <button id="btn1">播放</button>
+    <button id="btn2">暂停</button>
+    <button id="btn3">音量－</button>
+    <button id="btn4">音量＋</button>
+    <button id="btn5">进度-</button>
+    <button id="btn6">进度+</button>
+    <script>
+    btn1.onclick = function(){
+        muzc.play(); //开始
+    }
+    btn2.onclick = function(){
+        muzc.pause(); //播放
+    }
+    // 播放时间变化事件
+    // muzc.ontimeupdate = function(){
+    //     console.log(muzc.currentTime); //当前播放的时间
+    // }
+
+    btn3.onclick=function(){
+        let num = muzc.volume //音量(范围0~1)
+        num -= 0.2;      
+        if(num<0){ num = 0 }
+        muzc.volume = num
+    }
+    btn4.onclick=function(){
+        let num = muzc.volume
+        num += 0.2;
+        if(num>1){ num = 1 }
+        muzc.volume = num
+    }
+    btn5.onclick = function(){
+        muzc.currentTime -= 10; //播放时间
+        console.log(muzc.duration); //总时间
+        
+    }
+    btn6.onclick = function(){
+        muzc.currentTime += 10;
+    }
+    // 音量控制条
+    bar.onmousedown = function(ev){
+        bar2.style.top = ev.pageY-bar.offsetTop + 'px'; //点到那就跑去哪
+        let disY = ev.pageY - bar2.offsetTop; 
+        
+        document.onmousemove = function(ev){
+            let t = ev.pageY - disY;
+            // 限制小滑块范围
+            if(t < 0){ //限制上边
+                t = 0;
+            }else if(t > bar.offsetHeight - bar2.offsetHeight){ //限制下边
+                t = bar.offsetHeight - bar2.offsetHeight;
+            }
+
+            let scale = 1 - t/(bar.offsetHeight - bar2.offsetHeight);
+            // console.log(scale);
+            muzc.volume = scale;
+            bar2.style.top = t + 'px';
+        }
+        document.onmouseup = function(){
+            document.onmousemove = document.onmouseup = null;
+        }
+    }
+    // 进度控制条
+    bar3.onmousedown = function(ev){      
+        bar4.style.left = ev.pageX-bar3.offsetLeft + 'px'; //点到那就跑去哪
+        let disX = ev.pageX - bar4.offsetLeft;    
+        
+        document.onmousemove = function(ev){
+            let t = ev.pageX - disX;
+            // 限制小滑块范围
+            if(t < 0){ //限制上边
+                t = 0;
+            }else if(t > bar3.offsetWidth - bar4.offsetWidth){ //限制下边
+                t = bar3.offsetWidth - bar4.offsetWidth;
+            }
+
+            let scale = muzc.duration * t/(bar3.offsetWidth - bar4.offsetWidth);
+            muzc.currentTime = scale;
+            bar4.style.left = t + 'px';
+        }
+        document.onmouseup = function(){
+            document.onmousemove = document.onmouseup = null;
+        }
+    }
+  
+    </script>
+</body>
+</html>

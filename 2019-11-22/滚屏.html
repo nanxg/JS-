@@ -25,6 +25,32 @@
 <body>
     <ul id="ul"></ul>
 <script>
+    /* 
+        window.scrollTo()
+
+        语法1: 
+
+        　window.scrollTo(x-coord,y-coord)
+
+        x-coord 是文档中的横轴坐标。
+        y-coord 是文档中的纵轴坐标。
+        
+        例子：
+        　　window.scrollTo(0,1000); // 垂直滚动到1000的位置
+
+        语法2：
+        　  window.scrollTo(options)
+
+        top 等同于  y-coord
+        left 等同于  x-coord
+        behavior  类型String,表示滚动行为,支持参数 smooth(平滑滚动),instant(瞬间滚动),默认值auto,实测效果等同于instant
+        
+        例子：
+        window.scrollTo({ 
+            top: 1000, 
+            behavior: "smooth" 
+        });
+     */
     let ary = ['green','pink','skyblue','hotpink','yellow'];
     const w = window.innerWidth;
     const h = window.innerHeight;

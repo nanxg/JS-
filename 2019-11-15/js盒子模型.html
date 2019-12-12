@@ -54,15 +54,15 @@
                 
     
             元素的定位父级（相对谁定位，谁就是父级）：
-                offSetParent  在低版本IE下要触发haslayout属性(使用zoom属性)，使用起来才不会出问题
+                offsetParent  在低版本IE下要触发haslayout属性(使用zoom属性)，使用起来才不会出问题
     
             元素盒子的可视宽高(支持border，结果为不带单位的数字)：
-                offSetHeight
-                offSetWidth
+                offsetHeight
+                offsetWidth
     
             子外边框(border)到定位父级内边框距离(结果为不带单位的数字)：
-                offSetLeft
-                offSetTop
+                offsetLeft
+                offsetTop
     
                 获取的距离是根据定位父级来的,定位较多时慎用;
                 绝对位置(当前元素到页面顶部的距离)才是最稳的一个距离

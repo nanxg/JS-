@@ -120,6 +120,12 @@
         .aside li:last-child{
             border-radius:0 0 6px 6px;
         }
+        .aside li:nth-of-type(2n){
+            background:#f6f6f6;
+        }
+        .aside li:nth-of-type(2n-1){
+            background:#fff;
+        }
         .aside li:hover{
             color:#ff7700;
         }
@@ -137,6 +143,59 @@
             background:url('./img/classify-bg_b47f9a5.webp') center center no-repeat;
             background-size: cover;
             background-attachment:fixed;
+        }
+        .mod1{
+            background:rgb(223, 228, 225,0.2);
+        }
+        .mod2{
+            background:rgb(223, 228, 225);
+        }
+        .tit{
+            height: 50px;
+            width: 960px;
+            margin:0 auto;
+            display:flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .mod1 .tit{
+            color:#fff;
+        }
+        .hot{
+            height: 450px;
+            width: 960px;
+            margin:0 auto;
+            padding:10px 0;
+            display:flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .hot li{
+            margin-top:10px;
+            height: 196px;
+            width: 231px;
+            border-radius: 8px 8px 0 0;
+            background:url('./img/e3b910f092947f80e15178ac235bc3e7.webp') top center no-repeat;
+            background-size: contain;
+            display:flex;
+            flex-direction: column;
+            justify-content:flex-end ;
+            align-items:center ;
+            color: #fff;
+        }
+        .hot li span{
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .mod2 .hot li{
+            color: #000;
+        }
+        .mod3, .mod3 img{
+            height: 480px;
+            width: 960px;
+        }
+        .mod3{
+            margin:0 auto;
         }
     </style>
 </head>
@@ -233,23 +292,85 @@
     </div>
     <div class="body">
         <ul class="aside">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-            <li>8</li>
-            <li>9</li>
-            <li>10</li>
+            <li pid="1">精彩推荐</li>
+            <li pid="2">热门分类</li>
+            <li pid="3">3</li>
+            <li pid="4">4</li>
+            <li pid="5">5</li>
+            <li pid="6">6</li>
+            <li pid="7">7</li>
+            <li pid="8">8</li>
+            <li pid="9">9</li>
+            <li pid="10">10</li>
         </ul>
+        <div class="mod1">
+            <div class="tit">
+                <h4>精彩推荐</h4>
+                <p><span>当前直播666</span><a href="">更多></a></p>
+            </div>
+            <ul class="hot">
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li> 
+            </ul>
+        </div>
+        <div class="mod2">
+            <div class="tit">
+                <h4>热门分类</h4>
+                <p><span>当前直播666</span><a href="">更多></a></p>
+            </div>
+            <ul class="hot">
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li>
+                <li><p>风起云涌 谁能主宰</p><span>某峰知名主播</span></li> 
+            </ul>
+        </div>
+        <div class="mod3">
+            <img src="./img/3a40651baba7dad18b573fdedecaf6df.webp" alt="">
+        </div>
+        <div class="mod3">
+                <img src="./img/e3b910f092947f80e15178ac235bc3e7.webp" alt="">
+            </div>
     </div>
 
 <script src="../../2019-11-25/node_modules/jquery/dist/jquery.min.js"></script>
 <script>
-    $('.aside li:even').css('background','#f6f6f6');
-    $('.aside li:odd').css('background','#fff');
+    /* 
+        window.scrollTo()
+
+        语法1: 
+
+        　window.scrollTo(x-coord,y-coord)
+
+        x-coord 是文档中的横轴坐标。
+        y-coord 是文档中的纵轴坐标。
+        
+        例子：
+        　　window.scrollTo(0,1000); // 垂直滚动到1000的位置
+
+        语法2：
+        　  window.scrollTo(options)
+
+        top 等同于  y-coord
+        left 等同于  x-coord
+        behavior  类型String,表示滚动行为,支持参数 smooth(平滑滚动),instant(瞬间滚动),默认值auto,实测效果等同于instant
+        
+        例子：
+        window.scrollTo({ 
+            top: 1000, 
+            behavior: "smooth" 
+        });
+     */
     $(document).scroll(function(ev){      
         if(document.documentElement.scrollTop > 400){         
             $('.nav').css({
@@ -265,10 +386,16 @@
                 left:'',
                 transform:''
             })
-        }    
+        }      
+        let num = Math.round(window.pageYOffset/480)
+        $('.aside li').eq(num-1).css('background','aquamarine').siblings().css('background','')
     })
-
-    
+    $('.aside').click(function(ev){
+        if(ev.target.tagName==='LI'){
+            window.scrollTo({top:$(ev.target).attr('pid')*480,behavior: "smooth"})
+        }
+    })
+   
 
 </script>
 </body>
