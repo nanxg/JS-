@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>封装ajax1</title>
+</head>
+<body>
+    用户名:<input id="user" type="text">
+<script>
+    /*
+    sleep里边有定时器
+    异步时不写onload或者onreadystatechange,打印响应文本为空
+    同步时等待响应之后才往下执行
+    */
+    user.onblur = function(){
+        let xhr = new XMLHttpRequest;
+        xhr.open('get','/sleep?name='+this.value,false);
+        xhr.send();
+//         xhr.onload=function(){//等待回应
+//             console.log(xhr.responseText)//通话
+//         }
+        console.log(xhr.responseText); 
+        console.log('执行下面的10000行代码');        
+    }
+
+</script>
+</body>
+</html>

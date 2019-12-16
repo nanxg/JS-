@@ -20,16 +20,25 @@
             4.等待接听
             5.通话             
         */
+        
         user.onblur=function(){          
             let xhr=new XMLHttpRequest;//创建一个电话
-            xhr.open('post','/post',true);//输入号码(请求方式，请求地址，是否异步)
-            xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
-            xhr.send('user='+this.value);//按绿色按钮拨打
-            xhr.onload=function(){//等待
+            xhr.open('get','/get?user='+this.value,true);//输入号码(请求方式，请求地址，是否异步)
+            xhr.send();//发送请求拨号
+            xhr.onload=function(){//等待回应
                 console.log(xhr.responseText)//通话
-          
             }
         }
+        
+//         user.onblur=function(){          
+//             let xhr=new XMLHttpRequest;//创建一个电话
+//             xhr.open('post','/post',true);//输入号码(请求方式，请求地址，是否异步)
+//             xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+//             xhr.send('user='+this.value);//发送请求拨号
+//             xhr.onload=function(){//等待回应
+//                 console.log(xhr.responseText)//通话
+//             }
+//         }
 
     </script>    
 

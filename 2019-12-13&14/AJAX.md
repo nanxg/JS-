@@ -4,7 +4,7 @@
 - 难点：如何操作数据(各种数据类型应用,业务逻辑)，异步，参数如何拼接(什么是字段->name=zf&age=10)，如何开启服务
 - 优点：可以局部刷新，减轻服务器压力，提升用户体验
 
-- 获取数据
+- 获取数据方法：
     ```
         $.ajax({})
         fetch('')
@@ -36,6 +36,13 @@
   监听数据响应
   接收到数据
 
+XMLHttpRequest除了IE6(IE6使用ActiveXObject)之外都有,但是每个版本属性不同
+
+IE9以下浏览器是没有onload的，但是所有浏览器都支持onreadystatechange事件
+
+timeout  设置超时时间
+ontimeout 监听超时回调
+
 ### get 和post
 - get是通过url进行请求的(4步)
     协议 域名 端口 接口 查询信息 hash
@@ -61,3 +68,65 @@
     劣势：比get慢
     
     需添加请求头：.setRequestHeader('content-type','application/x-www-form-urlencoded');
+
+
+### fetch的post
+    
+```
+fetch(url,{
+        method:'post',
+        headers:{
+            'content-type':'application/x-www-form-urlencoded'
+        },
+        body:'key1=value1&key2=value2'
+        //也可以写成
+        body:''+new URLSearchParmas({
+            key1:value1,
+            key2:value2  //如果value是中文,会自动转成URI编码
+        })
+    })
+```
+
+### 请求头和响应头
+
+General
+- Request URL：请求的地址
+- Request Method：请求的方式 -> GET POST HEAD DELETE PUT...
+- Status Code：状态码
+- Remote Address：当前页面的端口号
+
+Response Headers：响应头 -> 服务器反馈回来的信息(接收到的)
+
+Request Headers：请求头 -> 发送给服务器的信息(向服务器发送请求)
+
+Query String Parmeters：请求体
+
+### http状态码 
+
+- 100 服务器已接收请求，客户端可继续发送
+- 200-207 成功
+- 301 永久重定向
+- 302 临时重定向
+- 304 一种缓存
+- 400 有误
+- 401 当前请求需要用户验证
+- 403 服务器已理解请求，但拒绝执行
+- 404 请求失败，未在服务器上找到请求的内容
+- 5开头的是服务器错误
+- 500 服务器端出错
+- 501 服务器不支持当前请求所需的某个功能
+- 502 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应
+- 503 由于临时的服务器维护或过载，服务器当前无法处理请求
+
+### onreadystatechange
+
+    onreadystatechange是可以监听发送请求的状态
+    5次状态 0-4，但是0你永远都监听不到，只能监听到1-4
+
+    如果把onreadystatechange放到send之前能够多监听一次，放到send之后就少监听一次
+    0: 请求未初始化
+    1: 服务器连接已建立
+    2: 请求已接收
+    3: 请求处理中
+    4: 请求已完成，且响应已就绪
+

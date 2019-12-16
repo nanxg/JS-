@@ -23,6 +23,9 @@ router.post('/', function(req, res, next) {
       obj.msg = '木有介个银!';
   }
   res.send(JSON.stringify(obj));
+  // setTimeout(function(){
+  //   res.send(JSON.stringify(obj));
+  // },5000)
 });
 
 module.exports = router;

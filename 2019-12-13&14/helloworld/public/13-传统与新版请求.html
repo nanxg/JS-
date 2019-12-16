@@ -33,6 +33,7 @@
         // })
         user.onblur=function(){
             fetch('/get?user='+user.value).then(d=>d.json()).then(d=>{
+                console.log(d);            
                 if(d.code === 0){
                     user.style.border = '1px solid red';
                 }else if(d.code === 1){
