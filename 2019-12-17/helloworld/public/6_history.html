@@ -16,28 +16,6 @@
 <script>
  
 
-    let ary = ['第一张图片','第二张图片','第三张图片'];
-    const btns = document.querySelectorAll('button');
-
-    btns.forEach((ele,i)=>{
-        ele.onclick = function(){
-            p.innerHTML = ary[i];
-            window.history.pushState({
-                    num:i
-                },'','http://localhost:88/6_history.html/'+i);
-                }
-    });
-
-    btn.onclick = function(){
-        window.history.go(-1);
-    }
-
-    //当操作历史记录的时候去触发这个事件
-    window.onpopstate = function(ev){
-        // console.log();
-        //触发这个事件的时候，通过ev.state去拿之前存的数据
-        p.innerHTML = ary[ev.state.num];
-    }   
 
 </script>
 </body>
