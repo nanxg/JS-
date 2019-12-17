@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+        注册的用户名:<input id="user" type="text"/><span id="s"></span> </br>
+        注册的密码:<input type="password" id="pw"/></br>
+        <button id="btn">提交</button>
+<script>
+    /* 
+        高版本浏览器中onreadystatechange放到open前边可以监听到1~4，放到open后可以监听到2~4，
+        低版本放到send前可以监听到1~4，之后可以监听到2~4。
+        能多监听一次，从真实开发上来说毫无意义，因为使用ajax只用响应
+    */
+    user.onblur = function(){
+        var xhr = new XMLHttpRequest;
+        xhr.open('get','/get?user='+user.value,true);
+        xhr.send();
+        xhr.onreadystatechange = function(){
+            console.log(xhr.responseText);
+            console.log(xhr.readyState);   
+        }
+    }
+    
+</script>
+</body>
+</html>

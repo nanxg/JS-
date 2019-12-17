@@ -6,7 +6,12 @@ var router = express.Router();
   
 */
 let person = [
- 
+  "penglan",
+ "xiangnan",
+ "shanshan",
+ "tiantian",
+ "刘泉",
+ "nizp"
 ];
 
 router.get('/', function(req, res, next) {

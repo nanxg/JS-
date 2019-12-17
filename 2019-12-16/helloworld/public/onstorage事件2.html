@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+        onstorage事件
+    */    
+
+    document.onclick = function(){
+        localStorage.setItem('user','lc');
+    }
+
+    window.onstorage = function(){
+        console.log('触发2')
+    }
+
+</script>
+</body>
+</html>
