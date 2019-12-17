@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>1111</button>
+    <button>2222</button>
+    <button>3333</button>
+    <p id="p"></p>
+
+    <input type="button" value="后退" id="btn1"/>
+    <input type="button" value="前进" id="btn2"/>
+<script>
+    let ary = ['第一张','第二张','第三章'];
+    const btns = document.querySelectorAll('button');
+    let hash = window.location.hash;
+    let index = 0;
+    // 设置默认hash值
+    if(hash){
+        index = window.location.hash.match(/page\/(\d)/)[1];
+        p.innerHTML = ary[index];
+    }else{
+        window.location.hash = 'page/0';
+    }
+    
+    // hash改变时触发，页面跟随变动
+    window.onhashchange = function(){
+    index = window.location.hash.match(/page\/(\d)/)[1];
+    p.innerHTML = ary[index];
+    }
+    // 简易选项卡
+    btns.forEach((ele,i)=>{
+        ele.onclick = function(){
+            p.innerHTML = ary[i];
+            window.location.hash = 'page/'+i;
+        }
+    })
+
+    btn1.onclick = function(){
+        index --;
+        if(index<0){
+            index = 0;
+        }
+        window.location.hash = 'page/'+index;
+    }
+    btn2.onclick = function(){
+        index ++;
+        if(index>2){
+            index = 2;
+        }
+        window.location.hash = 'page/'+index;
+    }
+
+</script>
+</body>
+</html>
