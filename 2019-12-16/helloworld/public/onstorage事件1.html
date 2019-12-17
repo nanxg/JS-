@@ -12,7 +12,9 @@
 
                 通过localStorage.setItem或sessionStorage.setItem保存（更新）某个storage
 
-                保存（更新）这个storage时，它的新值必须与之前的值不同
+                保存（更新、修改）这个storage时，它的新值必须与之前的值不同
+
+                (同一个浏览器，同一个域名，不同tab)
                 
             由于onstorage事件是浏览器触发的，所以如果我们打开了多个相同域名下的页面，并在其中任一一个页面执行window.localStorage.setItem方法，那么其他页面如果监听了onstorage事件，则这些页面中的onstorage事件都会被执行
 
@@ -21,8 +23,7 @@
     // localStorage.setItem('user','lc');
 
     document.onclick = function(){
-        localStorage.setItem('user','tfz');
-        
+        localStorage.setItem('user','tfz');     
     }
 
     window.onstorage = function(){

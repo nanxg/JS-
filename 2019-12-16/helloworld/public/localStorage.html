@@ -13,7 +13,7 @@
             生命周期:（跟域名走的）
                 只要不删除，就永远留着
 
-            据说有体积有5M，而且未来还会增加
+            体积有5M，而且未来还会增加
 
         增:
             localStorage.setItem(key,val)
@@ -23,6 +23,17 @@
             localStorage.getItem(key)
         清除(全部):
             localStorage.clear()
+
+        onstorage事件
+            触发window.onstorage必须满足以下两个条件：
+
+                通过localStorage.setItem或sessionStorage.setItem保存（更新）某个storage
+
+                保存（更新、修改）这个storage时，它的新值必须与之前的值不同
+
+                (同一个浏览器，同一个域名，不同tab)
+                
+            由于onstorage事件是浏览器触发的，所以如果我们打开了多个相同域名下的页面，并在其中任一一个页面执行window.localStorage.setItem方法，那么其他页面如果监听了onstorage事件，则这些页面中的onstorage事件都会被执行
     */    
     // const {setItem,getItem,removeItem} = localStorage; //解构出来使用时 this会为window
 

@@ -29,7 +29,8 @@
                 - 后端技术，基于浏览器实现的(一般都是后端来设置,也可以前端来种)
                 - 用来存储用户的操作信息
                 - 一次http请求（填写用户名密码），后端只知道这次请求某人是否合法，http是无状态的，不能记录某人登录过账户
-                所以说使用cookie去存储某个人操作，下次请求的时候，把上一次的操作发给后端，就知道某人是否登录过账户
+                后端使用cookie去存储某个人操作，下次请求的时候，把上一次的操作发给后端，就知道某人是否登录过账户
+                前端用来本地缓存
             localStorage
             sessionStorage
     */
@@ -90,15 +91,14 @@
             pw:321
         }
     ];
-
-
-    
+ 
     setCookie('name','xxoo',{
         setTime:{
             date:10
         }
     });
 
+    // 设置cookie的属性 值 生命周期
     function setCookie(key,val,time){
         if(time){
             let o = new Date;
@@ -106,13 +106,12 @@
             let t;
             let prop;
             for(let attr in time.setTime){
-                t = attr[0].toUpperCase()+attr.substr(1);
+                t = attr[0].toUpperCase()+attr.substr(1); //t = Date
                 prop = attr;
             }
             // console.log('set'+t,time.setTime[prop])
             // return ;
             o['set'+t](new Date()['get'+t]()+time.setTime[prop]);
-
             // console.log(o);
 
             document.cookie = key + '=' + val + '; expires='+o;
@@ -133,14 +132,13 @@
         return val;
     }
 
+    // 移除cookie，把生命周期设置提前
     function removeCookie(key,val){
         setCookie(key,val,{setTime:{date:-1}});
     }
 
     removeCookie('user','尹德智');
-
     console.log(getCookie('user'));
-
 
 
     let c = document.cookie;
