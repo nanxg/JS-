@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="hash">改hash</button>
+    <button id="search">改search</button>
+    <div id="box"></div>
+    <script>
+        /* 
+            浏览器对象模型
+                基本不兼容
+                window.innerHeight  浏览器高度
+                window.pageYoffset  滚动条距离 (可读不可写)
+                window.scrollTo(x,y)  设置滚动条距离(可写)
+                document.documentElement.scrollTop 滚动条距离 (可写)
+
+            window.localhost.
+                host -> host("localhost:88")
+                hostname -> 当前host名("localhost")
+                href -> url链接地址
+                origin -> 源
+                pathname -> 接口/路径名
+                protocol -> 协议
+                port -> 端口
+                reload -> 刷新页面
+                hash -> 锚信息(哈希) #key=value,***修改不会刷新页面*
+                    hash值变化时，会触发onhashchange事件，以此控制页面前进后退
+                search -> 查询信息，?~# 之间的信息(包含?)，修改会刷新页面
+
+                改变hash与search都会使浏览器记录历史操作
+                ajax缺陷是会丧失浏览器历史记录，相对不安全
+
+            window.navigator.userAgent  //用户浏览器内核信息(字符串)，可判断是什么浏览器，据此做不同事情。但容易被模拟
+
+            当切换路路由的时候，会从后端静态资源中查找所需资源传到前端，后端跳转路由会刷新页面，影响体验
+            使用hash来充当跳路由的动作来请求资源，这样即能够成功请求资源，又不刷新页面
+         */
+
+
+        // window.location.href = 'http://www.baidu.com' //一开页面就跳转
+
+        let i = 0;
+        // 改hash不刷新页面
+        hash.onclick = function () {
+            window.location.hash = 'a=b' + i++;
+            console.log('hash');
+        }
+        // hash改动时触发
+        window.onhashchange = function () {
+            console.log(window.location.hash);
+        }
+        // 改search刷新页面
+        search.onclick = function () {
+            window.location.search = 'h=j' + i++;
+            console.log('search');
+            console.log(window.location.search);
+        }
+
+        console.log(window.navigator.userAgent);//'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+
+        if (/chrome/i.test(window.navigator.userAgent) && /windows/i.test(window.navigator.userAgent)) {
+            box.style.background = 'red';
+        } else if (/firefox/i.test(window.navigator.userAgent)) {
+            box.style.background = 'green';
+        } else if (/iphone/i.test(window.navigator.userAgent)) {
+            box.style.background = 'yellow';
+        } else if (/android/i.test(window.navigator.userAgent)) {
+            box.style.background = 'skyblue';
+        }else if(/iPad/i.test(window.navigator.userAgent)){
+            box.style.background = 'black';
+        }
+
+        document.onclick = function(){
+            console.log(window.location);
+        }
+
+
+    </script>
+</body>
+
+</html>
