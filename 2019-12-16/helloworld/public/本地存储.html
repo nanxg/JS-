@@ -19,67 +19,7 @@
         <button id="btn">登录</button>
     </div>
 <script>
-    /*
-        页面更改数据之后刷新，数据不变(数据被保存)
-
-        1.刷新之后请求一次数据
-
-        2.把数据存储在浏览器中
-            cookie 
-                - 后端技术，基于浏览器实现的(一般都是后端来设置,也可以前端来种)
-                - 用来存储用户的操作信息
-                - 一次http请求（填写用户名密码），后端只知道这次请求某人是否合法，http是无状态的，不能记录某人登录过账户
-                后端使用cookie去存储某个人操作，下次请求的时候，把上一次的操作发给后端，就知道某人是否登录过账户
-                前端用来本地缓存
-            localStorage
-            sessionStorage
-    */
-
-    // ajax('data.xml',{
-    //     dataType:'xml'
-    // }).then(d=>{
-    //     const person = d.getElementsByTagName('person');
-    //     let temp = '';
-    //     for(let i=0;i<person.length;i++){
-    //         temp += `<li>我的名字叫:${person[i].children[0].innerHTML},今年${person[i].children[1].innerHTML}岁,我想说:${person[i].children[3].innerHTML}</li>`
-    //     }
-    //     ul.innerHTML = temp;
-    //     // console.log(person);
-    // })
-
-    /*
-        * 读操作需要注意的是，一次读取会把当前域名下的所有cookie都获取出来
-        格式为'key=val; key2=val2',分号后面有空格
-    */
-    console.log(document.cookie); //读操作
-    document.cookie = 'name=pq'; //写操作
-    document.cookie = 'age=13';
-    console.log(document.cookie); //读操作
-
-    let a = new Date();
-    a.setDate(new Date().getDate() + 1);
-
-    console.log(a)
-
-    document.cookie = 'name=ddf; expires='+a;
-
-    /*
-        cookie的生命周期
-            默认的生命周期是当浏览器关闭，生命就结束
-
-            如果不要走默认的生命周期使用 expires
-
-            expires=需要设置的时间 
-
-            let o = new Date();
-            o.setDate(new Date().getDate() + 1);  //比当前时间多1天
-
-            document.cookie = 'name=pq; expires='+o;
-
-        cookie，在以前每个域名只能设置几个或者几十个，字字千金，现在据说有5M
-
-        cookie必须使用服务器环境
-    */
+ 
 
     let sql = [
         {
@@ -123,6 +63,8 @@
     function getCookie(key){
         let c = document.cookie;
         let val;
+        console.log(c);
+        
         c.split('; ').forEach(item=>{
             let ary = item.split('=');
             if(ary[0] === key){
@@ -137,8 +79,12 @@
         setCookie(key,val,{setTime:{date:-1}});
     }
 
-    removeCookie('user','尹德智');
-    console.log(getCookie('user'));
+    // removeCookie('user','尹德智');
+    // removeCookie('name','xxoo');
+    removeCookie('age','13');
+
+    console.log(getCookie('name'));
+    console.log(document.cookie);
 
 
     let c = document.cookie;

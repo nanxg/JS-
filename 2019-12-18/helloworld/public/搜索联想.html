@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+*{
+    padding:0;
+    margin:0;
+}
+#box{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    width:300px;
+    justify-content:center;
+    align-items: center;
+    height:300px;
+}
+ul{
+    width:170px;
+    list-style: none;
+    border:1px solid #ccc;
+    border-top:none;
+    border-bottom:none;
+}
+li{
+    line-height: 20px;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+}
+</style>
+</head>
+<body>
+   <div id="box">
+        <h2>哈呵搜索</h2>
+        <input type="text" id="search" autocomplete="off" autofocus/>
+        <ul id="ul">
+        </ul>
+   </div>
+<script>
+    function fn(dat){
+        let html = '';
+        const {g} = dat;
+        console.log(g);
+        if(!g){
+            ul.innerHTML = '';
+            return;
+        }
+        g.forEach(({q})=>{
+            html += `<li>${q}</li>`
+        })
+        ul.innerHTML = html;
+        ul.onclick = function (ev){
+            if(ev.target.tagName ==='LI'){
+                // window.location.href = 'https://www.baidu.com/s?ie=UTF-8&wd='+ev.target.innerHTML;
+                
+                window.open('https://www.baidu.com/s?ie=UTF-8&wd='+ ev.target.innerHTML,'_self') // _self本页面跳转  _blank新页面跳转
+            }
+        }
+        
+    }
+
+    /* 
+        发送请求之后就可以删除这个标签，因为已经请求，函数已经执行，只要函数还在有没有标签没关系
+        也可以按下之后就删除上一个标签，这样只会留下一个标签
+        不删除会一直创建script标签
+     */
+    search.onkeyup = function(){
+        let os = document.createElement('script');
+        os.src = 'https://www.baidu.com/sugrec?prod=pc&from=pc_web&wd='+ this.value +'&cb=fn'
+        document.getElementsByTagName('head')[0].appendChild(os);
+        os.remove(); 
+    }
+
+</script>
+</body>
+</html>

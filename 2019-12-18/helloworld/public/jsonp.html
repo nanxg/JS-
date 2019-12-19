@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="head">
+    <meta charset="UTF-8">
+    <title>Document</title>
+    
+</head>
+<body>
+    123
+
+<!-- <script src="http://localhost/1.js"></script> -->
+<script>
+ 
+    function fn(a){
+        console.log(a);
+    }
+
+    /*
+        https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=1461,21082,30210,30328,30284,26350&wd=s
+    */
+ 
+    //点击是异步的
+    document.onclick = function(){
+        // 创建script标签，添加src属性，放到head中
+        let o = document.createElement('script'); 
+        o.src = 'https://www.baidu.com/sugrec?prod=pc&from=pc_web&wd=66&cb=fa'; //wd是搜索的内容，cb为回调函数
+        head.append(o);//插入到页面的时候，fn早就被解析完了
+
+        //*****上面这句话就等同于函数调用，等于下面这句话
+        // fn(5)
+    }
+    function fa(b){
+        console.log(b);
+        
+    }
+    
+</script>
+<script src="http://localhost/1.js"></script>
+</body>
+</html>

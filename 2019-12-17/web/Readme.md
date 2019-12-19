@@ -1,24 +1,29 @@
-﻿使用方法：
+﻿
+可视化数据:
+	https://robomongo.org/campaign
+
+使用方法：
 	1.	需要安装node / mongoDB    https://www.mongodb.com/ 安装
 
 	启动数据库:
-		找到C:\Program Files\MongoDB\Server\3.4\bin
 
-		.\mongod --dbpath=数据库存放的位置 --port=27017 
+		找到C:\Program Files\MongoDB\Server\bin（MongoDB安装目录下的bin文件内）
+		
+		在此文件夹内shift+右键打开node
+
+		输入 .\mongod --dbpath=数据库存放的位置 --port=27017 
 	
-	2.	使用npm install 安装依赖项
+	2.	服务器中 使用npm install 安装依赖项
 
-	3.	npm run dev  运行服务
+	3.	npm run dev  或 node server + tab 回车运行服务
 
 	4.	在http://localhost:88 访问
 
-	npm i nrm -g
+	npm i nrm -g 
 
 	nrm test  查看哪个速度快
 
-	nrm use cnpm  切换镜像
-
-	
+	nrm use cnpm  切换镜像	
 
 
 功能： 登陆/注册/文件上传/简易微博(添加、删除、分页、点赞、踩)

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    111
+    <script>
+        // http://localhost:80 -> https://movie.douban.com/j/search_subjects?type=tv&tag=国产剧
+        console.log(111);
+        
+        let xhr = new XMLHttpRequest;
+        xhr.open('get','/proxy');  
+        xhr.send();
+        xhr.onload = function(){
+            console.log(xhr.responseText)
+        }  
+        
+    </script>
+</body>
+</html>

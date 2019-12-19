@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+     /*
+        页面更改数据之后刷新，数据不变(数据被保存)
+
+        1.刷新之后请求一次数据
+
+        2.把数据存储在浏览器中
+            cookie 
+                - 后端技术，基于浏览器实现的(一般都是后端来设置,也可以前端来种)
+                - 用来存储用户的操作信息
+                - 一次http请求（填写用户名密码），后端只知道这次请求某人是否合法，http是无状态的，不能记录某人登录过账户
+                后端使用cookie去存储某个人操作，下次请求的时候，把上一次的操作发给后端，就知道某人是否登录过账户
+                前端用来本地缓存
+            localStorage
+            sessionStorage
+    */
+        
+    /*
+        cookie的生命周期
+            默认的生命周期是当浏览器关闭，生命就结束
+
+            如果不要走默认的生命周期使用 expires
+
+            expires=需要设置的时间 
+
+            let o = new Date();
+            o.setDate(new Date().getDate() + 1);  //比当前时间多1天
+
+            document.cookie = 'name=pq; expires='+o;
+
+        cookie，在以前每个域名只能设置几个或者几十个，字字千金，现在据说有5M
+
+        cookie必须使用服务器环境
+        同名cookie会覆盖
+
+        * 读操作需要注意的是，一次读取会把当前域名下的所有cookie都获取出来
+        格式为'key=val; key2=val2',分号后面有空格
+    */
+
+    console.log(document.cookie); //读操作
+    document.cookie = 'name=pq'; //写操作
+    document.cookie = 'age=13';
+    console.log(document.cookie); //读操作
+
+    let a = new Date();
+    a.setDate(a.getDate() + 1);
+
+    document.cookie = 'name=ddf; expires='+a;
+    console.log(document.cookie);
+ 
+    setCookie('name','xxoo',{
+        setTime:{
+            date:10
+        }
+    });
+
+    // 设置cookie的属性 值 生命周期
+    function setCookie(key,val,time){
+        if(time){
+            let o = new Date;
+            // o.setMinutes(new Date().getMinutes() + time);
+            let t;
+            let prop;
+            for(let attr in time.setTime){
+                t = attr[0].toUpperCase()+attr.substr(1); //t = Date
+                prop = attr;
+            }
+            // console.log('set'+t,time.setTime[prop])
+            
+            o['set'+t](new Date()['get'+t]()+time.setTime[prop]);
+            // console.log(o);
+
+            document.cookie = key + '=' + val + '; expires='+o;
+        }else{
+            document.cookie = key + '=' + val;
+        }   
+    }
+
+    function getCookie(key){
+        let c = document.cookie;
+        let val;
+        
+        c.split('; ').forEach(item=>{
+            let ary = item.split('=');
+            if(ary[0] === key){
+                val = ary[1];
+            }
+        });
+        return val;
+    }
+
+    // 移除cookie，把生命周期设置提前
+    function removeCookie(key,val){
+        setCookie(key,val,{setTime:{date:-1}});
+    }
+
+    // removeCookie('user','尹德智');
+    removeCookie('name','xxoo');
+    removeCookie('age','13');
+
+    console.log(getCookie('name'));
+    console.log(document.cookie);
+
+</script>
+</body>
+</html>

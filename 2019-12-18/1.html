@@ -5,43 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #d1{
+            width:100vw;
+            height:100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #d2{
+            width:300px;
+            height:300px;
+            border:1px solid lawngreen;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-    <script>
-    /* 
-        跨域(源)
+    <div id="d1">
+        <div id="d2">
+            <input type="text">
+            <ul>
+                <li>123</li>
+            </ul>
+        </div>
+    </div>
+<script>
+/* 
+    跨域(源)
 
-        同源策略：一种关于安全方面的约定
+    同源策略:一种关于安全方面的约定，它是浏览器最核心也最基本的安全功能，
+    如果缺少了同源策略，则浏览器的正常功能可能都会受到影响。
+    Web是构建在同源策略基础之上的，浏览器只是针对同源策略的一种实现。
 
-        源：
-            协议：http/https; ftp; file ...
-            https比http更安全，传输时需要安全证书认证(性能可能略差)
+    源：
+        协议：http/https; ftp; file ...
+        https比http更安全，传输时需要安全证书认证(性能可能略差)
 
-        域名：(IP的别名)
-            www.baidu.com
+    域名：(IP的别名)
+        www.baidu.com
 
-        端口：
-            80; 5500 ... 
+    端口：
+        专门是做某件事情的口
+        80; 5500 ... 
 
-        同源：同域名，同协议，同端口
+    同源：同域名，同协议，同端口
 
-        跨源：域名，协议，端口都不相同
+    跨源：域名，协议，端口都不相同
 
-        跨域：域名，协议，端口只要有一个不同就叫跨域
+    跨域：域名，协议，端口只要有一个不同就叫跨域
 
-        解决跨域：
-            1.CORS
+        https://www.baidu.com:80  我
 
-                需要高版本浏览器的XMLHttpRequest + 后端设置白名单
-                优点：前端什么都不用做，只需后端加白名单
-                缺点：低版本浏览器不兼容
+        http://www.baidu.com:80  协议不一样=跨域
 
-            2.服务器代理：
+        https://www.baidu.com:81 端口不一样=跨域
 
-            3.jsonp
+        https://www.taobao.com:80 域名不一样=跨域
 
-            
-    */    
-    </script>
+        https://news.baidu.com:80  跨域
+
+        https://baidu.com   http://61.135.169.121
+        https://blog.baidu.com   跨域
+
+    解决跨域：
+        1.CORS
+
+            需要高版本浏览器的XMLHttpRequest + 后端设置白名单
+
+            优点：前端什么都不用做，只需后端加白名单
+
+            缺点：低版本浏览器不兼容
+
+        2.服务器代理：
+            当前端口通过服务器进行跨域请求其他端口资源
+
+            服务器能够进行跨域请求第三方资源，服务器跨域的代码又和我端同源，就等同于我端跨域第三方资源
+
+            优点:前端基本不用做什么，需要自己配置第三方资源路径
+
+            缺点:别人变了的你也得变。
+
+        3.jsonp
+            json + padding 数据内填充
+
+            有些标签天生就支持跨域 如:
+                a href = ""
+                img src = ""
+                link href="1.css"
+                script  src=""
+
+            script标签会尽量解析外链资源把资源变成js代码
+
+
+        jsonp需要哪些条件
+            1.*全局*定义一个函数
+            2.后端的数据要知道你定义的函数叫什么名字
+            3.后端把数据放到函数调用中
+            4.通过script标签发送请求 等同于函数调用,数据通过传实参传过来
+
+
+        ajax和jsonp数据有什么区别？
+
+            ajax请求来的数据不带函数名加括号
+            jsonp请求的数据是带函数名 + 括号的
+
+            jsonp只能是get请求，因为走的是url
+            ajax的请求方式可以请求jsonp数据，但是jsonp数据不能访问到ajax数据
+            原因：
+                ajax -> xhr.responseText (fn('{"name":"zhufeng"}'))可以请求回带函数名的数据，处理之后可用。
+                jsonp -> '{"name":"zhufeng"}'只能函数名调用传回数据。
+
+        
+*/    
+</script>
 </body>
 </html>

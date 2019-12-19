@@ -68,7 +68,7 @@
         
         //请求成功之后才能插入页面
         fetch('/api/weibo?act=add&content='+value).then(d=>d.json()).then(d=>{
-            // console.log(d);
+            console.log(d);
             if(d.code === 0){
                 /*
                     如果在使用服务器时间的时候，发现设置的时间为1970，直接*1000,因为服务器时间是以秒来计算的

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>围脖</title>
+    <link href="/public/css/weibo.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div class="nArea">
+        <!--留言-->
+        <div class="takeComment">
+            <textarea name="textarea" class="takeTextField" id="text"></textarea>
+            <div class="takeSbmComment">
+                <input type="button" id="submit" class="inputs" value=""/>
+                <span>(可按 Enter 回复)</span>
+            </div>
+        </div>
+        <!--已留-->
+        <div class="commentOn">
+            <div class="messList" id="div1" style="height:502px">
+                <!-- <div class="reply">
+                    <p class="replyContent">卫士，新款卫士将推出总共14种车身式样。其中， XS旅行款车型售价为32295英镑(约33.6万元)。</p>
+                    <p class="operation">
+                        <span class="replyTime">2018-09-08 16:37:60</span>
+                        <span class="handle">
+                            <a href="javascript:;" class="top">0</a>
+                            <a href="javascript:;" class="down_icon">0</a>
+                            <a href="javascript:;" class="cut">删除</a>
+                        </span>
+                    </p>
+                </div> -->
+            </div>
+            <div class="page" id="page">
+                <!-- <a href="#" class="active">1</a> -->
+                <!-- <a href="#" >2</a> -->
+            </div>
+        </div>
+    </div>
+<script>
+    /* 
+    获取数据： /api/weibo
+        get
+            act		get
+            page	页码
+            page从1开始
+        return
+            数据数组
+            若失败：
+                code   错误码
+                msg	   提示信息
+    */
+
+    // 登录刷新，首先请求第一页数据
+    function fet(p=1){
+        div1.innerHTML = '';
+        fetch('/api/weibo?act=get&page='+p).then(d=>d.json()).then(d=>{
+            console.log(d);
+            d.reverse(); // 数组倒序排列
+            d.forEach(i=>{
+                render(i);  
+            })
+            aa()
+        })
+    }
+    fet()
+
+    /* 
+    获取页码：  /api/weibo
+        get
+            act		get_page_count
+            
+        return
+            code   0为成功
+            msg	   提示信息
+            count	页码
+
+    */
+    function aa(){
+        fetch('/api/weibo?act=get_page_count').then(d=>d.json()).then(d=>{
+            console.log(d);
+            // console.log(page.lastElementChild.innerHTML);
+            if(d.code === 0){
+                console.log(d.count);
+                if(d.count === 0){
+                    page.innerHTML = '';
+                }else if(d.count === 1){
+                    page.innerHTML = `<a href="#" class="active">1</a>`
+                }else if(d.count>page.lastElementChild.innerHTML){
+                    page.innerHTML += `<a href="#">${d.count}</a>`
+                }
+            } 
+
+            let pa = page.querySelectorAll('a');
+            pa.forEach(a=>{
+                let that
+                a.onclick = function(){
+                    that.classList.remove('active');
+                    that = this ;
+                    this.classList.add('active')
+                    window.code = this.innerText
+                    fet(window.code)
+                }
+            }) 
+        })
+    }
+
+
+    function render(a){
+        aa()
+        let tim = new Date(a.time);
+        let y = tim.getFullYear();
+        let mo = tim.getMonth()+1;
+        let d = tim.getDate();
+        let h = tim.getHours();
+        let m = tim.getMinutes();
+        let s = tim.getSeconds();
+
+        div1.innerHTML = `<div class="reply">
+                    <p class="replyContent">${a.content}</p>
+                    <p class="operation">
+                        <span class="replyTime">${y}-${add0(mo)}-${add0(d)} ${add0(h)}:${add0(m)}:${add0(s)}</span>
+                        <span class="handle" pid="${a.id}">
+                            <a href="javascript:;" class="top">${a.like}</a>
+                            <a href="javascript:;" class="down_icon">${a.dislike}</a>
+                            <a href="javascript:;" class="cut">删除</a>
+                        </span>
+                    </p>
+            </div>` + div1.innerHTML
+        
+        
+        /* 
+        删除：   /api/weibo
+            get
+                act		del
+                id		id
+            return
+                code   0为成功
+                msg	   提示信息
+        */
+        let cut = div1.querySelectorAll('.cut');
+        let zan = div1.querySelectorAll('.top');
+        let cai = div1.querySelectorAll('.down_icon');
+        // 清除事件
+        cut.forEach(a=>{
+            a.onclick = null;
+        })
+        zan.forEach(a=>{
+            a.onclick = null;
+        })
+        cai.forEach(a=>{
+            a.onclick = null;
+        })
+        // 绑定事件
+        cut.forEach(e=>{
+            e.onclick = function(){
+                // 获取数据id，通过id删除数据
+                let id = this.parentNode.getAttribute('pid');
+                fetch('/api/weibo?act=del&id='+ id).then(d=>d.json()).then(d=>{
+                    // console.log(d);
+                    if(d.code === 0){
+                        fet(window.code)
+                    }
+                })
+            }
+        })
+
+        /* 
+        点赞：  /api/weibo
+            get
+                act		like
+                id		id
+            return
+                code   0为成功
+                msg	   提示信息
+        */
+        zan.forEach(e=>{
+            e.onclick = function(){
+                let that = this
+                let id = this.parentNode.getAttribute('pid');
+                fetch('/api/weibo?act=like&id='+ id).then(d=>d.json()).then(d=>{
+                    // console.log(d);
+                    if(d.code === 0){
+                        that.innerText = that.innerText*1  + 1;
+                    }
+                })
+            }
+        })
+
+        /* 
+        踩：  /api/weibo
+            get
+                act		dislike
+                id		id
+            return
+                code   0为成功
+                msg	   提示信息
+        */
+        cai.forEach(e=>{
+            e.onclick = function(){
+                let that = this
+                let id = this.parentNode.getAttribute('pid');
+                fetch('/api/weibo?act=dislike&id='+ id).then(d=>d.json()).then(d=>{
+                    // console.log(d);
+                    if(d.code === 0){
+                        that.innerText = that.innerText*1  + 1;
+                    }
+                })
+            }
+        })
+
+    }
+
+    // 数字加0
+    function add0(n){
+        return n<10?'0'+n:''+n;
+    }
+
+    /* 
+    添加数据：  /api/weibo
+        get
+            act		add
+            content		输入的内容
+        return
+            code   0为成功
+            msg	   提示信息
+            id		返回id
+            time	返回时间戳
+
+        如果在使用服务器时间的时候，发现设置的时间为1970，直接*1000,因为服务器时间是以秒来计算的
+    */
+    submit.onclick = function(){
+        let {value:v} = text;
+        // 请求成功，插入页面    
+        fetch('/api/weibo?act=add&content='+ v).then(d=>d.json()).then(d=>{
+            console.log(d); //数据返回值没有输入的内容，请求成功后需手动添加(不然渲染不出来)
+            if(d.code === 0){
+                d.content = v;
+                d.like = 0;
+                d.dislike = 0;
+                fet(1)
+                text.value = '';
+            }
+        })     
+    }
+
+
+   
+    
+
+</script>
+</body>
+</html>

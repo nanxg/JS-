@@ -1,4 +1,7 @@
-﻿使用方法：
+﻿可视化数据:
+	https://robomongo.org/campaign
+
+使用方法：
 	1.	需要安装node / mongoDB    https://www.mongodb.com/ 安装
 
 	启动数据库:

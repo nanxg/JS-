@@ -12,52 +12,59 @@
     <button>3333</button>
     <p id="p"></p>
 
-    <input type="button" value="后退" id="btn"/>
+    <input type="button" value="后退" id="btn1"/>
+    <input type="button" value="前进" id="btn2"/>
 <script>
     /* 
     window.history. 
         浏览器历史记录，能使用前进后退，可伪造url地址且不刷新页面
 
-        back 返回
-        forward 前进
-        go(-1) 后退 
-        go(1) 前进
-        pushState(数据,名字,伪url) 记录url状态(可写)
+        back()  返回
+        forward()  前进
+        go(-1)  后退 
+        go(1)  前进
+        pushState(数据,名字,伪url)  记录url状态(可写)
             注：伪url不刷新页面(除非服务端配合)
 
-        onpopstage 事件函数(只读)(操作历史记录时触发)
-            通过ev.state去拿之前存的数据
+        onpopstage  事件函数(只读)(操作历史记录时触发)
+            通过ev.state去拿之前pushState存的数据
             
-        replaceState 替换记录
+        replaceState  替换记录
 
     */
 
-    window.history.pushState({
-        num:0
-    },'','http://localhost:88/6_history.html/1');
+    // window.history.pushState({
+    //     num:0
+    // },'','http://localhost:88/history.html/1'); //url已变，但是不刷新，手动刷新之后404
 
     let ary = ['第一张图片','第二张图片','第三张图片'];
     const btns = document.querySelectorAll('button');
-
+        
     btns.forEach((ele,i)=>{
         ele.onclick = function(){
-            p.innerHTML = ary[i];
-            window.history.pushState({
-                    num:i
-                },'','http://localhost:88/6_history.html/'+i);
-                }
-    });
+            p.innerText = ary[i];
+            window.history.pushState({n:i},'','http://localhost:88/history.html/'+i);
 
-    btn.onclick = function(){
-        window.history.go(-1);
-    }
+        }
+    })
 
     //当操作历史记录的时候去触发这个事件
     window.onpopstate = function(ev){
-        // console.log();
-        //触发这个事件的时候，通过ev.state去拿之前存的数据
-        p.innerHTML = ary[ev.state.num];
+        console.log(ev);      
+        console.log(ev.state);
+        //触发这个事件的时候，通过ev.state去拿之前pushState存的数据
+        p.innerHTML = ary[ev.state.n];
     }   
+
+    btn1.onclick = function(){
+        // window.history.go(-1);
+        window.history.back();
+    }
+    btn2.onclick = function(){
+        // window.history.go(1);
+        window.history.forward();
+    }
+    
 
 </script>
 </body>
