@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>abort</title>
+</head>
+<body>
+    <button id="send">发送</button>
+    <button id="abort">中断</button>
+<script>
+    /* 
+        xhr.onabort 当请求(网络)中断时候触发该事件
+        xhr.abort() 强制中断
+    */
+    let xhr = null;
+    send.onclick = function(){
+        xhr = new XMLHttpRequest
+        xhr.open('get','/sleep?user=123'); // 启app.js
+        xhr.send();
+        xhr.onload = function(){
+            console.log(xhr.responseText);
+        }
+        xhr.onabort = function(){ // 请求中断中断时执行
+            console.log('中断');
+        }
+    }
+    abort.onclick = function(){ //点击强制中断
+        xhr.abort();
+    }
+
+</script>
+</body>
+</html>

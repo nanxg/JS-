@@ -44,6 +44,7 @@ timeout  设置超时时间
 ontimeout 监听超时回调
 
 ### get 和post
+
 - get是通过url进行请求的(4步)
     协议 域名 端口 接口 查询信息 hash
         https:
@@ -69,11 +70,44 @@ ontimeout 监听超时回调
     
     需添加请求头：.setRequestHeader('content-type','application/x-www-form-urlencoded');
 
+```
+    // get
+    user.onblur=function(){          
+        let xhr=new XMLHttpRequest; //创建一个电话
+        xhr.open('get','/get?user='+this.value,true); //输入号码(请求方式，请求地址，是否异步)
+        xhr.send(); //发送请求拨号
+        xhr.onload=function(){ //等待回应
+             console.log(xhr.responseText) //通话
+        }
+    }
+
+    // post
+    user.onblur=function(){          
+        let xhr=new XMLHttpRequest; //创建一个电话
+        xhr.open('post','/post',true); //输入号码(请求方式，请求地址，是否异步)
+        xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+        xhr.send('user='+this.value); //发送请求拨号
+        xhr.onload=function(){ //等待回应
+            console.log(xhr.responseText) //通话
+        }
+    }
+
+```
+
+### fetch的get
+
+```
+// url中包括查询信息字段（可暴露的）
+fetch('url').then(d=>d.json()或者d.text()).then(d=>{
+        consule.log(d)
+    })
+```
 
 ### fetch的post
     
 ```
-fetch(url,{
+// url中没有查询信息的字段（不可暴露）
+fetch('url',{
         method:'post',
         headers:{
             'content-type':'application/x-www-form-urlencoded'
@@ -84,6 +118,8 @@ fetch(url,{
             key1:value1,
             key2:value2  //如果value是中文,会自动转成URI编码
         })
+    }).then(d=>d.json()或者d.text()).then(d=>{
+        consule.log(d)
     })
 ```
 
@@ -130,5 +166,28 @@ Query String Parmeters：请求体
     3: 请求处理中
     4: 请求已完成，且响应已就绪
 
+### onabort
+
+- onabort  当网络中断的时候触发
+- xhr.abort()  强行中断
 
 
+### ajax中XHR、fetch、axios区别
+
+    fetch ->ES6新的api，基于promise
+        get
+        post
+
+    axios -> 基于promise封装XMLHttpRequest
+
+    axios里面拦截器，方便做些钩子处理
+
+    XMLHttpRequest可以监听细节，监听请求过程1-4
+    超时处理、abort强制中断，onabort中断监听
+
+    XHR（浏览器自带的api） 
+    axios（基于这个XHR来封装的一个js库）
+
+### 网络7层协议
+
+    http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html

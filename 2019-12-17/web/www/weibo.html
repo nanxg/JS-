@@ -56,12 +56,12 @@
     function fet(p=1){
         div1.innerHTML = '';
         fetch('/api/weibo?act=get&page='+p).then(d=>d.json()).then(d=>{
-            console.log(d);
+            // console.log(d);
             d.reverse(); // 数组倒序排列
             d.forEach(i=>{
                 render(i);  
             })
-            aa()
+            aa(p)
         })
     }
     fet()
@@ -76,39 +76,45 @@
             msg	   提示信息
             count	页码
 
-    */
-    function aa(){
+    */ 
+
+    function aa(p){
+        window.code = p; // 页码放到全局
         fetch('/api/weibo?act=get_page_count').then(d=>d.json()).then(d=>{
-            console.log(d);
-            // console.log(page.lastElementChild.innerHTML);
+            // console.log(d);
+            // console.log(page.lastElementChild.innerHTML); 
             if(d.code === 0){
-                console.log(d.count);
-                if(d.count === 0){
-                    page.innerHTML = '';
-                }else if(d.count === 1){
-                    page.innerHTML = `<a href="#" class="active">1</a>`
-                }else if(d.count>page.lastElementChild.innerHTML){
-                    page.innerHTML += `<a href="#">${d.count}</a>`
+                // console.log(d.count);
+                page.innerHTML = '';
+                for(let i=0;i<d.count;i++){
+                    page.innerHTML += `<a href="#" class=${i===(p-1)?"active":""}>${i+1}</a>`
                 }
             } 
 
             let pa = page.querySelectorAll('a');
-            pa.forEach(a=>{
-                let that
+            pa.forEach((a,i)=>{
+                  
+                // console.log(a.innerText);
+                          
+                // if(a.innerText*1 === p){
+                //     a.className = 'active';
+                //     that = i;
+                // }
                 a.onclick = function(){
-                    that.classList.remove('active');
-                    that = this ;
-                    this.classList.add('active')
-                    window.code = this.innerText
+                    window.code = this.innerText; //点第几页，全局页码就是几
                     fet(window.code)
                 }
             }) 
         })
     }
 
+    // 数字加0
+    function add0(n){
+        return n<10?'0'+n:''+n;
+    }
 
     function render(a){
-        aa()
+        // aa()
         let tim = new Date(a.time);
         let y = tim.getFullYear();
         let mo = tim.getMonth()+1;
@@ -129,7 +135,6 @@
                     </p>
             </div>` + div1.innerHTML
         
-        
         /* 
         删除：   /api/weibo
             get
@@ -142,16 +147,7 @@
         let cut = div1.querySelectorAll('.cut');
         let zan = div1.querySelectorAll('.top');
         let cai = div1.querySelectorAll('.down_icon');
-        // 清除事件
-        cut.forEach(a=>{
-            a.onclick = null;
-        })
-        zan.forEach(a=>{
-            a.onclick = null;
-        })
-        cai.forEach(a=>{
-            a.onclick = null;
-        })
+  
         // 绑定事件
         cut.forEach(e=>{
             e.onclick = function(){
@@ -160,7 +156,13 @@
                 fetch('/api/weibo?act=del&id='+ id).then(d=>d.json()).then(d=>{
                     // console.log(d);
                     if(d.code === 0){
-                        fet(window.code)
+                        fetch('/api/weibo?act=get_page_count').then(d=>d.json()).then(d=>{
+                            if(window.code > d.count){
+                                fet(d.count)
+                            }else{
+                                fet(window.code)
+                            }
+                        })
                     }
                 })
             }
@@ -209,12 +211,6 @@
                 })
             }
         })
-
-    }
-
-    // 数字加0
-    function add0(n){
-        return n<10?'0'+n:''+n;
     }
 
     /* 

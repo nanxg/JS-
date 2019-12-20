@@ -8,13 +8,22 @@
     111
     <script>
         // http://localhost:80 -> https://movie.douban.com/j/search_subjects?type=tv&tag=国产剧
-        console.log(111);
         
+        // 启动app3.js
+        // let xhr = new XMLHttpRequest;
+        // xhr.open('get','/');  
+        // xhr.send();
+        // xhr.onload = function(){
+        //     console.log(xhr.responseText)
+        // }  
+
+        // 启动app.js 
         let xhr = new XMLHttpRequest;
         xhr.open('get','/proxy');  
         xhr.send();
         xhr.onload = function(){
-            console.log(xhr.responseText)
+            console.log(xhr.responseText); // 响应值为整个html
+            document.write(xhr.responseText); // 向文档中写入整个静态页面
         }  
         
     </script>
