@@ -56,7 +56,7 @@
     function fet(p=1){
         div1.innerHTML = '';
         fetch('/api/weibo?act=get&page='+p).then(d=>d.json()).then(d=>{
-            // console.log(d);
+            console.log(d);
             d.reverse(); // 数组倒序排列
             d.forEach(i=>{
                 render(i);  
@@ -230,7 +230,7 @@
         let {value:v} = text;
         // 请求成功，插入页面    
         fetch('/api/weibo?act=add&content='+ v).then(d=>d.json()).then(d=>{
-            console.log(d); //数据返回值没有输入的内容，请求成功后需手动添加(不然渲染不出来)
+            // console.log(d); //数据返回值没有输入的内容，请求成功后需手动添加(不然渲染不出来)
             if(d.code === 0){
                 d.content = v;
                 d.like = 0;

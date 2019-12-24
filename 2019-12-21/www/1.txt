@@ -1,0 +1,2 @@
+1234
+<button id="btn">注册</button>

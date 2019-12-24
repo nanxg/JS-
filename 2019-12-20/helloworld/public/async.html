@@ -20,34 +20,29 @@
     }
 
 
+// 原Generator方法
 
+ /* function* fn(){
+        console.log('请求之前');
+        let res = yield request('/sleep?user=123');
+        console.log('拿到数据'+res);
+        console.log('请求之后');
+    }
+   
+    let f = fn();
+    document.onclick = function(){
+        f.next();
+    }    
 
-    /*
-        async function fn(){
-            console.log('请求之前');
-            let res = await fetch('/sleep?user=123');
-            console.log('拿到数据'+res);
-            console.log('请求之后');
+    function request(url){
+        let xhr = new XMLHttpRequest;
+        xhr.open('get',url);
+        xhr.send();
+        xhr.onload = function(){
+            f.next(xhr.responseText);
         }
-    */
-
-    // let f = fn();
-    // document.onclick = function(){
-    //     // f.next();
-    //     fn();
-    // }    
-
-    
-
-    // function request(url){
-    //     let xhr = new XMLHttpRequest;
-    //     xhr.open('get',url);
-    //     xhr.send();
-    //     xhr.onload = function(){
-    //         f.next(xhr.responseText);
-    //     }
-    // }
-
+    }
+ */
 </script>
 </body>
 </html>

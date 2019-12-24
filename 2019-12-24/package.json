@@ -1,0 +1,16 @@
+{
+  "name": "2019-12-24",
+  "version": "1.0.0",
+  "description": "npm init -y  下载back...json文件\r npm install  下载依赖",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-session": "^1.17.0"
+  }
+}
