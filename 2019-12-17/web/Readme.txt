@@ -10,7 +10,7 @@
 		
 		在此文件夹内shift+右键打开node
 
-		输入 .\mongod --dbpath=数据库存放的位置 --port=27017 
+		输入 .\mongod --dbpath=项目中存放数据库的位置 --port=27017 
 	
 	2.	服务器中 使用npm install 安装依赖项
 

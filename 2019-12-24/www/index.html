@@ -69,8 +69,14 @@
     </div>
 <script src="axios.js"></script>
 
-<!-- ------------------- axios 请求版 -------------------- -->
+<!-- ------------------- axios 请求版 (下边是fetch) -------------------- -->
 <script>
+    /* 
+        axios.post('/getName',{user:v}).then(d=>d.data)
+        axios.get('/c?user='+ a.data.user +'&iphone='+ b.data.iphone).then(d=>{d.data})
+        axios({url:'/',method:, ...}).then()
+        
+     */
     // 顶部消息框
     function delogFn(val){
         delog.innerHTML = val;
@@ -99,8 +105,8 @@
     user.onblur = async function(){
        let v = this.value.trim();
        if(v){
-            await axios.post('/getName',`user=${v}`).then(d=>{ // ???
-
+            let d = await axios.post('/getName',{user:v})
+    //         .then(d=>{         
                 d = d.data;
                 if(d.code == 0){
                     user.style.border = '1px solid green';
@@ -110,7 +116,7 @@
                     user.style.border = '1px solid red';
                     delogFn(d.msg);
                 }
-            })
+    //         })
         }else{
             delogFn('请输入内容');
        }
@@ -120,7 +126,11 @@
         let v = user.value.trim();
         let v2 = pw.value.trim();
        if(v && v2){
-            await axios('/register',{user:v,pw:v2}).then(d=>{
+           
+            let d = await axios.post('/register',{user:v,pw:v2})
+            // .then(d=>{
+                console.log(d);
+                
                 d = d.data;
                 console.log(d);
                 if(d.code == 0){
@@ -135,20 +145,22 @@
                     user.style.border = '1px solid red';
                     delogFn(d.msg);
                 }
-            })
+            // })
         }else{
             delogFn('请输入内容');
         }
     }
 
-    login.onclick = async function(){
+    login.onclick = function(){
         let v = user2.value.trim();
         let v2 = pw.value.trim();
        if(v && v2){
-            await axios('/login',{
+            axios.post('/login',{
                     user:v,
                     pw:v2
             }).then(d=>{
+                console.log(d);
+                d = d.data;
                 if(d.code == 0){
                     delogFn('恭喜登录成功');
                     user2.style.border = '1px solid green';
@@ -159,7 +171,7 @@
                         num --;
                         if(num < 0){
                             num = 0;
-                            window.location.href = '/index2.html';
+                            location.href = '/index2.html';
                         }
                         p.innerHTML = num+'秒之后开始走上人生巅峰~~';
                     }, 1000);

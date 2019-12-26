@@ -87,7 +87,7 @@
                 // console.log(d.count);
                 page.innerHTML = '';
                 for(let i=0;i<d.count;i++){
-                    page.innerHTML += `<a href="#" class=${i===(p-1)?"active":""}>${i+1}</a>`
+                    page.innerHTML += `<a href="javascript:void(0);" class=${i===(p-1)?"active":""}>${i+1}</a>`
                 }
             } 
 
@@ -156,13 +156,14 @@
                 fetch('/api/weibo?act=del&id='+ id).then(d=>d.json()).then(d=>{
                     // console.log(d);
                     if(d.code === 0){
-                        fetch('/api/weibo?act=get_page_count').then(d=>d.json()).then(d=>{
-                            if(window.code > d.count){
-                                fet(d.count)
-                            }else{
-                                fet(window.code)
-                            }
-                        })
+                        let len = div1.children.length
+                        if(len === 1){
+                            window.code --;
+                        }
+                        fet(window.code);
+                        // fetch('/api/weibo?act=get_page_count').then(d=>d.json()).then(d=>{
+                           
+                        // })
                     }
                 })
             }
@@ -184,7 +185,7 @@
                 fetch('/api/weibo?act=like&id='+ id).then(d=>d.json()).then(d=>{
                     // console.log(d);
                     if(d.code === 0){
-                        that.innerText = that.innerText*1  + 1;
+                        that.innerText = ++ that.innerText;
                     }
                 })
             }
@@ -232,9 +233,9 @@
         fetch('/api/weibo?act=add&content='+ v).then(d=>d.json()).then(d=>{
             // console.log(d); //数据返回值没有输入的内容，请求成功后需手动添加(不然渲染不出来)
             if(d.code === 0){
-                d.content = v;
-                d.like = 0;
-                d.dislike = 0;
+                // d.content = v;
+                // d.like = 0;
+                // d.dislike = 0;
                 fet(1)
                 text.value = '';
             }

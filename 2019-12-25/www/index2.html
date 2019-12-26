@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    img{
+        width:100px;
+    }
+</style>
+</head>
+<body>
+    <!-- 原始用form表单上传 -->
+    <!-- <form action="/upload" method="POST" enctype="multipart/form-data"> -->
+        <input type="file" multiple name="filename" id="file">
+        <button id="btn">提交</button>
+        <!-- <input type="submit" value="提交" /> -->
+    <!-- </form> -->
+        <div id="box">
+        </div>
+<script src="./axios.js"></script>
+<script>
+    /*
+        FileReader可以把files[n]的数据，变成base64码(img原本的编码)
+        fr.readAsDataURL(图片数据) 没有这一步 ev.target.result就没有
+        fr.onload  解析完之后触发的事件
+            这个事件里面有个ev.target.result 就是base64码
+    */
+
+    let ary = []
+    // input的value改变触发事件
+    file.onchange = function(){
+        ary.push(this.files[0]); //多个文件放进数组 可以循环依次上环
+
+        let fr = new FileReader; 
+        fr.readAsDataURL(this.files[0]);     
+        fr.onload = function(ev){
+            let img = new Image;
+            img.src = ev.target.result;
+            box.append(img);
+        }
+    }
+
+    /* 
+    FormData的主要用途有两个：
+        1、将form表单元素的name与value进行组合，实现表单数据的序列化，从而减少表单元素的拼接，提高工作效率。
+        2、异步上传文件
+
+        append 可以设置多个重名的
+            fd.append('filename',ele);
+        set 只能设置一个
+            fd.set('filename',ele);
+    */
+    btn.onclick = function(){
+        let fd = new FormData;
+        // fd.append('filename',file.files[0]);
+        ary.forEach(ele=>{
+            fd.append('filename',ele);
+            console.log(fd);
+        });
+
+        axios.post('/upload',fd,{
+            headers:{
+                "Content-Type": "multipart/form-data" 
+            }
+        }).then(({data})=>{
+            console.log('成功',data);
+            file.value = '';
+            box.innerText = '';
+        });
+    }
+</script>
+</body>
+</html>

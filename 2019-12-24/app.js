@@ -4,11 +4,13 @@ const fs = require('fs');
 const path=  require('path'); //处理文件路径的小工具
 const bodyParser = require('body-parser'); //对post请求的请求体进行解析
 const session = require('express-session');
+
+app.use(bodyParser.json()); // 解决axios的post请求配置对象问题(使用之后可以传对象)
+
 //将静态文件目录设置为：项目根目录+/public
 // app.use(express.static(__dirname + '/public')); //不写dirname会自动寻找
 //或者
 // app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.static('www')); //设置静态资源目录
 
 // bodyParser.urlencoded 用来解析 request 中 body的 urlencoded字符， 只支持utf-8的编码的字符,也支持自动的解析gzip和 zlib。
@@ -110,7 +112,7 @@ app.post('/login',(req,res)=>{
 
 // 判断是否登录(如果存在cookie表示已经登录)
 app.get('/islogin',(req,res)=>{
-    console.log(req.session.userinfo);
+    // console.log(req.session.userinfo);
 
     if(req.session.userinfo){ //获取session，如果存在就登陆过
         res.json({
@@ -136,14 +138,39 @@ app.get('/logout',(req,res)=>{
     });
 })
 
+//多并发
+app.get('/a',(req,res)=>{
+    setTimeout(() => {
+        res.json({user:'pjc'})
+    }, 2000);
+})
 
+app.get('/b',(req,res)=>{
+    setTimeout(() => {
+        res.json({iphone:'123456'})
+    }, 5000);
+});
+
+app.get('/c',(req,res)=>{
+    let {user,iphone} = req.query
+    if(user=='pjc'&& iphone=='123456'){
+        res.json({
+            code:0
+        })
+    }else{
+        res.json({
+            code:1
+        })
+    }
+    
+});
 
 
 let prot = 80;
 
 app.listen(prot);
 
-app.use('*',(req,res)=>{
+app.use('*',(req,res)=>{ // 如果上边的都失败走这
     let data = fs.readFileSync(path.resolve('./www/404.html'));
     res.send(data.toString());
 });

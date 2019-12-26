@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script  src="./axios.js"></script>
+<script>
+    /*
+        全局拦截
+        axios.interceptors.request.use(function(config){}) 请求拦截 指可以拦截每次或指定HTTP请求，并可修改配置项。
+            用处：
+                开loading
+                登录验证
+                权限验证
+
+            注：函数内参数必须return出去，不然会报错
+
+        axios.interceptors.response.use() 响应拦截 每次HTTP请求后，可以在响应返回前拦截住每次或指定HTTP请求，并可修改返回结果项。
+            用处：
+                关loading
+                二次操作数据
+                如果接口自带登录验证或者权限验证，也可以做路由跳转
+
+            注：函数内参数必须return出去，不然会报错
+
+        参考链接：https://www.jianshu.com/p/13cf01cdb81f
+
+        解除拦截:
+            拦截器都有一个返回值，把返回值放到eject里面即可
+            axios.interceptors.response.eject(返回值)
+
+        自定义拦截器（局部拦截）:（自定义拦截了之后，只要用instance请求的都会被拦截）
+            const instance = axios.create(); //创建axios给一个变量 -> instance === axios  
+
+            instance.interceptors.response.use(); // 用这个变量做拦截
+
+            instance.get('/a') // 拦截它 不拦截axios的
+            axios.get('/b')
+
+    */
+
+   
+    let time,num=0;
+    
+    let instance = axios.create();
+
+    document.onclick = function(){
+        // axios.get('/a').then((d)=>{
+        //     console.log(d.data.user);
+        // })
+        instance.get('/a').then((d)=>{
+            // 相应拦截： config.user = config.data.user; 之后
+            console.log(d.user);
+        })
+    }
+
+    /*  使用 ①  */
+    // axios.interceptors.request.use(function(config){
+    //     console.log('拦截请求');
+    //     console.log(config);
+    //     time = setInterval(()=>{
+    //         console.log(num++);
+    //     },1000);
+    //     return config;
+    // },function(err){
+    //     return Promise.reject(err);
+    // })
+    // axios.interceptors.response.use(function(config){
+    //     clearInterval(time);
+    //     return config;
+    // },function(err){
+    //     return Promise.reject(err)
+    // })
+
+
+    // 结合index2(index2中设置了localStorage)
+    instance.interceptors.request.use(async function(config){
+    // axios.interceptors.request.use(async function(config){
+        // 先看登没登陆过，如果登陆过再发请求，如果没登陆过直接跳转登录页。
+        let los = localStorage.getItem('session_id');
+        console.log(los);
+        
+        if(los){
+            // axios请求会拦截，无限请求无限拦截 (使用fetch，或者局部拦截可解决)
+            let d = await axios('/islogin');
+            d = d.data;
+            if(d.code == 0){
+                console.log('已登录');
+                return config
+            }else{
+                location.href = '/';
+            }
+        }else{
+            location.href = '/';
+        }
+    },function(error){
+        return Promise.reject(error); 
+    })
+
+    instance.interceptors.response.use(function(config){
+    // axios.interceptors.response.use(function(config){
+        console.log(config)
+        config.user = config.data.user; //
+        return config;
+    },function(error){
+        return Promise.reject(error); 
+    })
+
+    
+
+</script>
+</body>
+</html>

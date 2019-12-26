@@ -10,20 +10,22 @@
 	<button id="btn">退出登录</button>
 	<script src="axios.js"></script>
 <script>
+	// 刷新判断是否在有效期登陆
 	axios.get('/islogin').then(data=>{
 		// console.log(d);
 		let d = data.data;
 		if(d.code == 0){
 			p.innerHTML = '欢迎'+d.user+'回来';
+			// 登录就设置缓存，便于请求拦截
 			localStorage.setItem('session_id',d.user)
 		}else{
-			window.location.href = '/';
+			window.location.href = '/'; // 退回 根目录
 		}
 	});
 
 	btn.onclick = function(){
 		axios.get('/logout').then(d=>{
-			// console.log(d);
+			console.log(d);
 			d = d.data;
 			if(d.code === 0){
 				window.location.href = '/';
