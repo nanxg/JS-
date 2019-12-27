@@ -39,7 +39,7 @@
                 钩子函数 -> 回调函数 -> 生命周期函数
 
                 axios.interceptors 公共的
-                axios.create 局部的
+                a = axios.create(); a.interceptors 局部的
         */
         axios.interceptors.request.use(config => {
             img.style.display = 'block';
