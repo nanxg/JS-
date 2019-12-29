@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="author" content="Reddy.Huang"/>
+    <link rel="stylesheet" href="/public/css/reset.css">
+    <link rel="stylesheet" href="/public/css/register.css">
+    <title>Title</title>
+    <style>
+        h2 {
+            display: none;
+        }
+        #info{
+          display: none;
+        }
+    </style>
+</head>
+<body>
+<h2 id="userInfo">欢迎回来,<span id="user"></span></h2>
+<div class="form-wrapper">
+    <div class="banner"></div>
+    <!-- <form id="form"> -->
+        <div class="item-wrapper"><label for="username">登陆名</label><input type="text" name="username" id="username" value=""></div>
+        <div class="item-wrapper"><label for="password">密码</label><input type="password" name="password" id="password" value=""></div>
+        <input type="button" value="登陆" id="submit">
+        <input type="button" value="注册" id="register">
+    <!-- </form> -->
+    <p id="info" >请输入信息</p>
+</div>
+<script src="../../public/js/axios.min.js"></script>
+<script>
+    /* 注册 */
+    register.onclick = function(){
+        let u = username.value;
+        let p = password.value;
+        axios.post('/api/user/register',`username=${u}&password=${p}`).then(d=>{
+            d = d.data;
+            console.log(d);
+            if(d.code === 0){
+                alert(d.msg)
+            }else{
+                alert(d.msg)
+            }
+            username.value = password.value = '';
+        })
+    }
+    
+    /* 登录 */
+    submit.onclick = function(){
+        let u = username.value;
+        let p = password.value;
+        axios.post('/api/user/login',`username=${u}&password=${p}`).then(d=>{
+            d = d.data;
+            console.log(d);
+            if(d.code === 0){
+                alert(d.msg)
+                username.value = password.value = '';
+                location.href = '../';
+            }else{
+                alert(d.msg)
+            }
+        })
+    }
+    
+
+
+</script>
+</body>
+</html>

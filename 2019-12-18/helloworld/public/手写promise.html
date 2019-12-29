@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    function MyPromise(executor){ // executor，new promise时，接收传的函数实参，函数实参中有成功函数与失败函数
+        let that = this;
+
+        that.value = undefined; //成功的值，为了往then里边的成功函数传参数
+        that.reason = undefined; //失败的值，为了往then里边的失败函数传参数
+        that.status = 'pending'; //状态值，默认是个等待状态
+
+        /* 成功和失败的事件池，存储绑定的函数（订阅）；使其异步函数可以同步执行*/
+        that.fulfilledCallback = [];
+        that.rejectedCallback = [];
+
+        //成功函数
+        function fulfilled(value){//发布成功池。 value接收new MyPromise里边的成功函数传的参数
+            // console.log('1秒之后会执行');
+            
+            //在调用成功函数的时候只允许成功函数执行，状态从pending改到成功，使其状态凝固
+            if(that.status === 'pending'){
+                that.status = 'fulfilled'; //成功，就把状态值改为fulfilled，避免成功失败都能执行
+                that.value = value;  //当调用成功函数的时候，把外界传入的参数赋值给this.value
+                that.fulfilledCallback.forEach(fn=>{ //异步时，当函数被调用，就循环事件池中的每个函数，让其挨个执行
+                    fn();
+                });
+            }
+        }
+        //失败函数
+        function rejected(reason){//发布失败池
+            //在调用成功函数的时候只允许失败函数执行，状态从pending到失败，使其凝固
+            if(that.status === 'pending'){
+                that.status = 'rejected';
+                that.reason = reason;
+                that.rejectedCallback.forEach(fn=>{
+                    fn();
+                });
+            }
+        }   
+        executor(fulfilled,rejected); //只要调用MyPromise，就执行executor，所以在executor中有同步和异步代码
+    }
+
+    MyPromise.prototype.then = function(res,rej){ //接收.then里边的成功与失败函数
+        let that = this;
+        // 同步情况
+        //成功的情况下调用res
+        if(that.status === 'fulfilled'){ // 判断状态 ，避免.then参数中的函数都执行
+            res(that.value); // 接收实例的value值
+        }
+        //失败的情况下调用rej
+        if(that.status === 'rejected'){
+            rej(that.reason);
+        }
+
+        //异步的情况,如果是pending状态，就先订阅；把成功和失败的函数订阅到对应的事件池里去
+        if(that.status === 'pending'){
+            that.fulfilledCallback.push(function(){ //直接push 函数() 就直接执行了
+                res(that.value);
+            });
+            that.rejectedCallback.push(function(){
+                rej(that.reason);
+            });
+        }
+        // console.log(that.status)
+    }
+
+    new MyPromise(function(resolve,reject){
+        setTimeout(()=>{ // 用定时器，确定可以异步函数同步执行
+            resolve(10); // 调用成功函数，往fulfilled中传参数
+        },1000);
+    }).then(function(d){ // 传给原型下的then方法中的res函数
+        console.log(d);//10 成功
+    })
+
+    //then后面不能加then，因为then没有返回值是undefined
+    // .then(function(){
+    //     console.log(1)
+    // })
+
+
+
+
+    // addEventListener(function(d){
+    //     console.log(d);//10
+    // }
+
+
+
+
+
+</script>
+</body>
+</html>

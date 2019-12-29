@@ -14,6 +14,8 @@ ES6 -> ECMAScript6 -> ECMAScript2015 +
 
 - 核心：入口(entry),输出(output),loader,插件(plugins),服务器配置(dev-server)
 
+> https://juejin.im/post/5e01de37f265da33ab637daf
+
 #### 安装
 
 > 安装yarn：npm install yarn -g

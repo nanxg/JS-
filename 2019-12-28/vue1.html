@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 文本插值 -->
+        {{message}}{{aaa}} 
+        <h1>{{hw}}</h1>
+        <ul id="ul">
+            <li>{{li}}</li>
+            <li v-for="(val,key) in ary">{{val}}:{{key}}</li>
+            <li v-for="(val) in arr">{{val}}</li>
+            <li v-for="(val,key) in ara">{{key}}:{{val}}</li>
+        </ul>
+    </div>
+    
+<script src="vue.js"></script>
+<script>
+    var app = new Vue({ // 获得vue应用对象
+        el:'#app', // 代表element，id选择器选择元素
+        data:{
+            message:'hello Vue!',
+            aaa:'变量赋值',
+            hw:'标题',
+            li:[111,222],
+            ary:[444,555],
+            arr:[66,77],
+            ara:[88,99]
+        }
+    });
+
+    let ary = [1==1?1:0,2==3?2:0,3==4?3:4];
+    console.log(ary);//[1,0,4]
+    
+</script>
+</body>
+</html>
