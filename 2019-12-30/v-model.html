@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>v-model</p>
+        清除空格<input type="text" v-model.trim="val" @input="fn"> <!-- .trim，清除前后空格 -->
+        转数字<input type="text" v-model.number="val" @input="fn"> <!-- .number，parseFloat转数字，如果开始不是数字就不转 -->
+        把oninput转成onchange<input type="text" v-model.lazy="val"> <!-- .lazy，把输入就监听转成失焦监听 -->
+        onchange事件<input type="text" @change="fn" v-model="val">
+       <p> {{val}} </p>
+       <hr>
+       <input type="checkbox" v-model="b"> <!-- 根据布尔值改变选择状态 -->
+       <p>{{b}}</p>
+       <hr />
+       <input type="checkbox" v-model="ary" value="1111">1111<br>
+       <input type="checkbox" v-model="ary" value="2222">2222<br>
+       <input type="checkbox" v-model="ary" value="3333">3333<br>
+       <p>{{ary}}</p>
+       <hr />
+       男:<input value="0" type="radio" v-model="num" @click="log1"> <!-- 获取num值会延迟？？？ -->
+       女:<input value="1" type="radio" v-model="num" @click="log2">
+       <p>{{ary2[num]}}</p>
+       
+    </div>
+<script src="vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            val:'',
+            b:true,
+            ary:[],
+            ary2:['男','女'],
+            num:''
+        },
+        methods:{
+            fn(){
+                console.log(this.val);
+            },
+            log1(){
+                console.log(this.num);
+            },
+            log2(){
+                console.log(this.num);
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

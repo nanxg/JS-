@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+        数据拦截（劫持）  双向数据绑定
+
+        Object.defineProperty(obj, prop, desc) -> obj为读取的对象，prop为读取的属性，desc为配置内容
+
+        value、writable与get、set不能同时存在，会报错。
+    */
+    let obj = {name:'haha'} ;
+    obj.age = 2;
+    let num = 5;
+
+    Object.defineProperty(obj, 'age', { 
+        // value:2,
+        // writable:false,  //属性是否可被修改
+        enumerable:false, //属性是否可以被枚举
+        configurable:false, //属性是否可以被删除
+
+        get(){ //读这个属性的时候触发
+            console.log('读');
+           //return后的内容就是读操作后的结果（必须写return；没有return就读不到值）
+            return num; //
+        },
+        set(val){ //写这个属性的时候触发(可以没有return的)
+            console.log('写')
+            console.log(val);
+            num = val; 
+        }
+    });
+    console.log(obj.age);
+
+    obj.age = 8;
+
+    console.log(obj.age)
+
+
+    for(let attr in obj){
+        console.log(attr);
+    }
+    console.log(delete obj.name); //true
+    console.log(delete obj.age); //false
+    console.log(obj) 
+
+
+    /* 题一道 */
+    let obj2 = {};
+    obj2.age = 2;
+    let nu = 0;
+    Object.defineProperty(obj2, 'age', {
+        get(){
+            console.log('读一次'); 
+            return nu += 3
+        }
+    });
+    console.log(obj2.age < 4 && obj2.age > 5);//true
+
+    console.log(obj2.age) // 9， 读了三次 ，nu加了3次
+ // 
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="val">
+        <!-- 标签写js略显臃肿 -->
+        <p >{{ val.split('').reverse().join('') }}</p>
+        <!-- 可以事件函数调用 -->
+        <p>{{ fn() }}</p> 
+        <!-- 可以用计算属性 -->
+        <p>{{ revers }}</p>
+        <hr>
+        
+        <input v-model.lazy="fullName"/>{{fullName}}
+        <p>{{fName}}</p>
+        <p>{{lName}}</p>
+    </div>
+<script src="vue.js"></script>
+<script>
+    /*
+        Object.defineProperty的getter、setter原理
+    */
+     new Vue({
+        el:"#app",
+        data:{
+            val:'训 培 峰 珠',
+            fName:'小花',
+            lName:'二丫'
+        },
+        //上来就执行一次，当数据发生了变化也会继续执行(数据不变就不执行，调用时直接发返回原结果)；事件函数数据不变调用也会执行
+        computed: {
+            //getter
+            revers(){
+                return this.val.split('').reverse().join('')
+            },
+            fullName:{
+                //getter
+                get(){ // 上来先读操作
+                    return this.fName +' '+ this.lName
+                },
+                //setter
+                set(val){ //input内容改变就是写操作
+                    let ary = val.split(' ');
+                    this.fName = ary[0];
+                    this.lName = ary[ary.length-1];
+                }
+            }
+        },
+        methods:{
+            fn(){
+                return this.val.split('').reverse().join('')
+            }
+        }
+     })
+</script>
+</body>
+</html>

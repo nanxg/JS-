@@ -19,7 +19,7 @@
 
         //成功函数
         function fulfilled(value){//发布成功池。 value接收new MyPromise里边的成功函数传的参数
-            // console.log('1秒之后会执行');
+            // console.log('1秒之后会执行'); // 一秒之后才改变状态值，但是.then已经执行
             
             //在调用成功函数的时候只允许成功函数执行，状态从pending改到成功，使其状态凝固
             if(that.status === 'pending'){
@@ -80,15 +80,6 @@
     // .then(function(){
     //     console.log(1)
     // })
-
-
-
-
-    // addEventListener(function(d){
-    //     console.log(d);//10
-    // }
-
-
 
 
 
