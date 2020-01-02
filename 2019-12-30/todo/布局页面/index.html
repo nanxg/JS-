@@ -20,53 +20,57 @@
                 >
             </header>
             <section class="main">
-                <input class="toggle-all" type="checkbox" >
+                <input class="toggle-all" type="checkbox" 
+                    v-model="allonoff" 
+                    @click="all"
+                >
                 <ul class="todo-list">
-                    <li class="active" v-for="(val,key) in ary">
+                    <li 
+                        :class="{editing:val.onoff===true,completed:val.checked===true}" 
+                        v-for="(val,key) in setAry" 
+                        ref="li"
+                    >
                         <div class="view" v-show="!val.onoff">
-                            <input class="toggle" type="checkbox" v-model="val.checked">
-                            <label 
-                                @dblclick="dbclk(val)" 
-                                v-bind:pip="val.id">{{val.txt}}
-                            </label>
-                            <button class="destroy"></button>
+                            <input class="toggle" type="checkbox" 
+                                :value="checkall" 
+                                v-model="val.checked"
+                            >
+                            <label @dblclick="dbclk(val,key)">{{val.txt}}</label>
+                            <button class="destroy" @click="del(key)"></button>
                         </div>
                         <input
-                            class="editing"
+                            class="edit"
                             value="val.txt"
-                            v-show="val.onoff"
                             v-model="changetxt"
-                            @blur="blur(val)"
+                            ref="input"
+                            @blur="blur(val,$event)"
+                            @keyup.esc="esc(val)"
                         />
                     </li>
                 </ul>
             </section>
             <footer class="footer">
 	            <span class="todo-count">
-	            	<strong>0</strong>
+	            	<strong>{{sel}}</strong>
 	            	<span>条未选中</span>
                 </span>
-                <ul 
-                    class="filters"
-                >
+                <ul class="filters">
                     <li>
-                        <a 
-                            href="#/all" 
-                            class="selected"
-                           
+                        <a  href="#/all" 
+                            :class="a==0?'selected':''"
+                            @click="filters(0)"
                         >全部</a>
                     </li>
                     <li>
-                        <a 
-                            href="#/unchecked" 
-                            
-                            class=""
+                        <a  href="#/unchecked" 
+                            :class="a==1?'selected':''"
+                            @click="filters(1)"
                         >未选中</a>
                     </li>
                     <li>
-                        <a 
-                            href="#/checked"
-                            class=""
+                        <a  href="#/checked"
+                            :class="a==2?'selected':''"
+                            @click="filters(2)"
                         >已选中</a>
                     </li>
                 </ul>
@@ -75,15 +79,17 @@
     </section>
 <script src="../../vue.js"></script>
 <script>
-    // editing completed
-    // editing ''
-    // ''
-    //completed
+    //editing ：双击切换li显示的class名
+    //completed ：删除线的class名
 
     new Vue({
         el:'.todoapp',
         data:{ 
             valin:'', // 输入的数据
+            changetxt:'', 
+            allonoff:false, //全选判断
+            a:'0',
+            isblur:false, // 解决失焦与esc冲突问题
             ary:[ 
                 {
                     id:0,
@@ -97,30 +103,88 @@
                     checked:false,
                     onoff:false
                 }
-            ],
-            changetxt:''
+            ]
+        },
+        computed:{
+            // 选中的数量
+            sel(){
+                let {ary} = this;
+                return ary.filter((e)=>e.checked === false).length
+            },
+            // 筛选的数据
+            setAry(){
+                const {a,ary} = this;
+                return ary.filter((e,i)=>{
+                    switch(a){
+                        case 0:
+                            return e;
+                        case 1:
+                            return e.checked === false; 
+                        case 2:
+                            return e.checked === true;
+                        default:
+                            return e;
+                    }
+                })
+            },
+            // 全选中
+            checkall(){
+                const {ary} = this;
+                this.allonoff = ary.every((e)=>e.checked === true);
+                // console.log(ary.every((e)=>e.checked === true));
+                return this.allonoff;
+            },
         },
         methods:{
+            // 增加数据
             add(){
+                if(this.valin==='') return
                 this.ary.unshift({
                     id:new Date,
-                    txt:this.val,
+                    txt:this.valin,
                     checked:false,
                     onoff:false
                 });
                 this.valin='';
             },
-            dbclk(val){
-                val.onoff=!val.onoff;
-                this.changetxt=val.txt;
+            // 双击更改内容
+            dbclk(val,key){
+                val.onoff = true;
+                this.changetxt = val.txt;
+                //input元素获取焦点
+                this.$nextTick((x) => { //正确写法
+                    // console.dir(this.$refs.input[key])
+                    this.$refs.input[key].select();
+                })
             },
-            blur(val){
+            // 失焦更改内容
+            blur(val,ev){
+                if(this.isblur) return
                 val.txt=this.changetxt;
-                val.onoff=!val.onoff
-
-            }
-        }
-            
+                val.onoff = false;
+            },
+            // esc还原内容
+            esc(val){
+                this.isblur = true;
+                setTimeout(()=>{
+                    this.isblur = false
+                },100)
+                val.onoff = false;
+            },
+            // 全选按钮
+            all(){
+                this.allonoff = !this.allonoff;
+                this.ary.map(i=>i.checked=this.allonoff)
+            },
+            // 删除
+            del(key){
+                this.ary = this.ary.filter((e,i)=>i!==key)
+            },
+            // 筛选
+            filters(a){
+                this.a = a;
+            }, 
+        } 
     })
 </script>
 </body>

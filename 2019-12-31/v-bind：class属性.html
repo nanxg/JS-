@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #box{
+        width:100px;
+        height:100px; 
+    }
+    button{
+        background: blue;
+    }
+    .red{
+        background: red;
+    }
+    .blue{
+        background: blue;
+    }
+    .active{
+        background: red;
+    }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button
+            :class="{active:boolean}"
+            @click="boolean=!boolean"
+        >变色</button
+            >
+        <div id="box"
+            :class="{red:boolean,blue:!boolean}"
+        >
+        </div>
+    </div>
+<script src="vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            boolean:true
+        }
+    })
+</script>
+</body>
+</html>

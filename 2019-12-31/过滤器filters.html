@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+</style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model.number="val">
+        <p>reverse: {{ reverse }}</p>
+        <p>todoule: {{ val | todoule }}</p>
+        <p>rever:{{val|rever}}</p>
+        <p>clearNum:{{val|clearNum}}</p>
+    </div>
+<script src="./vue.js"></script>
+<script>
+   /*
+        filters：过滤器 （数据的第二次处理）
+
+            管道符:|
+            局部注册:
+                filters:{
+                    fn(val管道符之前的值){
+                        return 基于管道符之前的值进行二次处理
+                    }
+                }
+
+            全局注册:
+                Vue.filter('fn',function(val管道符之前的值){
+                    return 基于管道符之前的值进行二次处理
+                })
+
+                注：注册全局的过滤器，要放在new Vue的上方
+                全局注册了之后，只要是当前Vue实例下的所有组件都能享受到这个全局注册的过滤器
+                局部注册，只有当前这个组件才能享受
+            调用:
+                {{val|fn}} -> val作为fn的参数
+                {{val|fn(v1,v2)}} -> 过滤器函数可以传参数，val作为第一个传参数，v1、v2作为第二三个参数
+
+        使用过滤器就不需要下面这种函数调函数的写法，更整洁好看
+        class {
+            B(){
+                fn(){
+                }
+            }
+            A(){
+                fn2(){
+                }
+            }
+        }
+
+        computed:
+            数据的第二次处理,数据改变就执行函数，返回处理的结果
+    */
+
+    Vue.filter('todoule',function(val){
+        console.log(val)
+        return val<10?'0'+val:''+val;
+    });
+    //注册全局的过滤器，要放在new Vue的上方
+
+    new Vue({
+        el:'#app',
+        data:{
+            val:'珠峰培训'
+        },
+        // 事件函数
+        methods:{
+            fn(){
+                return this.val.split('').reverse().join('')
+            }
+        },
+        // 计算属性
+        computed:{
+            reverse(){
+                return this.val.split('').reverse().join('')
+            }
+        },
+        // 过滤器
+        filters:{
+            rever(val){
+                return val.split('').reverse().join('');
+            },
+            clearNum(val){
+                return val.replace(/\d+/g,'')
+            },
+            //如果全局和局部都注册了相同名字的过滤器，那么优先级最高的是局部
+            todoule(val){
+                return 0+val+0;
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <myzj></myzj>
+
+        ppa<ppa></ppa> <!-- 子组件模板上引用ppa的数据，可以显示，但是没引入Vue的数据 -->
+
+        <button @click="num++">父级{{num}}</button>
+
+        <btn :pn="num"></btn> <!-- 组件上引用Vue的数据，可以显示，但是没引入ppa的数据 -->
+        <hr>
+        <btncd :fnum="num" page="1" :fary="ary"></btncd>
+    </div>
+<script src="vue.js"></script>
+<script>
+    /*
+        定义子组件(实例内):
+            Vue.component('组件的名字',{
+                template:`<div></div>`, // 组件模板
+                data(){
+                    return {
+                        此处写数据
+                    }
+                },
+                methods:{
+                }
+            })
+            注：①注册组件必须在new Vue上方  
+                ②组件模板中顶层只能有一个元素(最外层标签是同一个元素)
+
+        注册组件(实例内)：
+            components:{
+                组件名:{
+                    template:`<div></div>`,
+                }
+                btn
+            }
+        组件的名字如果是直接引vue.js，那么尽量不要使用驼峰命名,
+        因为命名之后，使用子组件的时候会报错，如果非要使用
+        把子组件改成烤串命名
+
+        父子组件的传递:
+            1.子组件上自定义一个*行内属性*：v-bind:属性名="父级data中的数据"
+            2.子组件（对象）上定义一个props的属性，属性的值可以为数组也可以为对象
+                如果是数组['第一步自定义的行间属性名']
+                    props:['属性名1','属性名2'...]
+            3.直接用{{}} + props中的名字就可以使用了
+                    {{ 属性名1 }} 
+
+            简单总结:
+                (1)往子组件的行间属性上传值
+                (2)子组件通过props去接收
+    */
+
+    Vue.component('myzj',{
+        template:`<div 
+            @click="click"
+        >组件示例 {{ num }}</div>`,
+        data(){
+            return {
+                num:11
+            }
+        },
+        methods:{
+            click(){
+                alert('示例结束');
+            }
+        }
+    });
+
+    const btn = {  // 设置组件对象
+        template:`<button @click="num++">自身的{{num}} Vue的{{pn}} ppa的{{pp}}</button>`, //组件模板;内的数据分别为自身的num，实例的num，ppa的num
+        data(){
+            return {
+                num:22
+            }
+        },
+        props:['pn','pp'], // 引入父级数据
+        
+    };
+
+    // const ppa = {  // 设置组件对象
+    //     template:`<div>{{num}}
+    //             <btn></btn>
+    //         </div>`,
+    //     data(){
+    //         return {
+    //             num:33
+    //         }
+    //     },
+    //     components:{  // 组件套组件
+    //         btn
+    //     }
+    // }
+
+   
+    // 实例外注册组件
+    // Vue.component('ppa',ppa) 
+
+    // 父子数据传递
+    const btncd = {
+        template:`<div>
+            <button>按钮{{fnum}} {{page}}</button>
+            <ul>
+                <li v-for="val in fary">{{val}}</li>
+            </ul>
+        </div>`,
+        props:['fnum','page','fary']
+    }
+
+    new Vue({
+        el:"#app",
+        data:{
+            num:66,
+            ary:[1,2,3,4]
+        },
+
+        // 实例内注册组件components；注意：比在外边的单词多一个s。可批量注册，简单实用，方便快捷
+        components:{
+            ppa:{  // 设置组件对象
+                template:`<div>{{num}}
+                        <btn :pp="num"></btn>
+                    </div>`,
+                data(){
+                    return {
+                        num:33
+                    }
+                },
+
+                components:{  // 组件套组件
+                    btn
+                }
+            },
+            // ppa,
+            btn,
+            btncd
+        }
+    })
+</script>
+</body>
+</html>

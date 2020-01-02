@@ -18,18 +18,39 @@
        <input type="checkbox" v-model="b"> <!-- 根据布尔值改变选择状态 -->
        <p>{{b}}</p>
        <hr />
+       <!-- <input type="text" v-model="ary" >1111<br> -->
        <input type="checkbox" v-model="ary" value="1111">1111<br>
        <input type="checkbox" v-model="ary" value="2222">2222<br>
        <input type="checkbox" v-model="ary" value="3333">3333<br>
        <p>{{ary}}</p>
        <hr />
-       男:<input value="0" type="radio" v-model="num" @click="log1"> <!-- 获取num值会延迟？？？ -->
+       男:<input value="0" type="radio" v-model="num" @click="log1"> <!--  -->
        女:<input value="1" type="radio" v-model="num" @click="log2">
        <p>{{ary2[num]}}</p>
-       
+       <hr>
+       <input 
+            type="text" 
+            v-model="val"
+            @keyup.13="add"
+        />
+        <!-- @input="change" id="txt"-->
+        <button
+            @click="add"
+        >点击</button>
+        <ul>
+            <li 
+                v-for="(val,key) in ary"
+                @click="rm(key)"
+            >{{val}}</li>
+        </ul>
     </div>
 <script src="vue.js"></script>
 <script>
+    /*
+        双向数据绑定（数据驱动视图，视图也可以改变数据）
+        绑v-model的目的就是想让用户操作界面的时候，顺便帮我操作数据
+        只要是遇到了表单元素，就要思考一下是否使用v-model
+    */
     new Vue({
         el:"#app",
         data:{
@@ -37,17 +58,29 @@
             b:true,
             ary:[],
             ary2:['男','女'],
-            num:''
+            num:'',
         },
         methods:{
             fn(){
                 console.log(this.val);
             },
             log1(){
-                console.log(this.num);
+                setTimeout(()=>{
+                    console.log(this.num);
+                })
             },
             log2(){
-                console.log(this.num);
+                setTimeout(()=>{
+                    console.log(this.num);
+                })
+            },
+            
+            add(){
+                this.ary.push(this.val);
+                this.val = '';
+            },
+            rm(key){
+                this.ary = this.ary.filter((e,index)=>index!==key);
             }
         }
     })

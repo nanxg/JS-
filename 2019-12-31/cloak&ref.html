@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+[v-cloak]{
+    _display: none;
+    color:skyblue;
+    font-size: 200px;
+}
+</style>
+</head>
+<body>
+    <div id="app">
+       <div v-cloak ref="box" @click="get">
+            {{ msg }}
+       </div>
+    </div>
+<script src="./vue.js"></script>
+<script>
+    /*
+        v-cloak -> 可以设置小胡子样式,可以让他再刷新的时候不显示
+
+        ref -> 快速定位一个元素或者组件
+
+        设置:
+            元素或者组件上添加一个ref的属性即可
+                <div ref="box">
+
+        获取:
+                this.$refs.box
+    */
+    new Vue({
+        el:'#app',
+        data:{
+            msg:'haha'
+        },
+        methods:{
+            get(){
+                console.log(this.$refs.box);//获取设置ref的元素或者组件
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
