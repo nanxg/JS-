@@ -28,11 +28,11 @@
                     <li 
                         :class="{editing:val.onoff===true,completed:val.checked===true}" 
                         v-for="(val,key) in setAry" 
-                        ref="li"
+                        :key="val.id"
                     >
-                        <div class="view" v-show="!val.onoff">
+                    <!-- :key="val.id" -->
+                        <div class="view">
                             <input class="toggle" type="checkbox" 
-                                :value="checkall" 
                                 v-model="val.checked"
                             >
                             <label @dblclick="dbclk(val,key)">{{val.txt}}</label>
@@ -40,7 +40,6 @@
                         </div>
                         <input
                             class="edit"
-                            value="val.txt"
                             v-model="changetxt"
                             ref="input"
                             @blur="blur(val,$event)"
@@ -49,7 +48,7 @@
                     </li>
                 </ul>
             </section>
-            <footer class="footer">
+            <footer class="footer" v-show="ary.length">
 	            <span class="todo-count">
 	            	<strong>{{sel}}</strong>
 	            	<span>条未选中</span>
@@ -76,6 +75,7 @@
                 </ul>
             </footer>
         </div>
+        {{ary}}
     </section>
 <script src="../../vue.js"></script>
 <script>
@@ -89,7 +89,7 @@
             changetxt:'', 
             allonoff:false, //全选判断
             a:'0',
-            isblur:false, // 解决失焦与esc冲突问题
+            // isblur:false, // 解决失焦与esc冲突问题
             ary:[ 
                 {
                     id:0,
@@ -128,19 +128,37 @@
                 })
             },
             // 全选中
-            checkall(){
-                const {ary} = this;
-                this.allonoff = ary.every((e)=>e.checked === true);
-                // console.log(ary.every((e)=>e.checked === true));
-                return this.allonoff;
-            },
+            // checkall(){
+            //     const {ary} = this;
+            //     console.log(1);
+                
+            //     // 如果数据都删除，全选就不选中(全删除时最后一个li不触发这里)
+            //     this.allonoff = ary.length && ary.every((e)=>e.checked === true);
+            //     // console.log(ary.every((e)=>e.checked === true));
+            //     return this.allonoff;
+            // },
+        },
+        watch:{
+            // 全选中
+            ary:{
+                handler(){
+                    const {ary} = this;
+
+                    // 如果数据都删除，全选就不选中
+                    this.allonoff = ary.length && ary.every((e)=>e.checked === true);
+                    // console.log(ary.every((e)=>e.checked === true));
+                    return this.allonoff;
+                },
+                deep:true, // 深度监听
+                immediate: true // 上来就执行一次
+            }
         },
         methods:{
             // 增加数据
             add(){
                 if(this.valin==='') return
                 this.ary.unshift({
-                    id:new Date,
+                    id:Date.now(),
                     txt:this.valin,
                     checked:false,
                     onoff:false
@@ -150,25 +168,34 @@
             // 双击更改内容
             dbclk(val,key){
                 val.onoff = true;
+                // this.isblur = false; 
                 this.changetxt = val.txt;
                 //input元素获取焦点
-                this.$nextTick((x) => { //正确写法
+                this.$nextTick((x) => { //延迟回调，在修改数据DOM更新之后执行
                     // console.dir(this.$refs.input[key])
                     this.$refs.input[key].select();
                 })
             },
             // 失焦更改内容
             blur(val,ev){
-                if(this.isblur) return
-                val.txt=this.changetxt;
+                // 判断是否是esc触发的，并且修改的名字是否为空
+                // if(!this.isblur&&this.changetxt) {
+                //     val.txt = this.changetxt;
+                // }
+
+                // 判断修改的名字是否为空
+                if(this.changetxt) {
+                    val.txt = this.changetxt;
+                }
                 val.onoff = false;
             },
             // esc还原内容
             esc(val){
-                this.isblur = true;
-                setTimeout(()=>{
-                    this.isblur = false
-                },100)
+                // this.isblur = true; // 设置一个变量，用来在失焦中判断是否是触发的esc
+                // setTimeout(()=>{
+                //     this.isblur = false; // 把值改回初始，避免失焦失败；也可以在双击时更改
+                // },100)
+                this.changetxt = val.txt; // 把要修改的值赋值为原始值，避免esc自动触发失焦时更改值
                 val.onoff = false;
             },
             // 全选按钮

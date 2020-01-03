@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="num++">父按钮{{num}}</button>
+        <!-- 组件属性传递 -->
+        <btncd :fnum="num" page="1" :fary="ary" @click="fnum++"></btncd>
+        <hr>
+
+        <ddv :fnum="num" :fval="val"></ddv>
+
+    </div>
+    <!-- 组件模板 -->
+    <template id="temp">
+        <div id="父级">
+            <h3>子标题</h3>
+            <p>子内容{{fval}}</p>
+            <button  @click="add">子按钮{{fnum}}</button>
+        </div>
+    </template>
+<script src="vue.js"></script>
+<script>
+    /* 
+     父子组件的传递:
+        1.子组件标签上自定义一个*行内属性*：v-bind:属性名="父级data中的数据"
+        2.注册子组件对象上定义一个props的属性，属性的值可以为数组也可以为对象
+            如果是数组['第一步自定义的行间属性名']
+                props:['属性名1','属性名2'...]
+        3.组件模板上直接用{{}} + props中的名字就可以使用了
+                {{ 属性名1 }} 
+
+        简单总结:
+            (1)往子组件标签的行间属性上传值
+            (2)子组件注册通过props去接收 
+            (3)在组件模板上使用
+        
+        特点：单向传递(父传子，子不能影响父)
+    */
+
+    // 父子数据传递
+    const btncd = {
+        template:`<div>
+            <button>按钮{{fnum}} {{page}}</button>
+            <ul>
+                <li v-for="val in fary">{{val}}</li>
+            </ul>
+        </div>`,
+        props:['fnum','page','fary']
+    }
+
+    Vue.component('ddv',{
+        template:'#temp',
+        data(){
+            return {
+                cval:'此乃子内容',
+                cnum:11
+            }
+        },
+        // prop为对象的情况
+        props:{
+            fnum:{
+                type:Number, // 数据类型，不是规定类型就报错
+                default:11   // 默认值，如果没有接收到就走默认值
+            },
+            fval:{
+                required:true, // 定义该prop是否是必填项
+                validator:function(v){  //自定义验证函数 验证是否符合规定，不是就报错
+                    return /^[\u4e00-\u9fa5]+/.test(v)
+                }
+            }
+        },
+        methods: {
+            add(){
+                // this.fnum++ //强行更改会报错
+            }
+        },
+    })
+
+
+    new Vue({
+        el:"#app",
+        data:{
+            num:66,
+            ary:[1,2,3,4],
+            val:'此乃父内容'
+        },
+
+        // 实例内注册组件components；
+        components:{
+            btncd
+        }
+    })
+</script>
+</body>
+</html>

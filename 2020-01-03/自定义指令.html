@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div v-color="'#cc1a1a'">
+            {{val}}
+        </div>
+        <hr>
+        <!-- 聚焦与选中 -->
+        <input type="text" v-focus v-select value="1111"/>
+        <hr>
+
+        <pp :fval="val"></pp>
+
+    </div>
+
+    <!-- 组件模板 -->
+    <template id="pp">
+        <p v-size="50">{{fval}}</p>
+    </template>
+
+<script src="./vue.js"></script>
+<script>
+    /*
+        Vue.directive('my-directive', {
+            bind: function () {},   -> 只调用一次，指令与元素绑定时调用，可进行一次性的初始化设置。
+            inserted: function () {},  -> 被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+            update: function () {},  -> 指令所在组件的VNode更新时调用(不管子VNode是否更新)
+            componentUpdated: function () {}, -> 指令所在组件的VNode及其子VNode全部更新后调用。
+            unbind: function () {}  -> 只调用一次，指令与元素解绑时调用。
+        })
+    */
+    Vue.directive('color',function(element,val){
+        console.log(element,val);
+        element.style.color = val.value || 'skyblue';
+    });
+    
+    // 聚焦
+    Vue.directive('focus',{
+        inserted(ele,val){
+            console.log(val);
+            ele.focus()
+        }
+    });
+    // 聚焦选中
+    Vue.directive('select',{
+        inserted(ele){
+            ele.select() 
+        }
+    })
+
+
+    new Vue({
+        el:"#app",
+        data:{
+            val:'自定义指令'
+        },
+        components:{
+            pp:{
+                template:"#pp",
+                props:['fval'],
+                directives:{
+                    size(ele,val){
+                        // console.log(ele,val);
+                        ele.style.fontSize = ( val.value || 20 ) + 'px';
+                    }
+                }
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

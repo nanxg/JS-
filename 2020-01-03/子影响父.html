@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h2>父元素</h2>
+        <input type="text" v-model="changea">
+        <button @click="fzchange">父按钮{{num}}</button>
+        <hr />
+        <!-- 组件内绑定自定义事件 -->
+        <ddv :fnum="num" :fval="val" @fzadd="fzchange" @inadd="fzchange"></ddv>
+        <hr>
+
+        <button @click="puary">父级pushary按钮</button>
+        <p>{{ar}}</p>
+        <ddv :far="ar" @par="puary"></ddv>
+
+    </div>
+
+    <!-- 组件模板 -->
+    <template id="temp">
+        <div id="父级">
+            <h3>子标题</h3>
+            <!-- 父级数据变为自己的，改变父级不影响自己；联动父级之后可以影响父级 -->
+            {{car}}
+            <p @click="pushary">子内容{{fval}}</p>
+
+            <!-- 模板内绑定事件 -->
+            <input type="text" @input='addin'>
+            <!-- 模板内绑定事件 -->
+            <button @click="addfz">子按钮{{fnum}}</button>
+        </div>
+    </template>
+<script src="vue.js"></script>
+<script>
+    /* 
+    子传父:
+        1.父级定义一个改变自己数据的方法(事件函数)
+        2.子级模板上某标签内写一个事件，在这个事件函数内自定义一个事件，用来调用父级的方法
+            this.$emit('自定义事件名',可以传参) 传参给调用的父级方法
+        3.在子组件的行间绑定子级的自定义事件，值为父级的修改数据的方法
+
+    在父级传递数据给自己的时候，可以让自己拥有父级的数据并且不与父级数据相关联
+        1.通过子组件的属性来传
+            <ddv :fnum="num"></ddv>（动态的）
+
+        2.使用props接收
+            {
+                props:['fnum']
+            }
+
+        3.把接收过来的数据变成自己的
+            {
+                props:['fnum'],
+                data(){
+                    return {
+                        cnum:this.num
+                    }
+                }
+            }
+        注：引用数据类型引过来的是空间地址
+     */
+    Vue.component('ddv',{
+        template:'#temp',
+        data(){
+            return {
+                cval:'此乃子内容',
+                cnum:11,
+                car:this.far // 父级数据变成自己的
+            }
+        },
+        methods:{
+            // 点击(子传父的事件函数)
+            addfz(){
+                console.log(this.$emit);
+                this.$emit('fzadd') //自定义事件名，用来调用父级的事件
+            },
+            // input输入(子传父的事件函数)
+            addin(){
+                this.$emit('inadd') //自定义事件名，用来调用父级的事件
+            },
+            pushary(){
+                this.car++
+                this.$emit('par',this.car) // 调用父级事件可以影响父级(不调用就互不影响)，但是父级不会影响自己
+            }
+        },
+        props:['fnum','fval','far']
+    })
+
+
+    new Vue({
+        el:"#app",
+        data:{
+            num:66,
+            ary:[1,2,3,4],
+            val:'父子联动',
+            changea:'',
+            ar:1
+        },
+        watch: {
+            changea(){
+                this.num ++
+            }
+        },
+        methods:{
+            // 给子级调用的修改数据的事件函数
+            fzchange(){
+                this.num ++
+            },
+            puary(val){
+                this.ar++
+                console.log(val); 
+            }
+        },
+    })
+
+</script>
+</body>
+</html>
