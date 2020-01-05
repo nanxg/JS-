@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .a{
+            color:brown
+        }
+        .b{
+            color:cadetblue
+        }
+        .c{
+            border:1px solid lawngreen
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <paa class="c">
+            <p class="a" slot="head">这是插件</p>
+            <p class="b" slot="body">这是插件2</p>
+            <!-- <p class="a" slot="foot">这是插件3</p> -->
+            <p class="a" slot="head">这是插件</p>
+        </paa>
+    </div>
+
+    <template id="paa">
+        <div>
+            <slot name="head">
+                <p>这是head</p>
+            </slot>
+            <slot name="body">
+                <p>这是body</p>
+            </slot>
+            <slot name="foot">
+                <p>这是foot</p>
+            </slot>
+        </div>
+    </template>
+<script src="vue.js"></script>
+<script>
+    /* 
+            在开发中写什么结构就是什么结构，优点就是固定统一，缺点就是不够灵活
+
+        插槽：
+            就是为了解决不灵活的问题，能够自定义一些组件，可以替换之前默认的配置
+
+            匿名插槽:
+
+            具名插槽:
+                子组件模板中定义slot标签，标签行内定义name="val"(属性名固定，值自定义)
+                父组件中调用子组件，在双标签内填入结构，结构的行内用slot="val"(与模板定义的name值相同)
+                这个时候对应值的slot就被填入的对应值的结构覆盖
+                覆盖顺序与模板定义的属性相同，不会因为插入的解构顺序改变而改变
+                
+            作用域插槽
+    */
+    const paa = {
+        template:"#paa"
+    }
+
+    new Vue({
+        el:"#app",
+        components:{
+            paa
+        }
+    })
+
+</script>
+</body>
+</html>

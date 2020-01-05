@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .a{
+            color:brown
+        }
+        .b{
+            color:cadetblue
+        }
+        .c{
+            border:1px solid lawngreen
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <paa class="c">
+            <div class="a">
+                <p>这是插件</p>
+                <p>这是插件2</p>
+            </div>
+            <div class="b">
+                <p>这是插件3</p>
+                <p>这是插件4</p>
+            </div>
+        </paa>
+    </div>
+
+    <template id="paa">
+        <div>
+            <slot>
+                <p>这是模板</p>
+            </slot>
+        </div>
+    </template>
+<script src="vue.js"></script>
+<script>
+    /* 
+            在开发中写什么结构就是什么结构，优点就是固定统一，缺点就是不够灵活
+
+        插槽：
+            就是为了解决不灵活的问题，能够自定义一些组件，可以替换之前默认的配置
+
+            匿名插槽:
+                子组件模板中定义slot标签(定义一个可以插入多个，定义多个会重复渲染)
+                父组件中调用子组件，在双标签内填入结构
+                这个时候slot就被填入的结构覆盖
+
+            具名插槽
+                
+            作用域插槽
+    */
+    const paa = {
+        template:"#paa"
+    }
+
+    new Vue({
+        el:"#app",
+        components:{
+            paa
+        }
+    })
+
+</script>
+</body>
+</html>
