@@ -1,9 +1,14 @@
 <template>
   <div>
+    <!-- 使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
     <router-link to="/" tag="button">去HW</router-link>
 		<router-link to="/Home" tag="p">首页</router-link>
 		<router-link to="/About" tag="span">关于</router-link>
 		<router-link to="/Public" tag="li">共享</router-link>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view></router-view> <!-- 设置路由页面渲染的位置 -->
   </div>
 </template>
@@ -56,6 +61,6 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
 
 </style>

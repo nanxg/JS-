@@ -11,7 +11,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
     .d{
         width:100px;
         height:100px;
