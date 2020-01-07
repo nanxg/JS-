@@ -5,7 +5,7 @@
             <input 
                 class="new-todo" 
                 placeholder="请输入内容" 
-                v-model='valin'
+                v-model.trim='valin'
                 @keyup.13='addfn'
             >
         </header>

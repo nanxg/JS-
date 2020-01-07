@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>生命周期</title>
+</head>
+<body>
+    <div id="app">
+        <div id="box">
+            <button @click="++num" >点击添加{{num}}</button>
+            <button @click="add" id="bt1">添加数据</button>
+            <button @click="rm">删除组件</button>
+            <p v-for="(val,key) in arr">{{val}}</p>
+        </div>
+    </div>
+
+<script src="./vue.js"></script>
+<script>
+    /* 
+    重点:
+        created  可以做ajax请求
+        mounted  可以进行DOM操作
+        destroyed 可以解除一些定时器、事件监听..
+
+    Vue生命周期： 
+
+        beforeCreate：初始化之前调用，此时拿不到实例数据
+
+        created：初始化之后调用，此时可拿到数据与方法，el属性还不可见(ajax请求的时候就在这使用)
+
+            此时挂载元素，如果没有挂载，就没有下面的生命周期(created之前的钩子不需挂载)
+
+        beforeMount：DOM渲染之前调用，该钩子在服务器端渲染期间不被调用。
+
+        mounted：DOM渲染之后调用，
+
+        beforeUpdate：数据变更，DOM更新之前，适合在更新之前访问现有的 DOM
+            
+        updated：数据变更，DOM更新之后，可以执行依赖于DOM的操作；通常最好使用计算属性或 watcher 取而代之。
+
+        beforeDestroy：实例销毁之前调用。在这一步，实例仍然完全可用。
+
+        destroyed：Vue实例销毁后调用。调用后，Vue实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+    */
+    new Vue({
+        // el:'#app', // 看是否指定el元素，若没有就调用$mount模板
+        data:{
+            num:0,
+            arr:['下雪了','开战了','上课了','开心了'],
+            timer:null
+        },
+        methods:{
+            add(){
+                this.arr.push(++ this.num)
+                this.timer = setInterval(()=>{
+                    console.log(1);
+                },1000)
+            },
+            rm(){
+                // this.timer = setInterval(()=>{
+                //     console.log(1);
+                // },1000)
+                this.$destroy(); // 销毁实例：destroy(实测并不能解除事件监听)
+            }
+        },
+        beforeCreate() {
+			console.log(this.num,'初始化之前'); //拿不到数据
+		},
+		//ajax请求的时候就在这使用
+		created(){
+            console.log(this.num,'初始化之后');//可以拿到data中的数据
+            // this.timer = setInterval(()=>{
+            //     console.log(1);
+            // },1000)
+        },
+        
+        //如果没有挂载元素，就没有下面的生命周期
+
+        //渲染之前
+        beforeMount() {
+            console.log('渲染之前',box.children);
+        },
+        //DOM渲染之后，可进行DOM操作
+        mounted() {
+            console.log('渲染之后',box.children);
+        },
+
+        //下面这2个都是数据变动，一个是DOM更新之前一个是DOM更新之后
+        
+        // DOM更新之前
+        beforeUpdate() {
+            console.log('数据更新之前',box.children,this.arr);
+        },
+        //DOM更新之后
+        updated(){
+            console.log('数据更新之后',box.children,this.arr)
+        },
+        //销毁之前
+        beforeDestroy() {
+            console.log('销毁之前')
+        },
+        //销毁之后 ，可以把一些事件、定时器...解除
+        destroyed(){
+            console.log('销毁之后',this.num);
+            clearInterval(this.timer);
+        }
+
+    }).$mount('#app') // $mount，代替el
+
+
+</script>
+</body>
+</html>

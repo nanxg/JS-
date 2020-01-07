@@ -8,13 +8,15 @@
 			@click="all"
 			:checked="allonoff"
 		>
-		<myli :fary="ary"
+		<myli :fary="setary"
 			@ch="check"
 			@de="del"
 		></myli>
          
       </section>
-      <myfoot ></myfoot>
+      <myfoot :cnum="checknum"
+	  			@sel="sele"
+	  ></myfoot>
     </div>
     {{ary}}
   </section>
@@ -31,7 +33,7 @@ import myfoot from './components/myfoot';
       return { 
       // changetxt:'', 
       allonoff:false, //全选判断
-      // a:'0',
+      a:0,
         ary:[ 
             {
               id:0,
@@ -50,8 +52,23 @@ import myfoot from './components/myfoot';
 	},
 	computed: {
 		checknum(){
-			this.ary
-		}
+			return this.ary.filter(i=>!i.checked).length
+		},
+		setary(){
+		  let a = this.a;
+		  return this.ary.filter((e,i)=>{
+                    switch(a){
+                        case 0:
+                            return e;
+                        case 1:
+                            return e.checked === false; 
+                        case 2:
+                            return e.checked === true;
+                        default:
+                            return e;
+                    }
+                })
+	    }
 	},
 	watch:{
 		// 全选中
@@ -66,7 +83,8 @@ import myfoot from './components/myfoot';
 			},
 			deep:true, // 深度监听
 			immediate: true // 上来就执行一次
-		}
+		},
+		
 	},
     methods:{
       add(val){
@@ -91,6 +109,9 @@ import myfoot from './components/myfoot';
 	  all(){
 		this.allonoff = !this.allonoff;
 		this.ary.map(i=>i.checked=this.allonoff)
+	  },
+	  sele(a){
+		  this.a = a 
 	  }
     },
     components:{
@@ -98,7 +119,6 @@ import myfoot from './components/myfoot';
       myli,
       myfoot
     }
-  
   }
 </script>
 

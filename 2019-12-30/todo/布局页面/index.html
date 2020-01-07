@@ -27,7 +27,7 @@
                 <ul class="todo-list">
                     <li 
                         :class="{editing:val.onoff===true,completed:val.checked===true}" 
-                        v-for="(val,key) in setAry" 
+                        v-for="(val,ke) in setAry" 
                         :key="val.id"
                     >
                     <!-- :key="val.id" -->
@@ -35,8 +35,8 @@
                             <input class="toggle" type="checkbox" 
                                 v-model="val.checked"
                             >
-                            <label @dblclick="dbclk(val,key)">{{val.txt}}</label>
-                            <button class="destroy" @click="del(key)"></button>
+                            <label @dblclick="dbclk(val,ke)">{{val.txt}}</label>
+                            <button class="destroy" @click="del(ke)"></button>
                         </div>
                         <input
                             class="edit"
@@ -166,14 +166,14 @@
                 this.valin='';
             },
             // 双击更改内容
-            dbclk(val,key){
+            dbclk(val,ke){
                 val.onoff = true;
                 // this.isblur = false; 
                 this.changetxt = val.txt;
                 //input元素获取焦点
                 this.$nextTick((x) => { //延迟回调，在修改数据DOM更新之后执行
                     // console.dir(this.$refs.input[key])
-                    this.$refs.input[key].select();
+                    this.$refs.input[ke].select();
                 })
             },
             // 失焦更改内容
@@ -204,8 +204,8 @@
                 this.ary.map(i=>i.checked=this.allonoff)
             },
             // 删除
-            del(key){
-                this.ary = this.ary.filter((e,i)=>i!==key)
+            del(ke){
+                this.ary = this.ary.filter((e,i)=>i!==ke)
             },
             // 筛选
             filters(a){
