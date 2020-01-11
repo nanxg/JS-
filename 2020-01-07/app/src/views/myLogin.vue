@@ -23,6 +23,7 @@
                     // this.$router.push('/');
                     this.$router.push({
                         path:'/',   
+                        // name:'home', //跳转到命名的路由
                         query:{
                             name:'pl'
                         }
@@ -31,6 +32,7 @@
                 }else if(uname==='nxg'&&pass==='123'){
                     // 替换路由，跳转之后不能后退到上一个路径(因为被替换掉了)
                     this.$router.replace({
+                        // path:'/', 
                         name:'home', //跳转到命名的路由
                         params:{
                             un:'nxg'

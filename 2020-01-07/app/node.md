@@ -81,9 +81,14 @@
 
         如果有全局和局部，那么全局优先级大
 
-        全局的beforeEach(要切换路由的时候触发)
+        全局的beforeEach(切换路由时，跳转之前触发)
 
-        组件中的beforeRouteLeave 离开组件的时候触发
+        组件中的beforeRouteLeave 离开组件时，跳转之前触发
         复用组件使用beforeRouteUpdate去进行监听
 
         路由中的beforeEnter 进入路由的时候触发
+
+    路由元信息
+
+      meta:{requiresAuth:true}, // 遍历 $route.matched 来检查路由记录中的 meta 字段,可用于验证；对象内属性名自定义
+      

@@ -2,10 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/public">Public</router-link><br>
-      编程导航<router-link to="/login" tag="button">登录</router-link> 
-    
+      <router-link to="/about">About</router-link>
     </div>
     <router-view/>
   </div>

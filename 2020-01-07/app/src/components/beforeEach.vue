@@ -1,16 +1,16 @@
 <template>
     <div>
         <h3>beforeEach</h3>
-        <router-link to="/foo2" tag="button">FOO2</router-link>
-        <router-link to="/foo3" tag="button">FOO3</router-link>
-        <router-link to="/foo4" tag="button">FOO4</router-link>
-        <router-view />
+        <router-link to="/foo" tag="button">FOO</router-link>
+        <hr>
+        <router-link to="/b/1" tag="button">B</router-link>
+
     </div>
 </template>
 
 <script>
     export default {
-        
+        name:'BeforEach',
     }
 </script>
 
