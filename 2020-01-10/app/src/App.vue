@@ -1,32 +1,56 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <input type="text" :value="12312" ref="txt" @blur="blur"><br>
+    <button @click="add">非异步 {{ num }}</button>
+    <button @click="add2">异步{{num}}</button>
+    <button @click="aaa">触发aaa</button>
+    <router-link to="/about">去关于</router-link><br>
+    {{vv}}
+    <router-view></router-view>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import {mapState,mapMutations,mapActions,mapGetters} from 'vuex';
+export default {
+  computed:{
+    //如果有命名空间，那么mapGetters、mapState要用对象
+    // ...mapState(['a/num','b/val']), //错误
+    ...mapState({
+      num:state=>state.a.num,
+      val:state=>state.b.val
+    }),
+    // ...mapGetters(['revsers']),
+    //如果有命名空间，那么mapGetters、mapState要用对象
+    ...mapGetters({
+      vv:'b/revsers'
+    }),
+  },
+  methods:{
+    // ...mapMutations(['a/increment']),
+    ...mapMutations(['a/increment','b/changeval','b/aaa']),
+    ...mapActions(['a/asyncIncrement']),
+    
+    add(){
+      // this.increment(); // 原方法
+      // this['a/increment'](); //使用命名空间的方法
+      console.log(this['a/increment'])
+      this['a/increment']();
+    },
+    add2(){
+      // this.asyncIncrement(); // 原方法
+      this['a/asyncIncrement'](); //使用命名空间的方法
+    },
+    aaa(){
+      this['b/aaa']();
+    },
+    blur(){
+      // this.changeval(this.$refs.txt.value); // 原方法
+      this['b/changeval'](this.$refs.txt.value); //使用命名空间的方法
+    }
+  }
 }
+</script>
 
-#nav {
-  padding: 30px;
-}
+<style scoped>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
