@@ -20,6 +20,7 @@ app.use((req,res,next)=>{
     // } else {
     //     next();
     // }
+    next()
 })
 
 //测试请求用，没有实际的意义
