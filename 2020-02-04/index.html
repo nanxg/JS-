@@ -10,19 +10,25 @@
     <div id="app">
         <input type="text" v-model="num">
         {{num}}
-        <input type="button" value="按钮">
+        <input type="button" value="按钮">{{getnum}}
     </div>
 <!-- <script src="node_modules/vue/dist/vue.js"></script> -->
-<script src="mvvm.js"></script>
+<script src="mymvvm.js"></script>
 <script>
     let vm = new Vue({
         el:"#app",
         // el:document.getElementById('app'),
         data:{
-            num:0,
-
+            num:'0',
+            obj:{
+                name:'haha'
+            }
         },
-
+        computed:{
+            getnum(){
+                return this.num*1 + 1
+            }
+        }
     });
 
 
