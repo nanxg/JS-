@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // new Set
+        // let ary = [1, 2, 4, 1, 3, 2, 3, 5]
+        // let set = new Set(ary)  // set => Set(5) {1, 2, 4, 3, 5}
+        // let newAry = Array.from(set)
+        // console.log(newAry);  // [1, 2, 4, 3, 5]
+
+
+
+        // var a = 2
+        // let obj = {
+        //     a: 1,
+        //     fn: (function (val) {
+        //         // 赋给fn的是自执行函数的执行结果 也就是一个undefined
+        //         // 该自执行函数只会执行一次
+        //         console.log(val);
+        //     })(this.a)
+        // };
+        // function * fn(){
+        //     console.log(1);
+        //     let a = yield console.log(2);
+        //     console.log(a);
+        //     let b = yield console.log(3);
+        //     console.log(b);
+        // }
+        // let dd = fn()
+        // dd.next(3)
+        // dd.next(10)
+        // dd.next(20);
+
+
+        // var x
+        // for (let  i = 0, j = 0; i < 6&& j < 10; i++ , j++) {
+        //     x = i + j
+        // }
+        // alert(x)
+
+        for (let  i = 0, j = 0; i < 6, j < 10; i++ , j++) {
+            var x = i + j
+        }
+        console.log(x);
+        
+
+        // function fo(){
+        //     get = function (){ console.log(1);}
+        //     return this
+        //     // return [1]
+        // }
+        // fo.get = function (){ console.log(2);}
+        // fo.prototype.get = function (){ console.log(3);}
+        // let a = new fo()
+
+        // console.log(a);
+
+
+        // // let obj = {name:123}
+        // let obj = [123]
+        // let o = Object.create(Object)
+        // console.log(o);
+
+
+        // //模拟new
+        // function objectFactory() {
+        //     const obj = new Object(); //创建实例对象
+
+        //     const Constructor = [].shift.call(arguments);  // 删除并拿到arguments第一项
+
+        //     obj.__proto__ = Constructor.prototype; //实例的原型链 = 构造函数的原型
+
+        //     const ret = Constructor.apply(obj, arguments); // 获取函数返回值
+
+        //     return typeof ret === "object" ? ret : obj;
+        // }
+
+        // function fn(){
+        //     this.a = 1
+        // }
+        // console.log( objectFactory(fn));
+
+
+        // Function.prototype.myCall = function (context) {
+        //     //此处没有考虑context非object情况
+        //     context.fn = this;//this为调用myCall的函数
+        //     let args = [];
+        //     for (let i = 1, len = arguments.length; i < len; i++) {
+        //         args.push(arguments[i]);
+        //     }
+        //     // context.fn(...args);
+        //     let result = context.fn(...args);
+        //     delete context.fn; // 没啥用
+        //     return result;
+        // };
+        // function fn1(a) {
+        //     console.log(a, this);
+        //     return 2
+        // }
+
+        // console.log(fn1.myCall({}, 1));
+
+
+        // var str = '   sdfgsg   fsgfsd    ';
+        // // 使用正则去除字符串的首尾空格
+        // // 以 1 到 多个 空格开头或者结尾的 都替换成空；
+        // var res = str.replace(/^ +| +$/g, '')
+
+        // console.log(res);
+
+
+    </script>
+</body>
+
+</html>

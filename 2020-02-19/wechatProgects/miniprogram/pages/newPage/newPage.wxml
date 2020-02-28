@@ -1,0 +1,6 @@
+<!--miniprogram/pages/newPage/newPage.wxml-->
+<text>miniprogram/pages/newPage/newPage.wxml</text>
+<text>
+    这是新建的page页
+</text>
+<newComponent></newComponent>

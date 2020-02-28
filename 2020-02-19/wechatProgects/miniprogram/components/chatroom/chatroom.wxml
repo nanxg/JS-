@@ -1,0 +1,14 @@
+<view class="chatroom">
+  这是个组件
+  <checkbox-group bindchange="checkboxChange">
+    <label class="checkbox" wx:for="{{items}}" wx:key="index">
+      <view >
+        {{item.checked}}
+        <checkbox data-id="{{index}}" bindtap="checkbox" value="{{item.name}}" checked="{{item.checked}}" />
+        {{item.value}}{{index}}
+      </view>
+
+    </label>
+    
+  </checkbox-group>
+</view>
