@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script src="./text.js"></script> -->
+    <script>
+        
+        class myPromise {
+            constructor(excutor) {
+                this.status = 'pedding'; // Promise初始状态
+                this.value = undefined; // 传给then的返回值
+                this.resolveAry = []; // 成功方法池
+                this.rejectAry = []; //失败方法池
+
+                let resolveFn = (res) => {
+                    let timer = setTimeout(() => {
+                        clearTimeout(timer);
+                        if (this.status !== 'pedding') return;
+                        this.status = 'fulfilled'; // 改变状态
+                        this.value = res; // 改变返回值
+                        this.resolveAry.forEach(item => item(this.value))
+                    });
+                };
+                let rejectFn = (rej) => {
+                    let timer = setTimeout(() => {
+                        clearTimeout(timer);
+                        if (this.status !== 'pedding') return;
+                        this.status = 'rejected';
+                        this.value = rej;
+                        this.rejectAry.forEach(item => item(this.value))
+                    });  
+                };
+                excutor(resolveFn, rejectFn);
+            };
+            then(resolveCB, rejectCB) {
+                this.resolveAry.push(resolveCB);
+                this.rejectAry.push(rejectCB);
+            };
+            catch() {
+
+            };
+            finally() {
+
+            }
+        }
+
+        new myPromise(function(resolve,reject){
+            // console.log(2);
+            // resolve(4)
+            setTimeout(()=>{ // 用定时器，确定可以异步函数同步执行
+                console.log(3);
+                resolve(5); // 调用成功函数，往fulfilled中传参数
+            },1000);
+        }).then(function(d){ // 传给原型下的then方法中的res函数
+            console.log(d);//10 成功
+        })
+        console.log(1);
+
+        // new Promise(function(resolve,reject){
+        //     // console.log(2);
+        //     // resolve(4)
+        //     setTimeout(()=>{ // 用定时器，确定可以异步函数同步执行
+        //         console.log(3);
+        //         resolve(5); // 调用成功函数，往fulfilled中传参数
+        //     },1000);
+        // }).then(function(d){ // 传给原型下的then方法中的res函数
+        //     console.log(d);//10 成功
+        // })
+        // console.log(1);
+
+    </script>
+</body>
+
+</html>

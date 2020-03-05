@@ -45,11 +45,11 @@
         // }
         // alert(x)
 
-        for (let  i = 0, j = 0; i < 6, j < 10; i++ , j++) {
-            var x = i + j
-        }
-        console.log(x);
-        
+        // for (let  i = 0, j = 0; i < 6, j < 10; i++ , j++) {
+        //     var x = i + j
+        // }
+        // console.log(x);
+
 
         // function fo(){
         //     get = function (){ console.log(1);}
@@ -115,6 +115,42 @@
 
         // console.log(res);
 
+
+        // 数组扁平化
+        // let ary = [1,2,[3,4],[5,6,[7,8,[9,10]]]];
+        // /* 
+        //     先看最里层 [7,8,[9,10]]，[9,10]递归，
+        //     递归完了ary还是 [7,8,[9,10]]，
+        //     然后展开ary=>7,8,[9,10]，
+        //     concat拼接就成了[7,8,9,10]，
+        //     return给外层的就是[7,8,9,10]，到此，展开一层
+        //     以此类推
+        //  */
+        // //  console.log([].concat(1,2,[3,4],[5,6,[7,8,[9,10]]]));
+        // function flat(ary){
+        //     return [].concat(...ary.map(item => Array.isArray(item) ? flat(item) : item ))
+        // }
+        // // flat(ary)
+        // console.log(flat(ary));
+
+
+        let sum = 10;
+        let ary = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        function getSum(ary,sum){
+            let arr = [];
+            for(let i = 0;i<ary.length;i++){
+                for(let j=i+1;j<ary.length;j++){
+                    if(ary[i]+ary[j]===sum){
+                        arr.push([ary[i],ary[j]])
+                        break
+                    }
+                }
+            }
+            if(!arr.length)return 'not found'
+            return arr
+        }
+        console.log(getSum(ary,sum));
+        F:\前端\JS正式课\2019-12-07\4_原生提供的发布订阅方式.html
 
     </script>
 </body>

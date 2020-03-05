@@ -46,7 +46,7 @@
 
     MyPromise.prototype.then = function(res,rej){ //接收.then里边的成功与失败函数
         let that = this;
-        // 同步情况
+        // 同步情况 (有问题)
         //成功的情况下调用res
         if(that.status === 'fulfilled'){ // 判断状态 ，避免.then参数中的函数都执行
             res(that.value); // 接收实例的value值
@@ -69,18 +69,32 @@
     }
 
     new MyPromise(function(resolve,reject){
+        // console.log(2);
+        // resolve(4)
         setTimeout(()=>{ // 用定时器，确定可以异步函数同步执行
-            resolve(10); // 调用成功函数，往fulfilled中传参数
+            console.log(3);
+            resolve(5); // 调用成功函数，往fulfilled中传参数
         },1000);
     }).then(function(d){ // 传给原型下的then方法中的res函数
         console.log(d);//10 成功
     })
-
+    console.log(1);
     //then后面不能加then，因为then没有返回值是undefined
     // .then(function(){
     //     console.log(1)
     // })
 
+    // new Promise(function(resolve,reject){
+    //     console.log(2);
+    //     resolve(4)
+    //     // setTimeout(()=>{ // 用定时器，确定可以异步函数同步执行
+    //     //     console.log(3);
+    //     //     resolve(5); // 调用成功函数，往fulfilled中传参数
+    //     // },1000);
+    // }).then(function(d){ // 传给原型下的then方法中的res函数
+    //     console.log(d);//10 成功
+    // })
+    // console.log(1);
 
 
 </script>

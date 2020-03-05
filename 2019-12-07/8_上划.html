@@ -17,19 +17,15 @@
     <div id="box"></div>
 <script>
 
-
-
     let num = 0;
     document.addEventListener('top',function(){
         num ++;
         console.log(num);
     });
 
-
     document.addEventListener('top',function(){
         console.log(111);
     });
-
 
     let event = document.createEvent('Event');
     event.initEvent('top',true,true);
