@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="checkbox" id="inall" v-model="slect">
+        <label for="inall">全选</label>
+        <hr>
+        <span v-for="item in aryList">
+            <input type="checkbox" :value="item.value" :id="item.id|inputID" v-model="checkList">
+            <label :for="item.id|inputID" v-text="item.name"></label>
+        </span>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                aryList:[
+                    {
+                        id:1,
+                        name:'唱歌',
+                        value:'song'
+                    },
+                    {
+                        id:2,
+                        name:'跳舞',
+                        value:'dance'
+                    },
+                    {
+                        id:3,
+                        name:'吟诗',
+                        value:'read'
+                    },
+                    {
+                        id:4,
+                        name:'做赋',
+                        value:'write'
+                    },
+                    {
+                        id:5,
+                        name:'吃饭',
+                        value:'eat'
+                    }
+                ],
+                checkList:[],//存放每个选框的值
+            },
+            computed: {
+                // 全选判断
+                slect:{
+                    // 获取
+                    get(){
+                        // length相等，说明都选中了
+                        return this.checkList.length === this.aryList.length;
+                    },
+                    // 设置
+                    set(val){ 
+                        // 如果全选按钮值为true，就改变每个选框的值(有值即true)
+                        if(val){
+                            this.aryList.forEach(item=>{
+                                this.checkList.push(item.value);
+                            })
+                            return;
+                        }
+                        // 全选按钮值为false，就清空选框值(即false)
+                        this.checkList = [];
+                    }
+                }
+            },
+            filters:{
+                inputID(val){
+                    return 'in' + val
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

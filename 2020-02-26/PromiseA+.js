@@ -86,5 +86,5 @@ class Promise {
 }
 
 // 两种导出规范
-module.exports = Promise;  // commonjs
+// module.exports = Promise;  // commonjs
 // export default Promise // ES6

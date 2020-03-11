@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue源码</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <p>{{name}} < -> {{msg}}</p>
+        </div>
+        <p>{{name}}</p>
+        <p>{{msg}}</p>
+
+    </div>
+    <!-- <script src="vue.js"></script> -->
+    <script>
+
+        function JGVue(options) {
+            // 内部数据使用 _ 开头，只读数据/方法使用 $ 开头
+            this._data = options.data;
+            this._el = options.el;
+            
+            // 准备模板
+            this.$el = this._templateDOM = document.querySelector(this._el);
+            this._parent = this._templateDOM.parentNode;
+            // 渲染工作
+            this.render();
+            
+        };
+        let regkuohao = /\{\{(.+?)\}\}/g;
+
+        function compiler(template, data) {
+            let childNodes = template.childNodes;
+            for (let i = 0; i < childNodes.length; i++) {
+                let type = childNodes[i].nodeType; // 1元素节点 3文本节点
+                if (type === 3) {
+                    // 文本节点，判断是否有{{}}
+                    let txt = childNodes[i].nodeValue; // 文本节点存储的内容(文本节点才有)
+
+                    txt = txt.replace(regkuohao, ($0, $1) => { // 使用正则匹配一次，函数就被调用一次
+                        let key = $1.trim(); //去掉空格
+                        let val = data[key];
+                        // return替换值
+                        return val
+                    })
+                    // 更改DOM数据
+                    childNodes[i].nodeValue = txt;
+                } else if (type === 1) {
+                    // 元素节点进行递归，判断子元素是否需要插值
+                    compiler(childNodes[i], data);
+                }
+            }
+        };
+
+        // 拿到模板与数据，得到HTML，放到页面中
+        JGVue.prototype.render = function () {
+            this.compiler();
+        };
+        // 编译，奖模板与数据结合，得到真正的DOM元素
+        JGVue.prototype.compiler = function (tmpNode) {
+            let realHTMLDOM = this._templateDOM.cloneNode(true); //用模板拷贝得到一个准DOM
+            compiler(realHTMLDOM, this._data);
+            this.update(realHTMLDOM)
+        };
+        // 更新，将DOM元素放到页面中
+        JGVue.prototype.update = function (real) {
+            this._parent.replaceChild(real,document.querySelector('#app'));
+        }
+
+
+        new JGVue({
+            el: '#app',
+            data: {
+                name: 'zhangsan',
+                msg: 'haahha'
+            }
+        });
+
+    </script>
+</body>
+
+</html>

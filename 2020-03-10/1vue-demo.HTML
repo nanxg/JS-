@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue源码</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <p>{{name}} < - > {{msg}}</p>
+        </div>
+        <p>{{name}}</p>
+        <p>{{msg}}</p>
+
+    </div>
+    <script>
+        // let vm = new Vue({
+        //     el: '#app',
+        //     data: {
+        //         name: 'zhangsan',
+        //         msg: 'haahha'
+        //     }
+        // })
+        /* 
+            1.拿到模板(el)
+            2.拿到数据(data)
+            3.把数据与模板结合，得到HTML元素(DOM元素)
+            4.放到页面中
+
+        */
+        // 正则 匹配{{}}内的内容
+        let regkuohao = /\{\{(.+?)\}\}/g;
+
+        // 1
+        let tmpNode = document.querySelector('#app');
+        // 2
+        let data = {
+            name: 'zhangsan',
+            msg: 'hahaha'
+        };
+        // 3.数据放到模板中(复杂页面解构：递归)
+        // VUE源码中，DOM -> 字符串模板 -> VNode(虚拟DOM) -> 真正的DOM
+        function compiler(template, data) {
+            let childNodes = template.childNodes;
+            for (let i = 0; i < childNodes.length; i++) {
+                let type = childNodes[i].nodeType; // 1元素节点 3文本节点
+                if (type === 3) {
+                    // 文本节点，判断是否有{{}}
+                    let txt = childNodes[i].nodeValue; // 文本节点存储的内容(文本节点才有)
+
+                    txt = txt.replace(regkuohao,($0,$1)=>{ // 使用正则匹配一次，函数就被调用一次
+                        let key = $1.trim(); //去掉空格
+                        let val = data[key];
+                        // return替换值
+                        return val
+                    })
+                    // 更改DOM数据
+                    childNodes[i].nodeValue = txt;
+                } else if (type === 1) {
+                    // 元素节点进行递归，判断子元素是否需要插值
+                    compiler(childNodes[i], data);
+                }
+            }
+        };
+
+        // 复制DOM,避免以后更改数据找不到{{}}
+        let genNode = tmpNode.cloneNode(true); // DOM元素可以这么做(虚拟的不行)
+
+        console.log(tmpNode); // 原DOM(保留下来的原DOM)
+        
+        compiler(genNode,data); // 
+
+        console.log(genNode); // 新DOM(更改数据之后的DOM)
+        
+        // 4
+        app.parentNode.replaceChild(genNode,app);
+
+        /* 
+            上面思路问题：
+                1.Vue使用的虚拟DOM
+                2.{{}}内只考虑了单属性渲染，不能代码运行
+                3.代码没整合
+        */
+
+    </script>
+</body>
+
+</html>

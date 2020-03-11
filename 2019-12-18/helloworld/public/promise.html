@@ -42,19 +42,14 @@
             } finally {
                 // try中代码执行完毕就会执行finally
             }
-        
-        Promise.all()中传入的是一个数组，数组中存放的是多个Promise实例
-        Promise.all([P1,P2 ... ]).then(resolve=>{
-            // 所有promise都成功，才会执行这个方法，resolve中存储每个实例返回的结果，且与数组顺序一致
-        }).catch(rej=>{
-            // 只要有一个失败就执行这个方法，失败后不再执行后面的操作
-        })
+
     */
 
 
     let prom = new Promise((resolve, reject) => {
         resolve(res);
         reject(rej);
+        
     });
     prom.then(
         res => {

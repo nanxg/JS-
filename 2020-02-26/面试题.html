@@ -134,23 +134,41 @@
         // console.log(flat(ary));
 
 
-        let sum = 10;
-        let ary = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        function getSum(ary,sum){
-            let arr = [];
-            for(let i = 0;i<ary.length;i++){
-                for(let j=i+1;j<ary.length;j++){
-                    if(ary[i]+ary[j]===sum){
-                        arr.push([ary[i],ary[j]])
-                        break
-                    }
-                }
-            }
-            if(!arr.length)return 'not found'
-            return arr
-        }
-        console.log(getSum(ary,sum));
-        F:\前端\JS正式课\2019-12-07\4_原生提供的发布订阅方式.html
+        // let sum = 10;
+        // let ary = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        // function getSum(ary,sum){
+        //     let arr = [];
+        //     for(let i = 0;i<ary.length;i++){
+        //         for(let j=i+1;j<ary.length;j++){
+        //             if(ary[i]+ary[j]===sum){
+        //                 arr.push([ary[i],ary[j]])
+        //                 break
+        //             }
+        //         }
+        //     }
+        //     if(!arr.length)return 'not found'
+        //     return arr
+        // }
+        // console.log(getSum(ary,sum));
+
+        /* 
+            reduce
+            Array.reduce((accumulator, item, index, array) => {
+
+            },初始值)
+            reduce方法里边两个参数，
+                第一个是回调函数，用来进行数据处理；
+                    函数内四个参数，第一个是累加器，存放每次处理之后的返回值，第二个是数组每一项，第三个是索引，第四个是数组本身
+                第二个是累加器的初始值(不传默认为数组第一项)
+        */
+
+        // let ary = [10, 25, 30, 50, 45];
+        // let result = ary.reduce((accumulator, item, index) => {
+        //     console.log(accumulator, item);
+        //     return accumulator + item
+        // }, 5)
+        // console.log(result)
+
 
     </script>
 </body>
