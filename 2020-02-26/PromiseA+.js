@@ -4,7 +4,6 @@ class Promise {
         this.value = undefined; // resolve/reject传给then的值
         this.resolveAry = []; // 成功方法池
         this.rejectAry = []; //失败方法池
-
         let resolveFn = (res) => {
             let timer = setTimeout(() => {
                 clearTimeout(timer);
@@ -23,22 +22,13 @@ class Promise {
                 this.rejectAry.forEach(item => item(this.value))
             });
         };
-
         try {
             excutor(resolveFn, rejectFn);
         } catch (err) {
             rejectFn(err)
         }
-
     };
     then(resolveCB, rejectCB) {
-        // 简单版
-        // this.resolveAry.push(resolveCB);
-        // this.rejectAry.push(rejectCB);
-
-        // 链式调用版
-        // typeof resolveCB !== 'function' ? resolveCB = res => res : null;
-        // typeof rejectCB !== 'function' ? rejectCB = rej => {throw Error(rej)} : null; // 错误方式不一致
         return new Promise((resolve, reject) => {
             this.resolveAry.push(() => {
                 try {

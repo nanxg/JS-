@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            margin: 30px auto;
+            width: 800px;
+            height: 800px;
+            border: 1px solid #000;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .btns {
+            width: 40%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item {
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            width: 100px;
+            height: 50px;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <div class="btns">
+        <button id="prev">上一页</button>
+        <button id="next">下一页</button>
+        <p>第<span id="pages"></span>页</p>
+        <div>
+            <span>当前每页条数</span>
+            <select id="pageBox">
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+
+    </div>
+    <script>
+        fetch('./result.json').then(data => data.json()).then(d => {
+            const {
+                data: {
+                    contents
+                }
+            } = d;
+            contents.forEach(item => {
+                //1
+                const {
+                    data
+                } = item;
+                for (let i = 1; i < 3; i++) {
+                    if (i === 1) {
+                        data[i] = data[i] === '-' ? 999 : data[i];
+                    } else {
+                        data[i] = data[i] === '-' ? '999' : data[i];
+                    }
+                };
+                //2
+                item.active = true;
+            });
+
+            class Page {
+                constructor() {
+                    this.prev = document.getElementById('prev');
+                    this.next = document.getElementById('next');
+                    this.box = document.getElementById('box');
+                    this.pages = document.getElementById('pages');
+                    this.pageBox = document.getElementById('pageBox');
+                    this.data = contents;//初始数据
+                    this.page = 1; //初始页码
+                    this.num = 2; //每页条数
+                    this.newData = [];//用于展示的数组
+                    this.prev.onclick = () => {//上一页事件
+                        if (this.page === 1) {
+                            return
+                        };
+                        this.page -= 1;
+                        this.init(this.num);
+                    };
+                    this.next.onclick = () => {//下一页事件
+                        this.page += 1;
+                        this.init(this.num);
+                    };
+                    this.pageBox.onchange = () => {//select改变事件
+                        let selectId = this.pageBox.options.selectedIndex;
+                        if(this.num == selectId){return};
+                        this.num = this.pageBox.options[selectId].value;
+                        this.init(this.num);
+                    }
+                    this.init(this.num);
+                }
+                init(value) {
+                    let number;
+                    let len;
+                    if(value == 3){
+                        this.num = value;
+                        len = this.num * this.page;
+                        console.log(len);
+                        number = (this.page > 1 ? this.page - 2 : 0) * 3;
+                        console.log(number);
+                        
+                    }else if(value == 2 || value === undefined){
+                        len = this.num * this.page;
+                        number = (this.page > 3 ? this.page - 3 : 0) * 2;
+                        console.log(number);
+                    };
+                    if (len > this.data.length) {
+                        this.page = 1;
+                        this.init(this.num);
+                        return;
+                    };
+                    this.pages.innerText = this.page;
+                    this.newData = this.data.slice(number, len);
+                    let str = '';
+                    this.newData.forEach(item => {
+                        const {
+                            data,
+                            name,
+                            active
+                        } = item;
+                        str +=
+                            `<div class="item"><span>${data}</span><p>${name}</p><input type="checkbox" checked="${active}"/></div>`;
+                    })
+                    this.box.innerHTML = str;
+                }
+
+            }
+            new Page();
+        })
+    </script>
+</body>
+
+</html>

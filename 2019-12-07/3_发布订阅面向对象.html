@@ -14,9 +14,7 @@
             }
             add(obj,evName,fn){
                 this.subscribe[evName] = this.subscribe[evName] || [];
-                this.subscribe[evName].push(fn);
-
-              
+                this.subscribe[evName].push(fn); 
             }
             publish(obj,evName){
                 if(!this.subscribe[evName]) return null;

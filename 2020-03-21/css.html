@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* .container{
+            display:flex;
+            width:100%;
+        } */
+    /* .container div{
+            flex:1;
+            margin-right:40px;
+        } */
+</style>
+
+<body>
+    <div class="container" style="height: 200px;display:flex;width:100%;">
+        <div class="content1" style="background-color: red;flex:1;margin-right:40px;">1</div>
+        <div class="content2" style="background-color: green;flex:1;margin-right:40px;">2</div>
+        <div class="content3" style="background-color: yellow;flex:1;">3</div>
+    </div>
+    <script>
+        // let fn = (function () {
+        //     let a = 1;
+        //     return function () {
+        //         return a === 1 ? a++ : a--
+        //     }
+        // })()
+        // console.log(fn());
+        // console.log(fn());
+        // console.log(fn());
+        // console.log(fn());
+        // console.log(fn());
+        // console.log(fn());
+        // console.log(fn());
+        // console.log(fn());
+
+
+        // var result = 0;
+        // var num = 0
+        // function add(n) {
+        //     num++
+        //     result += n;
+        //     return num === 3?result:arguments.callee; //arguments.callee是正在执行的函数
+        // }
+        // console.log(add(1)(2)(3));
+        
+
+        var result = 0;
+        var num = 0
+        function add(n) {
+            num++
+            result += n;
+            return num === 3?result:add; //arguments.callee是正在执行的函数
+        }
+        console.log(add(1)(2));
+
+
+        
+    </script>
+</body>
+
+</html>

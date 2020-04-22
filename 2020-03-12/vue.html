@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <p>{{obj.name}}-{{obj.age}}</p>
+        </div>
+        <!-- 注释 -->
+        <p>{{msg}}</p>
+        <div v-text="text"></div>
+        <div v-text="obj.name"></p></div>
+        <p v-text="obj.opt.user"></p>
+        {{model}}
+        <div v-html="html"></div>
+        <input type="text" v-model="model">
+        <button v-on:click="click">v-on</button>
+        <button @click="click">@</button>
+    </div>
+
+    <!-- <script src="./vue.js"></script> -->
+    <script src="./myVue.js"></script>
+    <!-- <script src="./MVue.js"></script>
+    <script src="./Observer.js"></script> -->
+    <script>    
+        let app = new MVue({
+            el:"#app",
+            data:{
+                obj:{
+                    name:"张三",
+                    age:18,
+                    opt:{
+                        user:'aaa'
+                    }
+                },
+                msg:"VUE源码",
+                text:"这是个text",
+                html:"这是个html",
+                model:"this is model"
+            },
+            methods:{
+                click(){
+                    console.log(this);
+                    this.obj.name = '666';
+                    
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

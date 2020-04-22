@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <label for="male">Male</label>
+        <input type="radio" name="sex" id="male" />
+        <br />
+        <label for="female">Female</label>
+        <input type="radio" name="sex" id="female" />
+    </form>
+    <script>
+
+        /* 
+            服务器广播
+            题目：服务器连接方式包括直接相连，间接连接。 A 和 B 直接连接， B 和 c 直接连接，则 A 和 c 间接连接。直接连接和间接连接都可以发送广播。
+            给出一个 N * N 数组，代表 N 个服务器， matrix[i][j] == 1 ，则代表 i 和 j 直接连接；不等于 1 时，代表 i 和 j 不直接连接。 matrix[i][i]== 1 ，即自己和自己直接连接。 matrix[i][j]==matrix[j][i] 。计算初始需要给几台服务器广播，才可以使侮个服务器都收到广播。
+         */
+        // let ary = [[1, 1, 0], [1, 1, 0], [0, 0, 1]];
+        // var broadcast = function (list) {
+        //     const count = [];// 存储能够连接的广播列表
+        //     for (let i = 0; i < list.length; i++) { //循环数组
+        //         for (let j = i; j < list.length; j++) { //双循环
+        //             if (list[i][j] == 1) { // 如果i与j直接相连
+        //                 if (count.length > 0) {
+        //                     let flag = false;
+        //                     count.forEach((item, index) => { //[0,1]
+        //                         if (i !== j) {
+        //                             if (item.includes(i)) {
+        //                                 count[index].push(j);
+        //                             } else {
+        //                                 count[index].push(i);
+        //                             }
+        //                         } else {
+        //                             if (item.includes(i)) {
+        //                                 flag = true;
+        //                             }
+        //                         }
+        //                     })
+        //                     if (!flag && i === j) {
+        //                         count.push([i])
+        //                     }
+        //                 } else {
+        //                     count.push([i])
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     // count=[[0,1],[2]]
+        //     return count.length
+        // };
+        // console.log(broadcast([[1, 1, 0], [1, 1, 0], [0, 0, 1]])) // 2
+
+
+        // 盛最多水的容器 从前往后依次相乘，第一个数到最后一个数的高度乘以到末尾的长度，循环一遍，然后第一个数到倒数第二个数的高度乘以倒数第二个数的长度，循环一遍，以此类推找到最大的值
+        // let a = [1, 8, 6, 2, 5, 4, 8, 3, 7];
+        // function fn(ary) {
+        //     let sun = 0;
+        //     for (let j = ary.length; j > 0; j--) {
+        //         for (let i = 0; i < j; i++) {
+        //             let tmp = Math.min(ary[i], ary[j - 1]);
+        //             num = tmp * (j - 1 - i);
+        //             sun = Math.max(sun, num);
+        //         }
+        //     }
+        //     return sun
+        // }
+        // console.log(fn(a));
+
+
+        // 集五福 
+        /* 题目：以0和1组成的长度为5的字符串代表每个人所得到的福卡，每一位代表一种福卡，1表示已经获得该福卡，单类型福卡不超过1张，随机抽取一个小于10人团队，求该团队最多可以集齐多少套五福？
+        输入描述：数组，即团队每个人的福卡拥有状态，输出描述：数字，即最多可以集齐的数量 */
+
+        // 把数组中每项的五个数 对应位置相加，组成新数组，新数组中的五个项是原数组每一项中五个数对应的总和，新数组五个值最小的是几则集齐几组
+        // var print = function (ratings) {
+        //     let arr = new Array(5).fill(0);
+        //     for (let i = 0; i < ratings.length; i++) {
+        //         for (let j = 0; j < 5; j++) {
+        //             arr[j] += parseInt(ratings[i][j])
+        //         }
+        //     }
+        //     return Math.min(...arr)
+        // };
+        // console.log(print(['10011', '10110', '01111', '10111', '10000', '00100']))
+
+
+        /* 双列表元素分配
+        题目：有两个数组a,b，大小都为n,数组元素的值任意，无序；要求：通过交换a,b中的元素，使数组a元素的和与数组b元素的和之间的差最小。 */
+        // var getMinusArray = function (a, b) {
+        //     let suma = 0;
+        //     let sumb = 0;
+        //     for (let i = 0; i < a.length; i++) { // 先找出两数组初始的和
+        //         suma += a[i];
+        //         sumb += b[i];
+        //     }
+        //     let min = Math.abs(suma - sumb); //相减的值
+        //     for (let i = 0; i < a.length; i++) { //a的循环
+        //         for (let j = 0; j < b.length; j++) { //b的循环
+        //             let temp = 0;
+        //             //如果a，b当前项的值交换后相减小于上次相减的值，就交换位置
+        //             if (Math.abs(2 * (b[j] - a[i]) + suma - sumb) < min) { //判断是否小于
+        //                 suma = suma - a[i] + b[j]; //如果小于，就变更数组的和
+        //                 sumb = sumb - b[j] + a[i];
+        //                 temp = a[i]; // 如果小于就交换数组对应项的值
+        //                 a[i] = b[j];
+        //                 b[j] = temp;
+        //                 min = Math.abs(suma - sumb) // 如果小于就变更相减的值为最新值
+        //             }
+        //         }
+        //     }
+        //     return { a, b }
+        // };
+        // console.log(getMinusArray([1, 3, 5, 49], [0, 2, 4, 18]))
+
+
+        /* 
+        航班预定统计
+            题目：有 n 个航班，它们分别从 1 到 n 进行编号。
+            我们这儿有一份航班预定表，表中第 i 条预定记录 bookings[i]= [i , j , k ］意味着我们在从 i 到 j的每个航班上预订了 k 个座位。
+            请返回一个长度为 n 的数组answer ，按航班编号顺序返回每个航班上预订的座位数。
+            输入描述： 前几行为航班预定信息，最后一行为航班数量．
+        */
+        // let ary = [[1, 2, 10], [2, 3, 20], [2, 5, 25]];
+        // function fn(ary, n) {
+        //     let cn = new Array(n).fill(0); // 用来存放每个航班座位数
+        //     ary.forEach((item, index) => {
+        //         cn[item[0]-1] += item[2]; //预定表第一项肯定是上机，cn中对应航班索引的项加上预定的数
+        //         if(item[1]<n){ //预定表第二项如果不是最后一个航班，表示有下车的，就在cn中对应项减去
+        //             cn[item[1]] -=item[2]
+        //         }
+        //     })
+        //     return cn.map((item,index)=>{ 
+        //         let sum = 0;
+        //         while (index>=0) {
+        //             sum +=cn[index]
+        //             index--
+        //         }
+        //         return sum
+        //     })
+        // }
+        // console.log(fn(ary,5));//[10,55,45,25,25]
+
+
+        /* 
+        判断一组数连续
+            题目：给一个有序数组，将连续的元素合并，中间用‘-‘连接，返回字符串。
+            输入描述：有序字符串，[1,2,3,5,7,9,10,12];
+            输出描述：字符串 1-3，5，7，9-10，12
+         */
+        // let ary = [1, 2, 3, 5, 7, 9, 10, 12, 13,14];
+        // function fn(arr) {
+        //     let newArr = []; //存放结果的
+        //     for (let i = 0; i < arr.length; i++) {
+        //         let j = i;
+        //         while (arr[j] + 1 === arr[j + 1]) { //如果数组中当前项+1 等于下一项的值，表示数字连续，需加连接符
+        //             j++
+        //         }
+        //         if (i !== j) { // 如果i不等于j，表示上一步成立，加连接符 放入新数组
+        //             newArr.push(`${arr[i]}-${arr[j]}`);
+        //             i = j  // 跳过第j项
+        //         } else {
+        //             newArr.push(arr[i])
+        //         }
+        //     }
+        //     return newArr.join(',') // 用逗号连接转字符串，拼起来
+        // }
+        // console.log(fn(ary))
+
+
+
+        /* 
+            九宫格输入
+            题目：假设有九宫格输入法键盘布局如下：
+            [ 1,.?! ] [ 2ABC ] [ 3DEF  ]
+            [ 4GHI  ] [ 5JKL ] [ 6MNO  ]
+            [ 7PQRS ] [ 8TUV ] [ 9WXYZ ]
+                    [ 0空  ]
+            注意：中括号[ ]仅为了表示键盘的分隔，不是输入字符。每个中括号中，位于首位的数字字符即是键盘的按键，按一下即可输入该数字字符。多次按同一个键，则输入的字符依次循环轮流，例如按两次3，则输入D；按5次7，则输入S；按6次2，则输入A。按键0的输入组合是0和空格字符，即按两次0输入空格。
+            你需要对于给定的按键组合，给出该组合对应的文本。
+            输入格式:
+            输入在一行中给出数个字符的按键组合（例如 999 表示按3次9），每个字符的按键组合之间用空格间隔，最后一个输入法组合之后以换行结束。输入数据至少包括一个字符的按键组合，且输入总长度不超过500个字符。
+            ['22', '5555', '22', '666', '00', '88', '888', '7777', '4444', '666', '44']
+            输出格式:
+            在一行中输出该按键组合对应的文本。
+         */
+        // var nineInput = function (arr) {
+        //     const button = ["0 ", "1,.?!", "2ABC", "3DEF", "4GHI", "5JKL", "6MNO", "7PQRS", "8TUV", "9WXYZ"]; //按键组成的数组，索引即按键号
+        //     let str = ''; //接收字符
+        //     for (let i = 0; i < arr.length; i++) { 
+        //         let num = arr[i][0]; // 获取按键号
+        //        // 按键次数，如果大于按键的符号数，就取模，不大于就把length-1；获取索引(因为多次按同一个键，则输入的字符依次循环轮流)
+        //         let index = (arr[i].length > button[num].length ? (arr[i].length % button[num].length) : arr[i].length) - 1; 
+        //         str += button[num][index] //获取的字符串拼接
+        //     }
+        //     return str
+        // };
+        // console.log(nineInput(['22', '5555', '22', '666', '00', '88', '888', '7777', '4444', '666', '44']))
+
+
+        /* 
+            报数游戏
+            题目：有 n (1<n<10000)个小朋友站成一个圆圈。选定一个小朋友为1号，从他（她）开始顺时针编号：1,2,3,4，…  游戏开始! 从1号小朋友起,顺时针报数,从1报起。即：1号小朋友报1，2号小朋友报2，3号小朋友报3, …
+
+            游戏规定，报到数字 m(1<m<100) 的小朋友立即退出报数圈。在他（她）的顺时针方向的下一个小朋友（如果有的话）开始重新从1报数…  游戏这样一直进行下去，直到圈中只剩下一个小朋友。
+
+            求最后剩下的小朋友的编号。
+
+            输入：两个整数，n 和 m。
+            输出：一个整数，表示最后剩下的小朋友的编号。
+            输入：15 3 程序应该输出：5
+            输入：7 4  程序应该输出：2
+         */
+        var find = function (n, m) {
+            let arr = new Array(n).fill(true); //数组每项对应每个人，默认都为true，退出一个改变一个为false
+            let count = 0;// 数组下标
+            let index = 0;// 报数记录
+            let total = n;// 已退出游戏人数
+            while (count < n && total > 1) { //循环 直到剩下一人
+                if (arr[count]) {  // 如果
+                    if (index === m - 1) { 
+                        arr[count] = false;
+                        index = 0;
+                        total--;
+                    } else {
+                        index++;
+                    }
+                }
+                count++;
+                if (count === n) {
+                    count = 0;
+                }
+            }
+            return arr.indexOf(true) + 1
+        };
+        console.log(find(7, 4))
+
+
+
+        /* 
+            字符串分割
+            题目：实现字符串分割算法split(str,delim),传入待分割字符串和分割字符，返回数组，如果delim参数不传，则对字符串逐个分割。
+            比如调用split(“abcbebb”,‘b’)，返回为[“a”,“c”,“e”]，调用split(‘abcd’)，返回[‘a’,‘b’,‘c’,d’]
+         */
+        // var split = function (str, delim = '') {
+        //     let newStr = [];
+        //     let temp = ''
+        //     for (let i = 0; i < str.length;) {
+        //         if (delim.length > 0) {
+        //             let index = 0;
+        //             while (index < delim.length && str[i + index] === delim[index]) {
+        //                 index++;
+        //             }
+        //             if (index < delim.length) {
+        //                 temp += str[i];
+        //                 i++;
+        //             } else {
+        //                 if (temp.length > 0) {
+        //                     newStr.push(temp)
+        //                 };
+        //                 temp = '';
+        //                 i += delim.length
+        //             }
+        //         } else {
+        //             newStr.push(str[i]);
+        //             i++;
+        //         }
+        //     }
+        //     if (temp.length > 0) {
+        //         newStr.push(temp)
+        //     }
+        //     return newStr;
+        // }
+        // // [a,b,c,e]
+        // console.log(split('adbdcdedd', 'd'))
+
+
+
+        // /* 
+        //     单词压缩编码
+        //     题目：给定一个单词列表，将这个列表编码成一个索引字符串 S 与一个索引列表 A。
+        //     例如，如果这个列表是 [“time”, “me”, “bell”]，将其表示为 S = “time#bell#” 和 indexes = [0, 2, 5]。对于每一个索引，可以通过从字符串 S 中索引的位置开始读取字符串，直到 “#” 结束，来恢复之前的单词列表。
+        //     输入描述：数组。
+        //     输出描述：成功对给定单词列表进行编码的最小字符串长度
+        //     // 输入,说明index=[0,2,5],str='time#bell#'  ['time','me','bell']
+        //     // 输出 10
+        //  */
+        // var minimumLengthEncoding = function (words) {
+        //     let newStr = '';
+        //     let str = words.map(item => {
+        //         let temp = ''
+        //         for (let i = item.length - 1; i >= 0; i--) {
+        //             temp += item[i]
+        //         }
+        //         return temp;
+        //     }).sort();// 反转排序
+        //     for (let i = 0; i < str.length; i++) {
+        //         if (str[i + 1] !== undefined) {
+        //             if (str[i + 1].indexOf(str[i]) !== 0) {
+        //                 newStr += `#${str[i]}`
+        //             }
+        //         } else {
+        //             newStr += `#${str[i]}`
+        //         }
+        //     }
+        //     return newStr.length;
+        // }
+        // console.log(minimumLengthEncoding(['time', 'me', 'bell']))
+
+
+
+        // /* 
+        // 分子弹/分发糖果
+        // 题目：老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。
+        // 你需要按照以下要求，帮助老师给这些孩子分发糖果：
+        // 每个孩子至少分配到 1 个糖果。相邻的孩子中，评分高的孩子必须获得更多的糖果。那么这样下来，老师至少需要准备多少颗糖果呢？
+
+        // 输入: [1,0,2]  输出: 5
+        // 解释: 你可以分别给这三个孩子分发 2、1、2 颗糖果。
+        // 输入: [1,2,2]  输出: 4
+        // 解释: 你可以分别给这三个孩子分发 1、2、1 颗糖果。第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
+        //  */
+        // var candy = function (ratings) {
+        //     let arr = new Array(ratings.length).fill(1);
+        //     for (let i = 1; i < ratings.length; i++) {
+        //         if (ratings[i] > ratings[i - 1]) {
+        //             arr[i] = arr[i - 1] + 1;
+        //         }
+        //     }
+        //     for (let j = ratings.length - 2; j >= 0; j--) {
+        //         if (ratings[j] > ratings[j + 1] && arr[j] <= arr[j + 1]) {
+        //             arr[j] = arr[j + 1] + 1;
+        //         }
+        //     }
+        //     let total = 0;
+        //     for (let i = 0; i < arr.length; i++) {
+        //         total += arr[i]
+        //     }
+        //     return total
+        // };
+        // console.log(candy([1, 0, 1]))
+
+
+
+        // /* 
+        // 打印任务排序
+        // 题目：某个打印机根据打印队列执行打印任务。打印任务分为九个优先级，分别采用数字1~9表示，数字越大优先级越高。打印机每次从队列头部取出第一个任务A，然后检查队列余下任务中有没有比A优先级更高的任务，如果有比A优先级高的任务，则将任务A放到队列尾部，否则执行任务A的打印。请编写一个程序，根据输入的打印队列，输出实际打印顺序
+        //  */
+        // var print = function (ratings) {
+        //     let arr = new Array(ratings.length).fill(0);
+        //     let index = 1;
+        //     while (Math.max(...ratings) > 0) {
+        //         arr[ratings.indexOf(Math.max(...ratings))] = index;
+        //         index++;
+        //         ratings[ratings.indexOf(Math.max(...ratings))] = 0;
+        //     }
+        //     return arr
+        // };
+        // // [1,5,3,4,2] 感觉过分简单，可能是我理解错误？
+        // console.log(print([3, 1, 2, 2, 3]))
+
+
+
+
+    </script>
+</body>
+
+</html>

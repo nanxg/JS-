@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="open">打开文件</button>
+    <button id="open2">打开图片</button>
+    <button id="save">保存</button>
+    <button id="msg">消息框</button>
+    <hr>
+    <img id="img" alt="">
+    <p id="p"></p>
+    <script>
+        const { dialog } = require("electron").remote; // 引入对话框，渲染进程需要在remote中引入
+        const fs = require("fs");
+        
+        // 打开文件/图片
+        let btn = document.querySelector('#open');
+        let btn2 = document.querySelector('#open2');
+        btn.onclick = function () {
+            dialog.showOpenDialog({ //显示打开选择窗口
+                title: '请选择',
+                defaultPath: '1.txt', // 默认路径
+                filters: [ // 过滤器
+                    {
+                        name: '1', // 过滤器名
+                        extensions: ['txt'], // 需过滤的文件后缀
+                    }
+                ], // 过滤文件格式
+                buttonLabel: '开' // 确定按钮文字
+            }).then(res => { // 打开成功后执行的函数
+                if(res.filePaths.length > 0){
+                    let p = document.getElementById('p');
+                    console.log(res);
+                    // res是个对象，res.filePaths是文件路径的数组
+                    fs.readFile(res.filePaths[0], (err, data) => {
+                        p.innerHTML = data
+                    })
+                }
+            }).catch(rej => {
+                console.log(rej);
+            })
+        }
+        btn2.onclick = function () {
+            dialog.showOpenDialog({
+                title: '请选择',
+                defaultPath: '2.gif', // 默认路径
+                filters: [
+                    {
+                        name: '2',
+                        extensions: ['gif', 'jpg'], // 需过滤的文件后缀
+                    }
+                ], // 过滤文件格式
+                buttonLabel: '开' // 按钮文字
+            }).then(res => {
+                let img = document.getElementById('img');
+                img.setAttribute('src', res.filePaths[0])
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+        
+        // 保存文件
+        let save = document.querySelector('#save');
+        save.onclick = function(){
+            dialog.showSaveDialog({
+                title:'保存',
+            }).then(res=>{
+                fs.writeFileSync(res.filePath,'写入的内容')
+            }).catch(rej=>{
+                console.log(rej);
+            })
+        }
+    
+        // 消息框
+        let msg = document.querySelector('#msg');
+        msg.onclick = function(){
+            dialog.showMessageBox({ // 显示消息框
+                type:'warning', //question warning error info none
+                title:'message标题啊', 
+                message:'这是个消息,确定么', 
+                buttons:["确定","取消"] //按钮,点谁就把谁的索引放在res中的response的值里
+            }).then(res=>{
+                console.log(res);
+                // res.response的值就是按钮数组的索引
+                if(res.response === 0){
+                    console.log('确定');
+                }
+                if(res.response === 1){
+                    console.log('取消');
+                }
+            }).catch(rej=>{
+                console.log(rej);
+            })
+        }
+    
+    </script>
+</body>
+
+</html>

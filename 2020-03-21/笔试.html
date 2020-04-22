@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+          2.实现 fizzBuzz 函数，参数 num 与返回值的关系如下：
+            1、如果 num 能同时被 3 和 5 整除，返回字符串 fizzbuzz
+            2、如果 num 能被 3 整除，返回字符串 fizz
+            3、如果 num 能被 5 整除，返回字符串 buzz
+            4、如果参数为空或者不是 Number 类型，返回 false
+            5、其余情况，返回参数 num
+        */
+
+        // function fizzBuzz(num) {
+        //     if (typeof num !== 'number' || num === undefined) {
+        //         return false
+        //     };
+        //     let num1 = num / 3;
+        //     let num2 = num / 5;
+        //     if (parseInt(num1) === num1 && parseInt(num2) === num2) {
+        //         return 'fizzbuzz'
+        //     }
+        //     if(parseInt(num1) === num1){
+        //         return 'fizz'
+        //     }
+        //     if(parseInt(num2) === num2){
+        //         return 'buzz'
+        //     }
+        //     return num
+        // }
+        // console.log(fizzBuzz(4));
+
+        // function fn(n) {
+        //     return n < 2 ? n : fn(n - 1) + fn(n - 2)
+        // }
+        // console.log(fn(5));
+
+        // function fn(n) {
+        //     if (n < 2) {
+        //         return n
+        //     }
+        //     let a = 1, b = 0, c = 0;
+        //     for (let i = 1; i < n; i++) {
+        //         c = a + b;
+        //         b = a;
+        //         a = c
+        //     }
+        //     return c
+        // }
+
+
+        // function partial(fn, str1, str2) {
+        //     function result(str3) {
+        //         return fn(str1, str2, str3);
+        //     }
+        //     return result;
+        // }
+
+        // function f1() {
+        //     console.time('time span');
+        // }
+        // function f2() {
+        //     console.timeEnd('time span')
+        // }
+        // setTimeout(f1, 100);
+        // setTimeout(f2, 200);
+        // function waitForMs(n) {
+        //     var now = Date.now();
+        //     while (Date.now() - now < n) {
+        //         console.log(1);
+
+        //     }
+        // }
+        // waitForMs(500)
+
+
+        // let theOrder = str => {
+        //     let ary = str.split(' ');
+        //     return srr = ary.sort((a, b) => {
+        //         let l = /\d+/.exec(a),n = /\d+/.exec(b);
+        //         return l[0] - n[0]
+        //     }).join(' ')
+        // }
+        // console.log( theOrder('the3ed la1bc de2fg'));
+        
+        
+        //深克隆
+        // let obj = {'a':1,b:null,c:{d:'123'},e:undefined,f:function(){}};
+        // console.log(obj);  
+        // console.log(JSON.parse(JSON.stringify(obj)));// 不足：1，无法拷贝 对象中的方法属性  2，无法拷贝 对象中值为undefined的属性
+
+        //使用jquery中的extend属性：
+        // $.extend(true,[],object) //不足：1，需要引用jQuery库  2，无法拷贝 对象中值为undefined的属性
+        
+       
+
+    </script>
+</body>
+
+</html>

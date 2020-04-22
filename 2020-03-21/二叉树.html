@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // class Node {
+        //     constructor(data) {
+        //         this.left = null
+        //         this.right = null
+        //         this.value = data
+        //     }
+        // }
+
+        // class BST {
+        //     constructor() {
+        //         this.root = null
+        //     }
+
+
+        // }
+
+        /* 二叉树深度遍历 */
+        function preOrder(root) {
+            let sum = 0
+            if (!root) {
+                return 'Tree is empty'
+            } else {
+                console.log(root.value)
+                this.preOrder(root.left)
+                this.preOrder(root.right)
+                sum++
+            }
+        }
+        /* 二叉树广度遍历 */
+        function bfs1(tree) {
+            let result = [];
+            let stack = [tree]; // 先将要遍历的树压入栈
+            let count = 0; // 用来记录执行到第一层
+            while (stack[count]) {
+                let node = stack[count];
+                if (node) {
+                    result.push(node.val);
+                    if (node.leftTree) {
+                        stack.push(node.leftTree);
+                    }
+                    if (node.rightTree) {
+                        stack.push(node.rightTree);
+                    }
+                    count++;
+                }
+            }
+            return result
+        }
+        function bfs2(node) {
+            let result = [];
+            let queue = [];
+            queue.push(node);
+            let pointer = 0;
+            while (pointer < queue.length) {
+                let node = queue[pointer++]; // // 这里不使用 shift 方法（复杂度高），用一个指针代替
+                result.push(node.val);
+                node.leftTree && queue.push(node.leftTree);
+                node.rightTree && queue.push(node.rightTree);
+            }
+            return result;
+        }
+        // console.log(bfs1(tree));
+
+        var tree = {
+            val: 'root',
+            leftTree: {
+                val: 'l1',
+                leftTree: {
+                    val: 'l1l2',
+                    leftTree: {
+                        val: 'l1l2l3',
+                        leftTree: {
+                            val: 'l1l2l3l4',
+                            leftTree: null,
+                            rightTree: null
+                        },
+                        rightTree: {
+                            val: 'l1l2l3r4',
+                            leftTree: null,
+                            rightTree: null
+                        }
+                    },
+                },
+                rightTree: {
+                    val: 'l1r2',
+                    leftTree: null,
+                    rightTree: null
+                }
+            },
+            rightTree: {
+                val: 'r1',
+                leftTree: {
+                    val: 'r1l2',
+                    leftTree: {
+                        val: 'l1l2l3',
+                        leftTree: {
+                            val: 'l1l2l3l4',
+                            leftTree: {
+                                val: 'l1l2l3l4l5',
+                                leftTree: null,
+                                rightTree: null
+                            },
+                            rightTree: {
+                                val: 'l1l2l3l4r5',
+                                leftTree: null,
+                                rightTree: null
+                            }
+                        },
+                    },
+                    rightTree: {
+                        val: 'l1l2r3',
+                        leftTree: {
+                            val: 'l1l2r3l4',
+                            leftTree: null,
+                            rightTree: null
+                        },
+                        rightTree: {
+                            val: 'l1l2r3r4',
+                            leftTree: null,
+                            rightTree: null
+                        }
+                    },
+                },
+                rightTree: {
+                    val: 'r1r2',
+                    leftTree: null,
+                    rightTree: null
+                }
+            }
+        }
+
+        /* 二叉树深度计算 */
+        function treeDep(tree) {
+            let l = 0, r = 0; // 声明变量(左树深度，右树深度)
+            if (!tree) return 0; //如果没有tree返回0
+            // 有左树或者右树，就把它递归，返回左树或者右树深度较大的值
+            if (tree.leftTree) {
+                l = treeDep(tree.leftTree);
+            }
+            if (tree.rightTree) {
+                r = treeDep(tree.rightTree);
+            }
+            return l < r ? r + 1 : l + 1 // 有一个子节点就+1
+        }
+        // console.log(treeDep(tree));
+
+        /* 二叉树广度计算 */
+        function treeWith(root) {
+            if (!root) return 0;//如果头结点为空、返回0
+            var tree = [root]; //创建一个数组存放二叉树
+            var maxWith = 1;
+            // 当tree数组长度不为空
+            while (tree.length) { // tree的length为当前层的宽度
+                var len = tree.length;
+                maxWith = Math.max(maxWith, len); //比较大小
+                while (len > 0) { //循环当前层的宽度，将下一层的节点push进tree中
+                    var node = tree.shift(); // 截取数组第一个结点放到node中(同时删掉第一个节点)
+                    len--;
+                    if (node.leftTree) {
+                        tree.push(node.leftTree); // 将node结点的左子树结点的值压入tree数组中
+                    }
+                    if (node.rightTree) {
+                        tree.push(node.rightTree); //将node结点的右子树结点的值压入tree数组中
+                    }
+                }
+            }
+            return maxWith; //返回最大值
+        }
+        console.log(treeWith(tree));
+
+
+
+
+
+    </script>
+</body>
+
+</html>

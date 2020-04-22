@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            height: 100vh;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid blue;
+            /* justify-content: space-between; */
+            box-sizing: border-box;
+        }
+
+        #box1 {
+            /* position: relative; */
+            /* height:100%; */
+            /* width:200px; */
+            background: red;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        #box2 {
+            /* position: absolute;
+            top:50%;
+            margin-top: -50px; */
+            width: 200px;
+            height: 100px;
+            background: yellow;
+        }
+
+        #box3 {
+            /* width:200px; */
+            height: 100px;
+            background: green;
+        }
+
+        #sanjiao {
+            width: 0;
+            height: 0;
+            border: 100px solid;
+            border-color: #FFCCCC #0099CC #996699 #339933;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="box1">
+            <div id="box2"></div>
+        </div>
+        <div id="box3"></div>
+    </div>
+
+    <div id="sanjiao"></div>
+    <script>
+        // function fn(str) {
+        //     let s = str.split(' ');
+        //     if (s.length > 0) {
+        //         return s[s.length - 1].length
+        //     } else {
+        //         return '数据有误'
+        //     }
+        // }
+        // console.log( fn('hello world'));
+
+
+        // var paramsString = "https://www.baidu.com/s?word=URLSearchParams&tn=site888_3_pg&lm=-1&ssl_s=1&ssl_c=ssl1_171341fc8d2"
+        // var url = new URL(paramsString);
+        // console.log(url);
+        // console.log(url.searchParams);
+        // for (let p of url.searchParams) {
+        //     console.log(p);
+        // }
+        // var searchParams = new URLSearchParams(url.search);
+        // console.log(searchParams);
+        // for (let p of url.searchParams) {
+        //     console.log(p);
+        // }
+
+        /* 
+        斐波那契数列的应用题：
+
+        1 青蛙跳台阶问题
+
+            一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+            提示：f(n) = f(n-1) + f(n-2)
+
+            扩展题：
+            一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶......也可以跳上n级台阶。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+            提示：f(n) = 2^(n-1)
+
+        2 如果我们用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问8个2*1的小矩形无重叠地覆盖一个2*8的大矩形，总共有多少种方法？
+        提示：f(8) = f(7) + f(6)
+         */
+
+        /* 
+        一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个n级的台阶总共有多少种跳法？请以es6作答。
+         */
+        function fn(n) {
+            if (n <= 3 && n > 0) return n;
+            if (n > 3 && n < 1000000) {
+                let a = b = 1;
+                let sum = 0;
+                for (let i = 2; i <= n; i++) {
+                    sum = a + b
+                    a = b;
+                    b = sum;
+                }
+                return sum
+            }
+            return '数据有误'
+        }
+        console.log(fn(40));
+
+        // function jumpFloor(number) {
+        //     var fb = [1, 1];
+        //     for (var i = 2; i <= number; i++) {
+        //         fb.push(fb[i - 2] + fb[i - 1]);
+        //     }
+        //     return fb[number];
+        // }
+        // console.log(jumpFloor(200));
+
+        function jump(n) {
+            if (n <= 0) return -1;
+            if (n == 1)return 1;
+            if(n==2)return 2;
+            return jump(n-1)+jump(n-2);
+        }
+        console.log(jump(40))
+
+    </script>
+</body>
+
+</html>

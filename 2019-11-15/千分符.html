@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>千分符</title>
 </head>
+
 <body>
     <script>
 
@@ -14,19 +16,19 @@
             1000000  -> 1,000,000
         */
 
-        let str='100100101000'
-        let temp='';
-        let ary=[];
-        for(let i=str.length-1;i>=0;i--){
-            temp= str[i]+temp;   //从后往前依次把str中字符放入temp
-            if(temp.length==3){  
+        let str = '100100101000'
+        let temp = '';
+        let ary = [];
+        for (let i = str.length - 1; i >= 0; i--) {
+            temp = str[i] + temp;   //从后往前依次把str中字符放入temp
+            if (temp.length == 3) {
                 ary.unshift(temp);  //放入三个后就把字符串放进ary首位，清空temp
-                temp='';
-            }else if(i==0){
+                temp = '';
+            } else if (i == 0) {
                 ary.unshift(temp);  //循环结束把temp剩余字符放入ary
             }
         }
-        srr=ary.toString();  //ary转字符串自带逗号
+        srr = ary.toString();  //ary转字符串自带逗号
         console.log(srr);
 
 
@@ -67,13 +69,14 @@
 
         /* //自以为加$作用：(似乎有误)
         // 从前往后找到最后一个数字；第一次替换把末尾三个数字前边加上“，”。第二次替换“，”前的数字是结尾 */
-        s = str.replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');
+        // s = str.replace(/(\d{1,3})(?=(\d{3})+$)/g, '$1,');
 
-        s1 = str.replace(/(?<=(\d{3})+)(\d{1,3})/g,',$2');
+        // s1 = str.replace(/(?<=(\d{3})+)(\d{1,3})/g, ',$2');
 
-        console.log(s);
-        console.log(s1);
-        
+        // console.log(s);
+        // console.log(s1);
+
     </script>
 </body>
+
 </html>

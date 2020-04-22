@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>、
+    <style>
+        *{
+            margin:0;
+            padding:0
+        }
+        div{
+            width:100%;
+            height:100vh;
+            background:skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>传信息的子窗口</h2>
+        <button id="btn">向父窗口传信息</button>
+        <p id="p"></p>
+    </div>
+    <script>
+        var btn = document.querySelector('#btn');
+        let a = 1;
+        btn.onclick = function(){
+            window.opener.postMessage(a); // 向打开他的父窗口传递信息
+            a++;
+        }
+        window.addEventListener('message',(msg)=>{
+            let p = document.querySelector('#p');
+            p.textContent = JSON.stringify(msg.data);
+        })
+    </script>
+</body>
+</html>

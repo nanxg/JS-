@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            /* text-align: center; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height:100vh;
+            line-height: 100vh; */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            /* display: inline-block; */
+            /* margin: 10% auto; */
+            width: 30%;
+            background: #ff6600;
+        }
+
+        .box .child {
+            padding-bottom: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="child"></div>
+    </div>
+    <script>
+        // let a = [1,2,3,[4,5,[6,7,{'a':'b'},function(){console.log(1)}]]]
+        // console.log(a);
+        // let b = a.toString();
+        // console.log(b);
+        // let c = b.split(',');
+        // console.log(c);
+
+        // 数组去重
+        // let ary = [1, 2, '', '1', 1, 2, 1, 2]
+        // //思路：循环数组每一项，把每一项放进新数组中，如果新数组中有当前项，就不放进去。
+        // //创建新数组
+        // let newAry = [];
+        // //循环原数组每一项
+        // for (i = 0; i < ary.length; i++) {
+        //     let cur = ary[i];//当前循环项赋给cur
+        //     //判断新数组中是否含有当前循环项，含有的话结束当前轮循环，否则继续向下执行
+        //     if (newAry.includes(cur)) {
+        //         continue;
+        //     }
+        //     //新数组末尾增加当前循环项
+        //     newAry.push(cur);
+        // }
+        // console.log(newAry);
+
+        // 造数组
+        var arr = [];
+        for (var i = 0; i < 100; i++) {
+            var res = Math.floor(Math.random() * 100);
+            arr.push(res);
+        }
+        console.log(arr);
+
+        // 数组排序(快排)
+        function quickOrder(arr) {
+            var left = [];
+            var right = [];
+            if (arr.length <= 1) {
+                return arr;
+            }
+            var first = arr.splice(0, 1);
+            for (var i = 0; i < arr.length; i++) {
+                if (first > arr[i]) {
+                    left.push(arr[i]); 
+                } else {
+                    right.push(arr[i]); 
+                }
+            }
+            return quickOrder(left).concat(first, quickOrder(right));
+        }
+        console.log(quickOrder(arr));
+
+
+    </script>
+</body>
+
+</html>

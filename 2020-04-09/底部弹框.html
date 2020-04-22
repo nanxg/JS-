@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">弹框</button>
+    <div>
+        复制内容：
+        <span id="span">asdfg123</span>
+        <button id="copy">点击复制</button>
+    </div>
+    <script>
+        const btn = document.querySelector('#btn');
+        const opt = {
+            title: '这是个标题',
+            body: '弹框内容'
+        }
+        btn.onclick = function () {
+            // 桌面右下角弹框
+            new window.Notification(opt.title, opt)
+        }
+
+        // 
+        const {clipboard} = require("electron"); //剪切板
+        const copy = document.querySelector('#copy');
+        const span = document.querySelector('#span');
+        copy.onclick = function(){
+            clipboard.writeText(span.innerText);
+            alert('复制成功')
+        }
+
+    </script>
+</body>
+
+</html>
